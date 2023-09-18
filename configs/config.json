@@ -1,0 +1,28 @@
+{
+    "debug": true,
+    "expire_jwt":72,
+    "server":{
+        "run_mode":"debug",
+        "http_port":9000,
+        "read_timeout":600,
+        "write_timeout":600
+    },
+    "app": {
+        "app_name":"Kofin",
+        "jwt_secret": "p3rpetualMoti0n",
+        "log_save_path": "logs/",
+        "log_save_name": "log",
+        "log_file_ext": "log",
+        "time_format": 20060102
+    },
+    "database":{
+        "type": "postgres",
+        "host": "localhost",
+        "port": "5432",
+        "user": "root",
+        "password": "asdqwe123",
+        "name": "kelindan",
+        "table_prefix": ""
+    }
+
+}
