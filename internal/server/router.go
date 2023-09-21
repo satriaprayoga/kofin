@@ -4,14 +4,15 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+	handlers "github.com/satriaprayoga/kofin/internal/handlers/home"
 )
 
 func setRouter() *gin.Engine {
 	router := gin.Default()
 	api := router.Group("/api")
-	api.GET("/hello", func(ctx *gin.Context) {
-		ctx.JSON(200, gin.H{"msg": "world"})
-	})
+	{
+		handlers.HomeRoute(api)
+	}
 	router.NoRoute(func(ctx *gin.Context) { ctx.JSON(http.StatusNotFound, gin.H{}) })
 	return router
 }
