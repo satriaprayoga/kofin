@@ -21,6 +21,7 @@ type App struct {
 	LogSaveName string `mapstructure:"log_save_name"`
 	LogFileExt  string `mapstructure:"log_file_ext"`
 	TimeFormat  string `mapstructure:"time_format"`
+	LogLevel    string `mapstructure:"log_level"`
 }
 
 type Database struct {
