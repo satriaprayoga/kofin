@@ -14,7 +14,7 @@
         "log_save_name": "log",
         "log_file_ext": "log",
         "time_format": 20060102,
-        "log_level":"prod"
+        "log_level":"dev"
     },
     "database":{
         "type": "postgres",
