@@ -32,6 +32,7 @@ type Database struct {
 	Password    string `mapstructure:"password"`
 	Name        string `mapstructure:"name"`
 	TablePrefix string `mapstructure:"table_prefix"`
+	TimeZone    string `mapstructure:"time_zone"`
 }
 
 type Config struct {

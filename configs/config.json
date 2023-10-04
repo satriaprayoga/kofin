@@ -23,7 +23,8 @@
         "user": "root",
         "password": "asdqwe123",
         "name": "kelindan",
-        "table_prefix": ""
+        "table_prefix": "",
+        "time_zone":"Asia/Jakarta"
     }
 
 }
