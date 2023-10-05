@@ -20,9 +20,9 @@
         "type": "postgres",
         "host": "localhost",
         "port": "5432",
-        "user": "root",
-        "password": "asdqwe123",
-        "name": "kelindan",
+        "user": "kofin",
+        "password": "kofin",
+        "name": "kofin",
         "table_prefix": "",
         "time_zone":"Asia/Jakarta"
     }
