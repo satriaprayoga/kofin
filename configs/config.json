@@ -4,8 +4,8 @@
     "server":{
         "run_mode":"debug",
         "http_port":9000,
-        "read_timeout":600,
-        "write_timeout":600
+        "read_timeout":10,
+        "write_timeout":10
     },
     "app": {
         "app_name":"Kofin",

@@ -8,10 +8,10 @@ import (
 )
 
 type Server struct {
-	RunMode      string        `mapstructure:"run_mode"`
-	HTTPPort     int           `mapstructure:"http_port"`
-	ReadTimeOut  time.Duration `mapstructure:"read_timeout"`
-	WriteTimeOut time.Duration `mapstructure:"write_timeout"`
+	RunMode      string `mapstructure:"run_mode"`
+	HTTPPort     int    `mapstructure:"http_port"`
+	ReadTimeOut  int    `mapstructure:"read_timeout"`
+	WriteTimeOut int    `mapstructure:"write_timeout"`
 }
 
 type App struct {
