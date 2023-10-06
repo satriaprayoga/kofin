@@ -22,7 +22,7 @@
         "port": "5432",
         "user": "kofin",
         "password": "kofin",
-        "name": "kofin",
+        "name": "kofin_test",
         "table_prefix": "",
         "time_zone":"Asia/Jakarta"
     }

@@ -4,9 +4,13 @@ import (
 	"log"
 	"os"
 
+	"github.com/satriaprayoga/kofin/internal/apps/repository"
+	"github.com/satriaprayoga/kofin/internal/apps/service"
 	"github.com/satriaprayoga/kofin/internal/config"
+	"github.com/satriaprayoga/kofin/internal/database"
 	"github.com/satriaprayoga/kofin/internal/logging"
 	"github.com/satriaprayoga/kofin/internal/server"
+	"github.com/satriaprayoga/kofin/internal/store"
 )
 
 func main() {
@@ -23,5 +27,11 @@ func main() {
 	if conf.App.LogLevel == "prod" {
 		logging.SetGinLoginToFile()
 	}
+	connString := database.NewConfigDB(conf)
+	store.SetConnDB(connString)
+	defer store.CloseDB()
+
+	repository.SetupRepo()
+	service.SetupServices(conf)
 	server.Start(conf)
 }

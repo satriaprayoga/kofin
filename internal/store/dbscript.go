@@ -13,6 +13,6 @@ func migrateScript() {
 			setweight(to_tsvector('indonesian', coalesce(slug, '')), 'B') || ' ' || 
 			setweight(to_tsvector('indonesian', coalesce(acc_group, '')), 'C') :: tsvector
 		) STORED;
-	CREATE INDEX idx_account_text_search ON article USING GIN(text_search);
+	CREATE INDEX idx_account_text_search ON account USING GIN(text_search);
 `)
 }

@@ -10,6 +10,6 @@ services:
     environment:
       POSTGRES_PASSWORD: kofin
       POSTGRES_USER: kofin
-      POSTGRES_DB: kofin
+      POSTGRES_DB: kofin_test
     volumes:
       - ./db-data/postgres:/var/lib/postgresql/data

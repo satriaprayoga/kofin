@@ -7,7 +7,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/rs/zerolog/log"
-	"github.com/satriaprayoga/kofin/apps/repository"
+	"github.com/satriaprayoga/kofin/internal/apps/repository"
 	"github.com/satriaprayoga/kofin/internal/constant"
 	"github.com/satriaprayoga/kofin/internal/pkg"
 	"github.com/satriaprayoga/kofin/internal/store"
@@ -22,7 +22,7 @@ type AccountServiceImpl struct {
 	t time.Duration
 }
 
-func (a *AccountServiceImpl) NewAccountService(timeout time.Duration) AccountService {
+func NewAccountService(timeout time.Duration) AccountService {
 	accRepo := repository.GetRepo().AccountRepo
 	return &AccountServiceImpl{r: accRepo, t: timeout}
 }
