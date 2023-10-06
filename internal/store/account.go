@@ -14,8 +14,9 @@ type Account struct {
 	ParentAccID int    `json:"acc_parent_id" gorm:"type:int"`
 }
 
-func (a *Account) BeforeCreate(tx *gorm.DB) {
+func (a *Account) BeforeCreate(tx *gorm.DB) (err error) {
 	a.Slug = a.AccName + " " + a.AccType + " " + a.AccGroup
+	return
 
 }
 
