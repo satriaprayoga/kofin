@@ -42,7 +42,7 @@ func (r *AccountRepoImpl) GetByID(ID int) (*store.Account, error) {
 func (r *AccountRepoImpl) Update(ID int, data interface{}) error {
 	var err error
 
-	q := r.db.Model(&store.Account{}).Where("article_id=?", ID).Updates(data)
+	q := r.db.Model(&store.Account{}).Where("account_id=?", ID).Updates(data)
 	err = q.Error
 	if err != nil {
 		return err
@@ -53,7 +53,7 @@ func (r *AccountRepoImpl) Update(ID int, data interface{}) error {
 
 func (r *AccountRepoImpl) Delete(ID int) error {
 	var err error
-	q := r.db.Where("article_id=?", ID).Delete(&store.Account{})
+	q := r.db.Where("account_id=?", ID).Delete(&store.Account{})
 	err = q.Error
 	if err != nil {
 		return err

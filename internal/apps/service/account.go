@@ -2,7 +2,9 @@ package service
 
 import (
 	"context"
+	"errors"
 	"net/http"
+	"strconv"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -15,6 +17,9 @@ import (
 
 type AccountService interface {
 	Create(c *gin.Context)
+	Delete(c *gin.Context)
+	Update(c *gin.Context)
+	Get(c *gin.Context)
 }
 
 type AccountServiceImpl struct {
@@ -45,4 +50,74 @@ func (s *AccountServiceImpl) Create(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, pkg.BuildResponse(constant.Success, "OK"))
+}
+
+func (s *AccountServiceImpl) Delete(c *gin.Context) {
+	ctx, cancel := context.WithTimeout(c.Request.Context(), time.Duration(s.t)*time.Second)
+	defer cancel()
+	c.Request = c.Request.WithContext(ctx)
+
+	id := c.Param("id")
+
+	accountID, err := strconv.Atoi(id)
+	if err != nil {
+		log.Err(errors.New("id is invalid or empty")).Msg("Error when mapping request for account creation. Error")
+		pkg.PanicException(constant.InvalidRequest)
+	}
+	err = s.r.Delete(accountID)
+	if err != nil {
+		log.Err(err).Msg("Error when delete data. Error")
+		pkg.PanicException(constant.InvalidRequest)
+	}
+
+	c.JSON(http.StatusOK, pkg.BuildResponse(constant.Success, "OK"))
+
+}
+
+func (s *AccountServiceImpl) Update(c *gin.Context) {
+	ctx, cancel := context.WithTimeout(c.Request.Context(), time.Duration(s.t)*time.Second)
+	defer cancel()
+	c.Request = c.Request.WithContext(ctx)
+
+	id := c.Param("id")
+
+	accountID, err := strconv.Atoi(id)
+	if err != nil {
+		log.Err(errors.New("id is invalid or empty")).Msg("Error when mapping request for account creation. Error")
+		pkg.PanicException(constant.InvalidRequest)
+	}
+	var updated = store.Account{}
+	if err := c.ShouldBindJSON(&updated); err != nil {
+		log.Err(err).Msg("Error when mapping request for account creation. Error")
+		pkg.PanicException(constant.InvalidRequest)
+	}
+	err = s.r.Update(accountID, updated)
+	if err != nil {
+		log.Err(err).Msg("Error when delete data. Error")
+		pkg.PanicException(constant.InvalidRequest)
+	}
+
+	c.JSON(http.StatusOK, pkg.BuildResponse(constant.Success, "OK"))
+}
+
+func (s *AccountServiceImpl) Get(c *gin.Context) {
+	ctx, cancel := context.WithTimeout(c.Request.Context(), time.Duration(s.t)*time.Second)
+	defer cancel()
+	c.Request = c.Request.WithContext(ctx)
+
+	id := c.Param("id")
+
+	accountID, err := strconv.Atoi(id)
+	if err != nil {
+		log.Err(errors.New("id is invalid or empty")).Msg("Error when mapping request for account creation. Error")
+		pkg.PanicException(constant.InvalidRequest)
+	}
+
+	data, err := s.r.GetByID(accountID)
+	if err != nil {
+		log.Err(err).Msg("Error when delete data. Error")
+		pkg.PanicException(constant.InvalidRequest)
+	}
+
+	c.JSON(http.StatusOK, pkg.BuildResponse(constant.Success, data))
 }
