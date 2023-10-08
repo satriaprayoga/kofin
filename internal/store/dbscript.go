@@ -1,7 +1,8 @@
 package store
 
 func autoMigrate() {
-	db.AutoMigrate(Account{})
+	db.AutoMigrate(Account{},
+		Unit{})
 	migrateScript()
 }
 

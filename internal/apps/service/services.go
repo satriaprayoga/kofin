@@ -8,6 +8,7 @@ import (
 
 type Services struct {
 	Account AccountService
+	Unit    UnitService
 }
 
 var services *Services
@@ -15,6 +16,7 @@ var services *Services
 func SetupServices(cfg config.Config) {
 	services = &Services{
 		Account: NewAccountService(time.Duration(cfg.Server.ReadTimeOut) * time.Second),
+		Unit:    NewUnitService(time.Duration(cfg.Server.ReadTimeOut) * time.Second),
 	}
 }
 

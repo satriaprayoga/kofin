@@ -7,24 +7,24 @@ import (
 
 func AccountRoute(router *gin.RouterGroup) {
 	account := router.Group("/accounts")
-	account.POST("/", Create)
-	account.GET("/:id", Index)
-	account.DELETE("/:id", Delete)
-	account.PUT("/:id", Update)
+	account.POST("/", AccountCreate)
+	account.GET("/:id", AccountIndex)
+	account.DELETE("/:id", AccountDelete)
+	account.PUT("/:id", AccountUpdate)
 }
 
-func Create(c *gin.Context) {
+func AccountCreate(c *gin.Context) {
 	service.GetServices().Account.Create(c)
 }
 
-func Delete(c *gin.Context) {
+func AccountDelete(c *gin.Context) {
 	service.GetServices().Account.Delete(c)
 }
 
-func Update(c *gin.Context) {
+func AccountUpdate(c *gin.Context) {
 	service.GetServices().Account.Update(c)
 }
 
-func Index(c *gin.Context) {
+func AccountIndex(c *gin.Context) {
 	service.GetServices().Account.Get(c)
 }
