@@ -15,6 +15,8 @@ func setRouter() *gin.Engine {
 		handlers.HomeRoute(api)
 		controller.AccountRoute(api)
 		controller.UnitRoute(api)
+		controller.ProgramRoute(api)
+		controller.KegiatanRoute(api)
 	}
 	router.NoRoute(func(ctx *gin.Context) { ctx.JSON(http.StatusNotFound, gin.H{}) })
 	return router

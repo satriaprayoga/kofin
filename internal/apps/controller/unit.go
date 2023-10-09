@@ -11,6 +11,7 @@ func UnitRoute(router *gin.RouterGroup) {
 	unit.GET("/:id", UnitIndex)
 	unit.DELETE("/:id", UnitDelete)
 	unit.PUT("/:id", UnitUpdate)
+	unit.GET("/sub", UnitListSub)
 }
 
 func UnitCreate(c *gin.Context) {
@@ -27,4 +28,8 @@ func UnitUpdate(c *gin.Context) {
 
 func UnitIndex(c *gin.Context) {
 	service.GetServices().Unit.Get(c)
+}
+
+func UnitListSub(c *gin.Context) {
+	service.GetServices().Unit.GetAllSubunit(c)
 }

@@ -10,6 +10,7 @@ type UnitRepo interface {
 	GetByID(ID int) (*store.Unit, error)
 	Update(ID int, data interface{}) error
 	Delete(ID int) error
+	GetAllSubunit() (result *[]store.Unit, err error)
 }
 
 type UnitRepoImpl struct {
@@ -59,4 +60,13 @@ func (r *UnitRepoImpl) Delete(ID int) error {
 		return err
 	}
 	return nil
+}
+
+func (r *UnitRepoImpl) GetAllSubunit() (result *[]store.Unit, err error) {
+	query := r.db.Raw("SELECT * FROM unit WHERE root=FALSE ORDER BY kode ASC").Scan(&result)
+	err = query.Error
+	if err != nil {
+		return result, err
+	}
+	return result, nil
 }

@@ -15,32 +15,31 @@ import (
 	"github.com/satriaprayoga/kofin/internal/store"
 )
 
-type UnitService interface {
+type KProgramService interface {
 	Create(c *gin.Context)
 	Delete(c *gin.Context)
 	Update(c *gin.Context)
 	Get(c *gin.Context)
-	GetAllSubunit(c *gin.Context)
 }
 
-type UnitServiceImpl struct {
-	r repository.UnitRepo
+type KProgramServiceImpl struct {
+	r repository.KProgramRepo
 	t time.Duration
 }
 
-func NewUnitService(timeout time.Duration) UnitService {
-	accRepo := repository.GetRepo().UnitRepo
-	return &UnitServiceImpl{r: accRepo, t: timeout}
+func NewKProgramService(timeout time.Duration) KProgramService {
+	accRepo := repository.GetRepo().ProgramRepo
+	return &KProgramServiceImpl{r: accRepo, t: timeout}
 }
 
-func (s *UnitServiceImpl) Create(c *gin.Context) {
+func (s *KProgramServiceImpl) Create(c *gin.Context) {
 	ctx, cancel := context.WithTimeout(c.Request.Context(), time.Duration(s.t)*time.Second)
 	defer cancel()
 	c.Request = c.Request.WithContext(ctx)
 
-	var acc store.Unit
+	var acc store.KProgram
 	if err := c.ShouldBindJSON(&acc); err != nil {
-		log.Err(err).Msg("Error when mapping request for unit creation. Error")
+		log.Err(err).Msg("Error when mapping request for program creation. Error")
 		pkg.PanicException(constant.InvalidRequest)
 	}
 
@@ -53,19 +52,19 @@ func (s *UnitServiceImpl) Create(c *gin.Context) {
 	c.JSON(http.StatusOK, pkg.BuildResponse(constant.Success, "OK"))
 }
 
-func (s *UnitServiceImpl) Delete(c *gin.Context) {
+func (s *KProgramServiceImpl) Delete(c *gin.Context) {
 	ctx, cancel := context.WithTimeout(c.Request.Context(), time.Duration(s.t)*time.Second)
 	defer cancel()
 	c.Request = c.Request.WithContext(ctx)
 
 	id := c.Param("id")
 
-	unitID, err := strconv.Atoi(id)
+	programID, err := strconv.Atoi(id)
 	if err != nil {
-		log.Err(errors.New("id is invalid or empty")).Msg("Error when mapping request for unit creation. Error")
+		log.Err(errors.New("id is invalid or empty")).Msg("Error when mapping request for program creation. Error")
 		pkg.PanicException(constant.InvalidRequest)
 	}
-	err = s.r.Delete(unitID)
+	err = s.r.Delete(programID)
 	if err != nil {
 		log.Err(err).Msg("Error when delete data. Error")
 		pkg.PanicException(constant.InvalidRequest)
@@ -75,24 +74,25 @@ func (s *UnitServiceImpl) Delete(c *gin.Context) {
 
 }
 
-func (s *UnitServiceImpl) Update(c *gin.Context) {
+func (s *KProgramServiceImpl) Update(c *gin.Context) {
 	ctx, cancel := context.WithTimeout(c.Request.Context(), time.Duration(s.t)*time.Second)
 	defer cancel()
 	c.Request = c.Request.WithContext(ctx)
 
 	id := c.Param("id")
 
-	unitID, err := strconv.Atoi(id)
+	programID, err := strconv.Atoi(id)
 	if err != nil {
-		log.Err(errors.New("id is invalid or empty")).Msg("Error when mapping request for unit creation. Error")
+		log.Err(errors.New("id is invalid or empty")).Msg("Error when mapping request for program creation. Error")
 		pkg.PanicException(constant.InvalidRequest)
 	}
-	var updated = store.Unit{}
+	var updated = store.KProgram{}
 	if err := c.ShouldBindJSON(&updated); err != nil {
-		log.Err(err).Msg("Error when mapping request for unit creation. Error")
+		log.Err(err).Msg("Error when mapping request for program creation. Error")
 		pkg.PanicException(constant.InvalidRequest)
 	}
-	err = s.r.Update(unitID, updated)
+	updated.Slug = updated.ProgramName + " " + updated.UnitName
+	err = s.r.Update(programID, updated)
 	if err != nil {
 		log.Err(err).Msg("Error when delete data. Error")
 		pkg.PanicException(constant.InvalidRequest)
@@ -101,35 +101,22 @@ func (s *UnitServiceImpl) Update(c *gin.Context) {
 	c.JSON(http.StatusOK, pkg.BuildResponse(constant.Success, "OK"))
 }
 
-func (s *UnitServiceImpl) Get(c *gin.Context) {
+func (s *KProgramServiceImpl) Get(c *gin.Context) {
 	ctx, cancel := context.WithTimeout(c.Request.Context(), time.Duration(s.t)*time.Second)
 	defer cancel()
 	c.Request = c.Request.WithContext(ctx)
 
 	id := c.Param("id")
 
-	unitID, err := strconv.Atoi(id)
+	programID, err := strconv.Atoi(id)
 	if err != nil {
-		log.Err(errors.New("id is invalid or empty")).Msg("Error when mapping request for unit creation. Error")
+		log.Err(errors.New("id is invalid or empty")).Msg("Error when mapping request for program creation. Error")
 		pkg.PanicException(constant.InvalidRequest)
 	}
 
-	data, err := s.r.GetByID(unitID)
+	data, err := s.r.GetByID(programID)
 	if err != nil {
-		log.Err(err).Msg("Error when retrieving data. Error")
-		pkg.PanicException(constant.InvalidRequest)
-	}
-
-	c.JSON(http.StatusOK, pkg.BuildResponse(constant.Success, data))
-}
-
-func (s *UnitServiceImpl) GetAllSubunit(c *gin.Context) {
-	ctx, cancel := context.WithTimeout(c.Request.Context(), time.Duration(s.t)*time.Second)
-	defer cancel()
-	c.Request = c.Request.WithContext(ctx)
-	data, err := s.r.GetAllSubunit()
-	if err != nil {
-		log.Err(err).Msg("Error when retrieving data. Error")
+		log.Err(err).Msg("Error when delete data. Error")
 		pkg.PanicException(constant.InvalidRequest)
 	}
 

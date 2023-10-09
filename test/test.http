@@ -1,0 +1,102 @@
+POST http://localhost:9000/api/units
+Content-Type: application/json
+
+{
+    "unit_kode":"1",
+    "unit_name":"Komite Olahraga Nasional Indonesia",
+    "unit_loc":"Jl. Pakansari, Kelurahan Pakansari, Cibinong, Bogor",
+    "unit_abbr":"KONI",
+    "unit_head":"Dedi Ade Bachtiar, SE, MM, MBA",
+    "unit_head_id":"000001",
+    "unit_induk_head":"Dedi Ade Bachtiar, SE, MM, MBA",
+    "unit_induk_head_id":"0000001",
+    "root":true
+}
+
+###
+
+PUT http://localhost:9000/api/units/1
+Content-Type: application/json
+
+{
+    "unit_kode":"1",
+    "unit_name":"Komite Olahraga Nasional Indonesia Kabupaten Bogor",
+    "unit_loc":"Jl. Pakansari, Kelurahan Pakansari, Cibinong, Bogor",
+    "unit_abbr":"KONI",
+    "unit_head":"Dedi Ade Bachtiar, SE, MM, MBA",
+    "unit_head_id":"000001",
+    "unit_induk_head":"Dedi Ade Bachtiar, SE, MM, MBA",
+    "unit_induk_head_id":"0000001",
+    "root":true
+}
+
+###
+
+GET http://localhost:9000/api/units/1
+
+###
+
+POST http://localhost:9000/api/units
+Content-Type: application/json
+
+{
+    "unit_kode":"1.2",
+    "unit_name":"Bidang Pembinaan Prestasi",
+    "unit_loc":"Jl. Pakansari, Kelurahan Pakansari, Cibinong, Bogor",
+    "unit_abbr":"BINPRES",
+    "unit_head":"-",
+    "unit_head_id":"000001",
+    "unit_induk_id":1,
+    "unit_induk_head":"Dedi Ade Bachtiar, SE, MM, MBA",
+    "unit_induk_head_id":"0000001",
+    "root":false
+}
+
+###
+
+GET http://localhost:9000/api/units/sub
+
+###
+
+
+POST http://localhost:9000/api/programs
+Content-Type: application/json
+
+{
+    "program_kode":"3.1",
+    "program_name":"Program Pembinaan Atlet Daerah",
+    "unit_name":"Bidang Pembinaan Prestasi",
+    "unit_kode":"1.2",
+    "unit_id":3,
+    "program_pagu":0.00
+}
+
+###
+
+POST http://localhost:9000/api/programs
+Content-Type: application/json
+
+{
+    "program_kode":"3.2",
+    "program_name":"Program Penghargaan Atlet Daerah Berprestasi",
+    "unit_name":"Bidang Pembinaan Prestasi",
+    "unit_kode":"1.2",
+    "unit_id":3,
+    "program_pagu":0.00
+}
+
+###
+
+PUT http://localhost:9000/api/programs/1
+Content-Type: application/json
+
+{
+    "program_kode":"3.1",
+    "program_name":"Program Pelatihan dan Pembinaan Atlet Daerah",
+    "unit_name":"Bidang Pembinaan Prestasi",
+    "unit_id":3,
+    "unit_kode":"1.2",
+    "program_pagu":200000000.00
+}
+
+###

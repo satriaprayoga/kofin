@@ -7,16 +7,20 @@ import (
 )
 
 type Services struct {
-	Account AccountService
-	Unit    UnitService
+	Account  AccountService
+	Unit     UnitService
+	Program  KProgramService
+	Kegiatan KegiatanService
 }
 
 var services *Services
 
 func SetupServices(cfg config.Config) {
 	services = &Services{
-		Account: NewAccountService(time.Duration(cfg.Server.ReadTimeOut) * time.Second),
-		Unit:    NewUnitService(time.Duration(cfg.Server.ReadTimeOut) * time.Second),
+		Account:  NewAccountService(time.Duration(cfg.Server.ReadTimeOut) * time.Second),
+		Unit:     NewUnitService(time.Duration(cfg.Server.ReadTimeOut) * time.Second),
+		Program:  NewKProgramService(time.Duration(cfg.Server.ReadTimeOut) * time.Second),
+		Kegiatan: NewKegiatanService(time.Duration(cfg.Server.ReadTimeOut) * time.Second),
 	}
 }
 
