@@ -43,9 +43,9 @@ Content-Type: application/json
     "unit_kode":"1.2",
     "unit_name":"Bidang Pembinaan Prestasi",
     "unit_loc":"Jl. Pakansari, Kelurahan Pakansari, Cibinong, Bogor",
-    "unit_abbr":"BINPRES",
+    "unit_abbr":"BANPRES",
     "unit_head":"-",
-    "unit_head_id":"000001",
+    "unit_head_id":"000003",
     "unit_induk_id":1,
     "unit_induk_head":"Dedi Ade Bachtiar, SE, MM, MBA",
     "unit_induk_head_id":"0000001",
@@ -63,12 +63,25 @@ POST http://localhost:9000/api/programs
 Content-Type: application/json
 
 {
-    "program_kode":"3.1",
-    "program_name":"Program Pembinaan Atlet Daerah",
+    "program_kode":"1.2.1",
+    "program_name":"Program Pembinaan Dan Pelatihan Atlet Daerah",
     "unit_name":"Bidang Pembinaan Prestasi",
     "unit_kode":"1.2",
     "unit_id":3,
     "program_pagu":0.00
+}
+
+###
+
+POST http://localhost:9000/api/kegiatans
+Content-Type: application/json
+
+{
+    "kegiatan_kode":"1.2.1.1",
+    "kegiatan_name":"Penyelenggaraan Pemusatan Pelatihan Daerah",
+    "program_id":1,
+    "program_kode":"1.2.1",
+    "program_name":"Program Pembinaan Dan Pelatihan Atlet Daerah"
 }
 
 ###
@@ -77,26 +90,12 @@ POST http://localhost:9000/api/programs
 Content-Type: application/json
 
 {
-    "program_kode":"3.2",
+    "program_kode":"1.2.2",
     "program_name":"Program Penghargaan Atlet Daerah Berprestasi",
     "unit_name":"Bidang Pembinaan Prestasi",
     "unit_kode":"1.2",
     "unit_id":3,
     "program_pagu":0.00
-}
-
-###
-
-PUT http://localhost:9000/api/programs/1
-Content-Type: application/json
-
-{
-    "program_kode":"3.1",
-    "program_name":"Program Pelatihan dan Pembinaan Atlet Daerah",
-    "unit_name":"Bidang Pembinaan Prestasi",
-    "unit_id":3,
-    "unit_kode":"1.2",
-    "program_pagu":200000000.00
 }
 
 ###

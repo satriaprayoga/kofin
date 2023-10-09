@@ -11,7 +11,7 @@ type Kegiatan struct {
 	KegiatanKode string `json:"kegiatan_kode" binding:"required" gorm:"type:varchar(10)"`
 	KegiatanName string `json:"kegiatan_name" binding:"required" gorm:"type:text"`
 	Slug         string `json:"slug" gorm:"type:text"`
-	ProgramID    int    `json:"program_id" gorm:"type:int"`
+	ProgramID    int    `json:"program_id" binding:"required" gorm:"type:int"`
 	ProgramKode  string `json:"program_kode" binding:"required" gorm:"type:varchar(10)"`
 	ProgramName  string `json:"program_name" binding:"required" gorm:"type:text"`
 
