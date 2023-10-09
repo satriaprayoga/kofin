@@ -40,6 +40,24 @@ POST http://localhost:9000/api/units
 Content-Type: application/json
 
 {
+    "unit_kode":"1.1",
+    "unit_name":"Sekretariat",
+    "unit_loc":"Jl. Pakansari, Kelurahan Pakansari, Cibinong, Bogor",
+    "unit_abbr":"SEKRET",
+    "unit_head":"Nungky",
+    "unit_head_id":"000003",
+    "unit_induk_id":1,
+    "unit_induk_head":"Dedi Ade Bachtiar, SE, MM, MBA",
+    "unit_induk_head_id":"0000001",
+    "root":false
+}
+
+###
+
+POST http://localhost:9000/api/units
+Content-Type: application/json
+
+{
     "unit_kode":"1.2",
     "unit_name":"Bidang Pembinaan Prestasi",
     "unit_loc":"Jl. Pakansari, Kelurahan Pakansari, Cibinong, Bogor",
@@ -96,6 +114,118 @@ Content-Type: application/json
     "unit_kode":"1.2",
     "unit_id":3,
     "program_pagu":0.00
+}
+
+###
+
+POST http://localhost:9000/api/accounts
+Content-Type: application/json
+
+{
+    "acc_kode":"1",
+    "acc_name":"Aset",
+    "root":true,
+    "report":"induk",
+    "acc_type":"ASET",
+    "acc_group":"NERACA"
+}
+
+###
+
+POST http://localhost:9000/api/accounts
+Content-Type: application/json
+
+{
+    "acc_kode":"2",
+    "acc_name":"Kewajiban",
+    "root":true,
+    "report":"induk",
+    "acc_type":"KEWAJIBAN",
+    "acc_group":"NERACA"
+}
+
+###
+
+POST http://localhost:9000/api/accounts
+Content-Type: application/json
+
+{
+    "acc_kode":"3",
+    "acc_name":"Ekuitas",
+    "root":true,
+    "report":"induk",
+    "acc_type":"EKUITAS",
+    "acc_group":"NERACA"
+}
+
+###
+
+POST http://localhost:9000/api/accounts
+Content-Type: application/json
+
+{
+    "acc_kode":"4",
+    "acc_name":"Pendapatan",
+    "root":true,
+    "report":"induk",
+    "acc_type":"PENDAPATAN",
+    "acc_group":"NERACA"
+}
+
+###
+
+POST http://localhost:9000/api/accounts
+Content-Type: application/json
+
+{
+    "acc_kode":"5",
+    "acc_name":"Belanja",
+    "root":true,
+    "report":"induk",
+    "acc_type":"BELANJA",
+    "acc_group":"NERACA"
+}
+
+###
+
+POST http://localhost:9000/api/accounts
+Content-Type: application/json
+
+{
+    "acc_kode":"6",
+    "acc_name":"Pembiayaan",
+    "root":true,
+    "report":"induk",
+    "acc_type":"PEMBIAYAAN",
+    "acc_group":"NERACA"
+}
+
+###
+
+POST http://localhost:9000/api/accounts
+Content-Type: application/json
+
+{
+    "acc_kode":"7",
+    "acc_name":"Pendapatan-LO",
+    "root":true,
+    "report":"induk",
+    "acc_type":"PENDAPATAN-LO",
+    "acc_group":"NERACA"
+}
+
+###
+
+POST http://localhost:9000/api/accounts
+Content-Type: application/json
+
+{
+    "acc_kode":"8",
+    "acc_name":"Beban Operasi-LO",
+    "root":true,
+    "report":"induk",
+    "acc_type":"BEBAN-LO",
+    "acc_group":"NERACA"
 }
 
 ###
