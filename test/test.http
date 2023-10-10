@@ -229,3 +229,207 @@ Content-Type: application/json
 }
 
 ###
+
+POST http://localhost:9000/api/accounts
+Content-Type: application/json
+
+{
+    "acc_kode":"5.1",
+    "acc_name":"Belanja Operasi",
+    "root":false,
+    "report":"k",
+    "acc_type":"BELANJA",
+    "acc_group":"LRA",
+    "acc_parent_id":5
+}
+
+###
+
+POST http://localhost:9000/api/accounts
+Content-Type: application/json
+
+{
+    "acc_kode":"5.2",
+    "acc_name":"Belanja Modal",
+    "root":false,
+    "report":"kelompok",
+    "acc_type":"BELANJA",
+    "acc_group":"LRA",
+    "acc_parent_id":5
+}
+
+###
+POST http://localhost:9000/api/accounts
+Content-Type: application/json
+
+{
+    "acc_kode":"5.4",
+    "acc_name":"Belanja Transfer",
+    "root":false,
+    "report":"kelompok",
+    "acc_type":"BELANJA",
+    "acc_group":"LRA",
+    "acc_parent_id":5
+}
+
+###
+POST http://localhost:9000/api/accounts
+Content-Type: application/json
+
+{
+    "acc_kode":"5.2.01",
+    "acc_name":"Belanja Pegawai",
+    "root":false,
+    "report":"jenis",
+    "acc_type":"BELANJA",
+    "acc_group":"LRA",
+    "acc_parent_id":12
+}
+
+###
+POST http://localhost:9000/api/accounts
+Content-Type: application/json
+
+{
+    "acc_kode":"5.2.01.02",
+    "acc_name":"Honorarium",
+    "root":false,
+    "report":"rincian objek",
+    "acc_type":"BELANJA",
+    "acc_group":"LRA",
+    "acc_parent_id":15
+}
+
+###
+
+POST http://localhost:9000/api/accounts
+Content-Type: application/json
+
+{
+    "acc_kode":"5.2.01.02.001",
+    "acc_name":"Honorarium Pengurus",
+    "root":false,
+    "report":"rincian",
+    "acc_type":"BELANJA",
+    "acc_group":"LRA",
+    "acc_parent_id":16
+}
+
+###
+POST http://localhost:9000/api/accounts
+Content-Type: application/json
+
+{
+    "acc_kode":"5.2.02",
+    "acc_name":"Belanja Barang Jasa",
+    "root":false,
+    "report":"jenis",
+    "acc_type":"BELANJA",
+    "acc_group":"LRA",
+    "acc_parent_id":12
+}
+###
+POST http://localhost:9000/api/accounts
+Content-Type: application/json
+
+{
+    "acc_kode":"5.2.02.01",
+    "acc_name":"Belanja Pakai Habis",
+    "root":false,
+    "report":"rincian objek",
+    "acc_type":"BELANJA",
+    "acc_group":"LRA",
+    "acc_parent_id":19
+}
+
+###
+POST http://localhost:9000/api/accounts
+Content-Type: application/json
+
+{
+    "acc_kode":"5.2.02.01.011",
+    "acc_name":"Belanja Alat Tulis Kantor",
+    "root":false,
+    "report":"rincian",
+    "acc_type":"BELANJA",
+    "acc_group":"LRA",
+    "acc_parent_id":20
+}
+
+###
+POST http://localhost:9000/api/accounts
+Content-Type: application/json
+
+{
+    "acc_kode":"5.2.02.01.025",
+    "acc_name":"Belanja Makan Minum Rapat",
+    "root":false,
+    "report":"rincian",
+    "acc_type":"BELANJA",
+    "acc_group":"LRA",
+    "acc_parent_id":20
+}
+
+###
+
+POST http://localhost:9000/api/budgets
+Content-Type: application/json
+
+{
+    "budget_year":2024,
+    "budget_status":0,
+    "budget_data":"2024-01-01"
+}
+
+###
+POST http://localhost:9000/api/expends
+Content-Type: application/json
+
+{
+    "expend_year":2024,
+    "expend_status":0,
+    "unit_id":1,
+    "unit_kode":"1",
+    "unit_name":"Komite Olahraga Nasional Indonesia Kabupaten Bogor",
+    "budget_id":1,
+    "root":true
+}
+
+###
+POST http://localhost:9000/api/expends
+Content-Type: application/json
+
+{
+    "expend_year":2024,
+    "expend_status":0,
+    "unit_id":3,
+    "unit_kode":"1.2",
+    "unit_name":"Bidang Pembinaan Prestasi",
+    "budget_id":1,
+    "root":false,
+    "expend_parent_id":1
+}
+
+###
+POST http://localhost:9000/api/expend_programs
+Content-Type: application/json
+
+{
+    "program_id":1,
+    "program_kode":"1.2.1",
+    "program_name":"Program Pembinaan Dan Pelatihan Atlet Daerah",
+    "expend_parent_id":2
+}
+
+###
+POST http://localhost:9000/api/expend_kegiatans
+Content-Type: application/json
+
+{
+    "kegiatan_kode":"1.2.1.1",
+    "kegiatan_name":"Penyelenggaraan Pemusatan Pelatihan Daerah",
+    "kegiatan_id":1,
+    "expend_program_id":1
+}
+
+###

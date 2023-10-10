@@ -4,7 +4,12 @@ func autoMigrate() {
 	db.AutoMigrate(Account{},
 		Unit{},
 		KProgram{},
-		Kegiatan{})
+		Kegiatan{},
+		Budget{},
+		Expend{},
+		ExpendProgram{},
+		ExpendKegiatan{},
+		ExpendAccount{})
 	migrateScript()
 }
 

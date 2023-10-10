@@ -17,6 +17,11 @@ func setRouter() *gin.Engine {
 		controller.UnitRoute(api)
 		controller.ProgramRoute(api)
 		controller.KegiatanRoute(api)
+		controller.BudgetRoute(api)
+		controller.ExpendRoute(api)
+		controller.ExpendProgramRoute(api)
+		controller.ExpendKegiatanRoute(api)
+		controller.ExpendAccountRoute(api)
 	}
 	router.NoRoute(func(ctx *gin.Context) { ctx.JSON(http.StatusNotFound, gin.H{}) })
 	return router
