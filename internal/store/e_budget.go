@@ -39,11 +39,13 @@ type ExpendProgram struct {
 	ProgramName     string  `json:"program_name" binding:"required" gorm:"type:text"`
 	Slug            string  `json:"slug" gorm:"type:text"`
 	ProgramPagu     float64 `json:"program_pagu" gorm:"type:decimal(12,2)"`
+	BudgetYear      int     `json:"budget_year" gorm:"type:int"`
+	Included        bool    `json:"included" gorm:"type:bool"`
 
-	//UnitID         int    `json:"unit_id" gorm:"type:int"`
-	//UnitKode       string `json:"unit_kode" binding:"required" gorm:"type:varchar(10)"`
-	//UnitName       string `json:"unit_name" binding:"required" gorm:"type:text"`
-	ParentExpendID int `json:"expend_parent_id" gorm:"type:int"`
+	UnitID         int    `json:"unit_id" gorm:"type:int"`
+	UnitKode       string `json:"unit_kode" binding:"required" gorm:"type:varchar(10)"`
+	UnitName       string `json:"unit_name" binding:"required" gorm:"type:text"`
+	ParentExpendID int    `json:"expend_parent_id" gorm:"type:int"`
 
 	UserInput string    `json:"user_input" gorm:"type:varchar(20)"`
 	UserEdit  string    `json:"user_edit" gorm:"type:varchar(20)"`
@@ -68,7 +70,7 @@ type ExpendKegiatan struct {
 
 type ExpendAccount struct {
 	ExpendAccountID  int     `json:"expend_account_id" gorm:"primary_key;auto_increment:true"`
-	AccountID        int     `json:"account_id" gorm:"primary_key;auto_increment:true"`
+	AccountID        int     `json:"account_id"`
 	AccKode          string  `json:"acc_kode" binding:"required" gorm:"type:varchar(20)"`
 	AccName          string  `json:"acc_name" binding:"required" gorm:"type:text"`
 	Root             bool    `json:"root" gorm:"type:bool"`
@@ -76,7 +78,9 @@ type ExpendAccount struct {
 	AccType          string  `json:"acc_type" binding:"required" gorm:"type:varchar(20)"`
 	AccGroup         string  `json:"acc_group" binding:"required" gorm:"type:varchar(20)"`
 	AccountPagu      float64 `json:"acc_pagu" gorm:"type:decimal(12,2)"`
+	UnitID           int     `json:"unit_id" gorm:"type:int"`
 	ExpendKegiatanID int     `json:"expend_kegiatan_id" gorm:"type:int"`
+	BudgetYear       int     `json:"budget_year" gorm:"type:int"`
 
 	UserInput string    `json:"user_input" gorm:"type:varchar(20)"`
 	UserEdit  string    `json:"user_edit" gorm:"type:varchar(20)"`

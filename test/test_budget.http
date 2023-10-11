@@ -1,0 +1,10 @@
+POST http://localhost:9000/api/budgets/setup/
+Content-Type: application/json
+
+{
+    "year":2021
+}
+
+###
+GET http://localhost:9000/api/expend_programs/available/2024
+Content-Type: application/json

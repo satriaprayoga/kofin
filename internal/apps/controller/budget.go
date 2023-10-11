@@ -11,6 +11,9 @@ func BudgetRoute(router *gin.RouterGroup) {
 	budget.GET("/:id", BudgetIndex)
 	budget.DELETE("/:id", BudgetDelete)
 	budget.PUT("/:id", BudgetUpdate)
+
+	setup := budget.Group("/setup")
+	setup.POST("/", BudgetSetupCreate)
 }
 
 func BudgetCreate(c *gin.Context) {
@@ -27,4 +30,8 @@ func BudgetUpdate(c *gin.Context) {
 
 func BudgetIndex(c *gin.Context) {
 	service.GetServices().Budget.Get(c)
+}
+
+func BudgetSetupCreate(c *gin.Context) {
+	service.GetServices().BudgetSetup.Setup(c)
 }

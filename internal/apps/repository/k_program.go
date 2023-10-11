@@ -10,6 +10,7 @@ type KProgramRepo interface {
 	GetByID(ID int) (*store.KProgram, error)
 	Update(ID int, data interface{}) error
 	Delete(ID int) error
+	GetAll() (result *[]store.KProgram, err error)
 }
 
 type KProgramRepoImpl struct {
@@ -59,4 +60,13 @@ func (r *KProgramRepoImpl) Delete(ID int) error {
 		return err
 	}
 	return nil
+}
+
+func (r *KProgramRepoImpl) GetAll() (result *[]store.KProgram, err error) {
+	q := r.db.Find(&result)
+	err = q.Error
+	if err != nil {
+		return nil, err
+	}
+	return result, nil
 }

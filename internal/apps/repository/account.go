@@ -1,6 +1,8 @@
 package repository
 
 import (
+	"fmt"
+
 	"github.com/satriaprayoga/kofin/internal/store"
 	"gorm.io/gorm"
 )
@@ -10,6 +12,7 @@ type AccountRepo interface {
 	GetByID(ID int) (*store.Account, error)
 	Update(ID int, data interface{}) error
 	Delete(ID int) error
+	GetRoot(accType string) (result *[]store.Account, err error)
 }
 
 type AccountRepoImpl struct {
@@ -59,4 +62,14 @@ func (r *AccountRepoImpl) Delete(ID int) error {
 		return err
 	}
 	return nil
+}
+
+func (r *AccountRepoImpl) GetRoot(accType string) (result *[]store.Account, err error) {
+	queryString := fmt.Sprintf(`select * from account where root=TRUE AND acc_group='%s'`, accType)
+	query := r.db.Raw(queryString).Scan(&result)
+	err = query.Error
+	if err != nil {
+		return nil, err
+	}
+	return result, nil
 }

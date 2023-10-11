@@ -1,6 +1,8 @@
 package repository
 
 import (
+	"fmt"
+
 	"github.com/satriaprayoga/kofin/internal/store"
 	"gorm.io/gorm"
 )
@@ -10,6 +12,7 @@ type ExpendProgramRepo interface {
 	GetByID(ID int) (*store.ExpendProgram, error)
 	Update(ID int, data interface{}) error
 	Delete(ID int) error
+	GetAvailable(year int) (result *[]store.ExpendProgram, err error)
 }
 
 type ExpendProgramRepoImpl struct {
@@ -59,4 +62,15 @@ func (r *ExpendProgramRepoImpl) Delete(ID int) error {
 		return err
 	}
 	return nil
+}
+
+func (r *ExpendProgramRepoImpl) GetAvailable(year int) (result *[]store.ExpendProgram, err error) {
+
+	queryString := fmt.Sprintf(`SELECT * FROM expend_program WHERE budget_year=%d AND included=FALSE`, year)
+	query := r.db.Raw(queryString).Scan(&result)
+	err = query.Error
+	if err != nil {
+		return result, err
+	}
+	return result, nil
 }

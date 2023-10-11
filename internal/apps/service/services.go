@@ -3,6 +3,7 @@ package service
 import (
 	"time"
 
+	"github.com/satriaprayoga/kofin/internal/apps/service/budget"
 	"github.com/satriaprayoga/kofin/internal/config"
 )
 
@@ -16,6 +17,8 @@ type Services struct {
 	ExpendProgram  ExpendProgramService
 	ExpendKegiatan ExpendKegiatanService
 	ExpendAccount  ExpendAccountService
+
+	BudgetSetup budget.BudgetSetupService
 }
 
 var services *Services
@@ -31,6 +34,7 @@ func SetupServices(cfg config.Config) {
 		ExpendProgram:  NewExpendProgramService(time.Duration(cfg.Server.ReadTimeOut) * time.Second),
 		ExpendKegiatan: NewExpendKegiatanService(time.Duration(cfg.Server.ReadTimeOut) * time.Second),
 		ExpendAccount:  NewExpendAccountService(time.Duration(cfg.Server.ReadTimeOut) * time.Second),
+		BudgetSetup:    budget.NewBudgetSetupService(time.Duration(cfg.Server.ReadTimeOut) * time.Second),
 	}
 }
 
