@@ -20,6 +20,7 @@ type KegiatanService interface {
 	Delete(c *gin.Context)
 	Update(c *gin.Context)
 	Get(c *gin.Context)
+	GetByProgramID(c *gin.Context)
 }
 
 type KegiatanServiceImpl struct {
@@ -114,6 +115,28 @@ func (s *KegiatanServiceImpl) Get(c *gin.Context) {
 	}
 
 	data, err := s.r.GetByID(kegiatanID)
+	if err != nil {
+		log.Err(err).Msg("Error when delete data. Error")
+		pkg.PanicException(constant.InvalidRequest)
+	}
+
+	c.JSON(http.StatusOK, pkg.BuildResponse(constant.Success, data))
+}
+
+func (s *KegiatanServiceImpl) GetByProgramID(c *gin.Context) {
+	ctx, cancel := context.WithTimeout(c.Request.Context(), time.Duration(s.t)*time.Second)
+	defer cancel()
+	c.Request = c.Request.WithContext(ctx)
+
+	id := c.Param("id")
+
+	prID, err := strconv.Atoi(id)
+	if err != nil {
+		log.Err(errors.New("id is invalid or empty")).Msg("Error when mapping request for kegiatan creation. Error")
+		pkg.PanicException(constant.InvalidRequest)
+	}
+
+	data, err := s.r.GetByProgramID(prID)
 	if err != nil {
 		log.Err(err).Msg("Error when delete data. Error")
 		pkg.PanicException(constant.InvalidRequest)

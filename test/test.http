@@ -5,7 +5,7 @@ Content-Type: application/json
     "unit_kode":"1",
     "unit_name":"Komite Olahraga Nasional Indonesia",
     "unit_loc":"Jl. Pakansari, Kelurahan Pakansari, Cibinong, Bogor",
-    "unit_abbr":"KONI",
+    "unit_abbr":"KONI KAB.BOGOR",
     "unit_head":"Dedi Ade Bachtiar, SE, MM, MBA",
     "unit_head_id":"000001",
     "unit_induk_head":"Dedi Ade Bachtiar, SE, MM, MBA",
@@ -103,6 +103,8 @@ Content-Type: application/json
 }
 
 ###
+GET http://localhost:9000/api/kegiatans/program/1
+###
 
 POST http://localhost:9000/api/programs
 Content-Type: application/json
@@ -169,7 +171,7 @@ Content-Type: application/json
     "root":true,
     "report":"induk",
     "acc_type":"PENDAPATAN",
-    "acc_group":"NERACA"
+    "acc_group":"LRA"
 }
 
 ###
@@ -183,7 +185,7 @@ Content-Type: application/json
     "root":true,
     "report":"induk",
     "acc_type":"BELANJA",
-    "acc_group":"NERACA"
+    "acc_group":"LRA"
 }
 
 ###
@@ -197,7 +199,7 @@ Content-Type: application/json
     "root":true,
     "report":"induk",
     "acc_type":"PEMBIAYAAN",
-    "acc_group":"NERACA"
+    "acc_group":"LRA"
 }
 
 ###
@@ -211,7 +213,7 @@ Content-Type: application/json
     "root":true,
     "report":"induk",
     "acc_type":"PENDAPATAN-LO",
-    "acc_group":"NERACA"
+    "acc_group":"LO"
 }
 
 ###
@@ -225,7 +227,7 @@ Content-Type: application/json
     "root":true,
     "report":"induk",
     "acc_type":"BEBAN-LO",
-    "acc_group":"NERACA"
+    "acc_group":"LO"
 }
 
 ###
@@ -297,7 +299,7 @@ Content-Type: application/json
     "report":"rincian objek",
     "acc_type":"BELANJA",
     "acc_group":"LRA",
-    "acc_parent_id":15
+    "acc_parent_id":10
 }
 
 ###
@@ -312,7 +314,7 @@ Content-Type: application/json
     "report":"rincian",
     "acc_type":"BELANJA",
     "acc_group":"LRA",
-    "acc_parent_id":16
+    "acc_parent_id":11
 }
 
 ###
@@ -326,7 +328,7 @@ Content-Type: application/json
     "report":"jenis",
     "acc_type":"BELANJA",
     "acc_group":"LRA",
-    "acc_parent_id":12
+    "acc_parent_id":9
 }
 ###
 POST http://localhost:9000/api/accounts
@@ -339,7 +341,7 @@ Content-Type: application/json
     "report":"rincian objek",
     "acc_type":"BELANJA",
     "acc_group":"LRA",
-    "acc_parent_id":19
+    "acc_parent_id":13
 }
 
 ###
@@ -353,7 +355,7 @@ Content-Type: application/json
     "report":"rincian",
     "acc_type":"BELANJA",
     "acc_group":"LRA",
-    "acc_parent_id":20
+    "acc_parent_id":14
 }
 
 ###
@@ -367,7 +369,7 @@ Content-Type: application/json
     "report":"rincian",
     "acc_type":"BELANJA",
     "acc_group":"LRA",
-    "acc_parent_id":20
+    "acc_parent_id":14
 }
 
 ###

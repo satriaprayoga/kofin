@@ -10,6 +10,7 @@ type KegiatanRepo interface {
 	GetByID(ID int) (*store.Kegiatan, error)
 	Update(ID int, data interface{}) error
 	Delete(ID int) error
+	GetByProgramID(prID int) (result *[]store.Kegiatan, err error)
 }
 
 type KegiatanRepoImpl struct {
@@ -59,4 +60,15 @@ func (r *KegiatanRepoImpl) Delete(ID int) error {
 		return err
 	}
 	return nil
+}
+
+func (r *KegiatanRepoImpl) GetByProgramID(prID int) (result *[]store.Kegiatan, err error) {
+	//queryString := fmt.Sprintf("select * from kegiatan where program_id=%d", prID)
+	//q := r.db.Raw(queryString).Scan(&result)
+	q := r.db.Where("program_id=?", prID).Find(&result)
+	err = q.Error
+	if err != nil {
+		return nil, err
+	}
+	return result, err
 }

@@ -21,6 +21,7 @@ type ExpendProgramService interface {
 	Update(c *gin.Context)
 	Get(c *gin.Context)
 	GetAvailable(c *gin.Context)
+	//IncludeToBudget(c *gin.Context)
 }
 
 type ExpendProgramServiceImpl struct {
@@ -145,3 +146,35 @@ func (s *ExpendProgramServiceImpl) GetAvailable(c *gin.Context) {
 	c.JSON(http.StatusOK, pkg.BuildResponse(constant.Success, data))
 
 }
+
+/* func (s *ExpendProgramServiceImpl) IncludeToBudget(c *gin.Context) {
+	ctx, cancel := context.WithTimeout(c.Request.Context(), time.Duration(s.t)*time.Second)
+	defer cancel()
+	c.Request = c.Request.WithContext(ctx)
+
+	id := c.Param("id")
+	ID, err := strconv.Atoi(id)
+	if err != nil {
+		log.Err(errors.New("id is invalid or empty")).Msg("Error when mapping request for expend_program creation. Error")
+		pkg.PanicException(constant.InvalidRequest)
+		//pkg.PanicHandler(c)
+	}
+	var updated = store.ExpendProgram{}
+	if err := c.ShouldBindJSON(&updated); err != nil {
+		log.Err(err).Msg("Error when mapping request for expend_kegiatan creation. Error")
+		pkg.PanicException(constant.InvalidRequest)
+		//pkg.PanicHandler(c)
+	}
+
+	updated.Included = true
+
+	err = s.r.Update(ID, updated)
+	if err != nil {
+		log.Err(err).Msg("Error when delete data. Error")
+		pkg.PanicException(constant.InvalidRequest)
+		//pkg.PanicHandler(c)
+	}
+
+	c.JSON(http.StatusOK, pkg.BuildResponse(constant.Success, "OK"))
+
+} */

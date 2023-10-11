@@ -1,6 +1,7 @@
 package repository
 
 import (
+	"errors"
 	"fmt"
 
 	"github.com/satriaprayoga/kofin/internal/store"
@@ -9,7 +10,7 @@ import (
 
 type ExpendProgramRepo interface {
 	Create(data *store.ExpendProgram) error
-	GetByID(ID int) (*store.ExpendProgram, error)
+	GetByID(ID int) (store.ExpendProgram, error)
 	Update(ID int, data interface{}) error
 	Delete(ID int) error
 	GetAvailable(year int) (result *[]store.ExpendProgram, err error)
@@ -32,14 +33,14 @@ func (r *ExpendProgramRepoImpl) Create(data *store.ExpendProgram) error {
 	return nil
 }
 
-func (r *ExpendProgramRepoImpl) GetByID(ID int) (*store.ExpendProgram, error) {
-	var result = &store.ExpendProgram{}
-	query := r.db.Where("expend_program_id=?", ID).Find(result)
-	err := query.Error
+func (r *ExpendProgramRepoImpl) GetByID(ID int) (result store.ExpendProgram, err error) {
+	query := r.db.Where("expend_program_id=?", ID).Find(&result)
+	err = query.Error
 	if err != nil {
-		return nil, err
+		return result, errors.New("data not found")
 	}
-	return result, err
+
+	return result, nil
 }
 
 func (r *ExpendProgramRepoImpl) Update(ID int, data interface{}) error {

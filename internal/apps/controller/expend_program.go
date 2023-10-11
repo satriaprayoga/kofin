@@ -12,6 +12,7 @@ func ExpendProgramRoute(router *gin.RouterGroup) {
 	expend_program.DELETE("/:id", ExpendProgramDelete)
 	expend_program.PUT("/:id", ExpendProgramUpdate)
 	expend_program.GET("/available/:year", ExpendProgramAvailable)
+	expend_program.PUT("/import/:id", ExpendProgramImport)
 }
 
 func ExpendProgramCreate(c *gin.Context) {
@@ -32,4 +33,8 @@ func ExpendProgramIndex(c *gin.Context) {
 
 func ExpendProgramAvailable(c *gin.Context) {
 	service.GetServices().ExpendProgram.GetAvailable(c)
+}
+
+func ExpendProgramImport(c *gin.Context) {
+	service.GetServices().ProgramBudget.Import(c)
 }

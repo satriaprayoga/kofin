@@ -57,7 +57,7 @@ func (a *BudgetSetupServiceImpl) Setup(c *gin.Context) {
 	today := time.Now()
 
 	if setup.Year < today.Year() {
-		log.Err(errors.New("Error checking year")).Msg("Error when cheking budget year. Error")
+		log.Err(errors.New("error checking year")).Msg("Error when cheking budget year. Error")
 		pkg.PanicException(constant.InvalidRequest)
 	}
 
