@@ -22,3 +22,13 @@ Content-Type: application/json
       "unit_kode": "1.2",
       "unit_name": "Bidang Pembinaan Prestasi"
 }
+
+###
+GET http://localhost:9000/api/expend_kegiatans/available
+Content-Type: application/json
+
+{
+    "expend_program_id":1,
+    "year":2024
+}
+###

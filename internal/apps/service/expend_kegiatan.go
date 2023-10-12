@@ -11,6 +11,7 @@ import (
 	"github.com/rs/zerolog/log"
 	"github.com/satriaprayoga/kofin/internal/apps/repository"
 	"github.com/satriaprayoga/kofin/internal/constant"
+	dto "github.com/satriaprayoga/kofin/internal/dto/budget"
 	"github.com/satriaprayoga/kofin/internal/pkg"
 	"github.com/satriaprayoga/kofin/internal/store"
 )
@@ -20,6 +21,7 @@ type ExpendKegiatanService interface {
 	Delete(c *gin.Context)
 	Update(c *gin.Context)
 	Get(c *gin.Context)
+	GetAvailable(c *gin.Context)
 }
 
 type ExpendKegiatanServiceImpl struct {
@@ -117,6 +119,26 @@ func (s *ExpendKegiatanServiceImpl) Get(c *gin.Context) {
 	if err != nil {
 		log.Err(err).Msg("Error when delete data. Error")
 		pkg.PanicException(constant.InvalidRequest)
+	}
+
+	c.JSON(http.StatusOK, pkg.BuildResponse(constant.Success, data))
+}
+
+func (s *ExpendKegiatanServiceImpl) GetAvailable(c *gin.Context) {
+	ctx, cancel := context.WithTimeout(c.Request.Context(), time.Duration(s.t)*time.Second)
+	defer cancel()
+	c.Request = c.Request.WithContext(ctx)
+
+	var updated = dto.ExpendKegiatanSetup{}
+	if err := c.ShouldBindJSON(&updated); err != nil {
+		log.Err(err).Msg("Error when mapping request for expend_kegiatan creation. Error")
+		pkg.PanicException(constant.InvalidRequest)
+	}
+
+	data, err := s.r.GetAvailable(updated)
+	if err != nil {
+		log.Err(err).Msg("Not Found")
+		pkg.PanicException(constant.DataNotFound)
 	}
 
 	c.JSON(http.StatusOK, pkg.BuildResponse(constant.Success, data))

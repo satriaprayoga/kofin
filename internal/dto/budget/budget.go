@@ -15,3 +15,7 @@ type ExpendBudgetSetup struct {
 	UnitKode    string `json:"unit_kode"`
 	UnitName    string `json:"unit_name"`
 }
+type ExpendKegiatanSetup struct {
+	ExpendProgramID int `json:"expend_program_id"`
+	Year            int `json:"year"`
+}
