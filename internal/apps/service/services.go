@@ -18,8 +18,11 @@ type Services struct {
 	ExpendKegiatan ExpendKegiatanService
 	ExpendAccount  ExpendAccountService
 
-	BudgetSetup   budget.BudgetSetupService
-	ProgramBudget budget.ProgramBudgetService
+	BudgetSetup    budget.BudgetSetupService
+	ProgramBudget  budget.ProgramBudgetService
+	KegiatanBudget budget.KegiatanBudgetService
+	ExpendObject   ExpendObjectService
+	ObjectBudget   budget.ObjectBudgetService
 }
 
 var services *Services
@@ -37,6 +40,8 @@ func SetupServices(cfg config.Config) {
 		ExpendAccount:  NewExpendAccountService(time.Duration(cfg.Server.ReadTimeOut) * time.Second),
 		BudgetSetup:    budget.NewBudgetSetupService(time.Duration(cfg.Server.ReadTimeOut) * time.Second),
 		ProgramBudget:  budget.NewProgramBudgetService(time.Duration(cfg.Server.ReadTimeOut) * time.Second),
+		KegiatanBudget: budget.NewKegiatanBudgetService(time.Duration(cfg.Server.ReadTimeOut) * time.Second),
+		ObjectBudget:   budget.NewObjectBudgetService(time.Duration(cfg.Server.ReadTimeOut) * time.Second),
 	}
 }
 

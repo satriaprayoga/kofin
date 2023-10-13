@@ -73,11 +73,5 @@ func (pb *KegiatanBudgetServiceImpl) Import(c *gin.Context) {
 		//pkg.PanicHandler(c)
 	}
 
-	go pb.initializeImport(data.ExpendKegiatanID, updated)
-
 	c.JSON(http.StatusOK, pkg.BuildResponse(constant.Success, "OK"))
-}
-
-func (pb *KegiatanBudgetServiceImpl) initializeImport(exPrID int, updated store.ExpendKegiatan) {
-
 }

@@ -98,6 +98,9 @@ type ExpendObject struct {
 	SatuanName      string  `json:"satuan_name" binding:"required" gorm:"type:varchar(20)"`
 	Total           float64 `json:"total" gorm:"type:decimal(12,2)"`
 	ExpendAccountID int     `json:"expend_acc_id" gorm:"type:int"`
+	AccountID       int     `json:"account_id"`
+	AccKode         string  `json:"acc_kode" binding:"required" gorm:"type:varchar(20)"`
+	AccName         string  `json:"acc_name" binding:"required" gorm:"type:text"`
 
 	UserInput string    `json:"user_input" gorm:"type:varchar(20)"`
 	UserEdit  string    `json:"user_edit" gorm:"type:varchar(20)"`

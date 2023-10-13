@@ -12,6 +12,7 @@ func ExpendKegiatanRoute(router *gin.RouterGroup) {
 	expend_kegiatan.DELETE("/:id", ExpendKegiatanDelete)
 	expend_kegiatan.PUT("/:id", ExpendKegiatanUpdate)
 	expend_kegiatan.GET("/available", ExpendKegiatanAvailable)
+	expend_kegiatan.PUT("/import/:id", ExpendKegiatanImport)
 }
 
 func ExpendKegiatanCreate(c *gin.Context) {
@@ -32,4 +33,7 @@ func ExpendKegiatanIndex(c *gin.Context) {
 
 func ExpendKegiatanAvailable(c *gin.Context) {
 	service.GetServices().ExpendKegiatan.GetAvailable(c)
+}
+func ExpendKegiatanImport(c *gin.Context) {
+	service.GetServices().KegiatanBudget.Import(c)
 }
