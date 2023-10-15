@@ -31,7 +31,7 @@ func (r *ExpendObjectRepoImpl) Create(data *store.ExpendObject) error {
 
 func (r *ExpendObjectRepoImpl) GetByID(ID int) (*store.ExpendObject, error) {
 	var result = &store.ExpendObject{}
-	query := r.db.Where("expend_object_id=?", ID).Find(result)
+	query := r.db.Where("expend_objek_id=?", ID).Find(result)
 	err := query.Error
 	if err != nil {
 		return nil, err
@@ -42,7 +42,7 @@ func (r *ExpendObjectRepoImpl) GetByID(ID int) (*store.ExpendObject, error) {
 func (r *ExpendObjectRepoImpl) Update(ID int, data interface{}) error {
 	var err error
 
-	q := r.db.Model(&store.ExpendObject{}).Where("expend_object_id=?", ID).Updates(data)
+	q := r.db.Model(&store.ExpendObject{}).Where("expend_objek_id=?", ID).Updates(data)
 	err = q.Error
 	if err != nil {
 		return err
@@ -53,7 +53,7 @@ func (r *ExpendObjectRepoImpl) Update(ID int, data interface{}) error {
 
 func (r *ExpendObjectRepoImpl) Delete(ID int) error {
 	var err error
-	q := r.db.Where("expend_object_id=?", ID).Delete(&store.ExpendObject{})
+	q := r.db.Where("expend_objek_id=?", ID).Delete(&store.ExpendObject{})
 	err = q.Error
 	if err != nil {
 		return err

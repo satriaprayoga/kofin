@@ -90,17 +90,18 @@ type ExpendAccount struct {
 }
 
 type ExpendObject struct {
-	ExpendObjekID   int     `json:"expend_objek_id" gorm:"primary_key;auto_increment:true"`
-	ObjekName       string  `json:"objek_name" binding:"required" gorm:"type:text"`
-	Volume          int     `json:"volume" binding:"required" gorm:"type:int"`
-	VolumnName      string  `json:"volume_name" binding:"required" gorm:"type:varchar(20)"`
-	Satuan          int     `json:"satuan" binding:"required" gorm:"type:int"`
-	SatuanName      string  `json:"satuan_name" binding:"required" gorm:"type:varchar(20)"`
-	Total           float64 `json:"total" gorm:"type:decimal(12,2)"`
-	ExpendAccountID int     `json:"expend_acc_id" gorm:"type:int"`
-	AccountID       int     `json:"account_id"`
-	AccKode         string  `json:"acc_kode" binding:"required" gorm:"type:varchar(20)"`
-	AccName         string  `json:"acc_name" binding:"required" gorm:"type:text"`
+	ExpendObjekID    int     `json:"expend_objek_id" gorm:"primary_key;auto_increment:true"`
+	ObjekName        string  `json:"objek_name" binding:"required" gorm:"type:text"`
+	Volume           int     `json:"volume" binding:"required" gorm:"type:int"`
+	VolumnName       string  `json:"volume_name" binding:"required" gorm:"type:varchar(20)"`
+	Satuan           int     `json:"satuan" binding:"required" gorm:"type:int"`
+	SatuanName       string  `json:"satuan_name" binding:"required" gorm:"type:varchar(20)"`
+	Price            int     `json:"price" binding:"required" gorm:"type:int"`
+	Total            float64 `json:"total" gorm:"type:decimal(12,2)"`
+	ExpendKegiatanID int     `json:"expend_kegiatan_id" gorm:"type:int"`
+	AccountID        int     `json:"account_id"`
+	AccKode          string  `json:"acc_kode" binding:"required" gorm:"type:varchar(20)"`
+	AccName          string  `json:"acc_name" binding:"required" gorm:"type:text"`
 
 	UserInput string    `json:"user_input" gorm:"type:varchar(20)"`
 	UserEdit  string    `json:"user_edit" gorm:"type:varchar(20)"`

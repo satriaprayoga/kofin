@@ -2,7 +2,9 @@ package budget
 
 import (
 	"context"
+	"errors"
 	"net/http"
+	"strconv"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -15,20 +17,23 @@ import (
 
 type ObjectBudgetService interface {
 	AddToAccount(c *gin.Context)
+	UpdateOnAccount(c *gin.Context)
 }
 
 type ObjectBudgetServiceImpl struct {
 	ek repository.ExpendKegiatanRepo
-	k  repository.KegiatanRepo
+	//k  repository.KegiatanRepo
+	ea repository.ExpendAccountRepo
 	eo repository.ExpendObjectRepo
 	t  time.Duration
 }
 
 func NewObjectBudgetService(timeout time.Duration) ObjectBudgetService {
 	expendKegiatanRepo := repository.GetRepo().ExpendKegiatanRepo
-	kegiatanRepo := repository.GetRepo().KegiatanRepo
+	//kegiatanRepo := repository.GetRepo().KegiatanRepo
+	expendAccountRepo := repository.GetRepo().ExpendAccountRepo
 	expendObjectRepo := repository.GetRepo().ExpendObjectRepo
-	return &ObjectBudgetServiceImpl{ek: expendKegiatanRepo, k: kegiatanRepo, eo: expendObjectRepo, t: timeout}
+	return &ObjectBudgetServiceImpl{ek: expendKegiatanRepo, ea: expendAccountRepo, eo: expendObjectRepo, t: timeout}
 }
 
 func (s *ObjectBudgetServiceImpl) AddToAccount(c *gin.Context) {
@@ -41,12 +46,71 @@ func (s *ObjectBudgetServiceImpl) AddToAccount(c *gin.Context) {
 		log.Err(err).Msg("Error when mapping request for expend object creation. Error")
 		pkg.PanicException(constant.InvalidRequest)
 	}
-
+	acc.Total = float64(acc.Volume * acc.Satuan)
+	acc.Total = acc.Total * float64(acc.Price)
 	err := s.eo.Create(&acc)
 	if err != nil {
 		log.Err(err).Msg("Error when saving new data to database. Error")
 		pkg.PanicException(constant.InvalidRequest)
 	}
 
-	c.JSON(http.StatusOK, pkg.BuildResponse(constant.Success, "OK"))
+	err = s.ea.FindAndCreate(acc)
+	if err != nil {
+		log.Err(err).Msg("Error when saving new data to database. Error")
+		pkg.PanicException(constant.InvalidRequest)
+	}
+	err = s.ek.UpdateOnAccount(acc)
+	if err != nil {
+		log.Err(err).Msg("Error when saving new data to database. Error")
+		pkg.PanicException(constant.InvalidRequest)
+	}
+
+	c.JSON(http.StatusOK, pkg.BuildResponse(constant.Success, acc))
+}
+
+func (s *ObjectBudgetServiceImpl) UpdateOnAccount(c *gin.Context) {
+	ctx, cancel := context.WithTimeout(c.Request.Context(), time.Duration(s.t)*time.Second)
+	defer cancel()
+	c.Request = c.Request.WithContext(ctx)
+
+	id := c.Param("id")
+
+	expend_objectID, err := strconv.Atoi(id)
+	if err != nil {
+		log.Err(errors.New("id is invalid or empty")).Msg("Error when mapping request for expend_object creation. Error")
+		pkg.PanicException(constant.InvalidRequest)
+	}
+
+	data, err := s.eo.GetByID(expend_objectID)
+	if err != nil {
+		log.Err(err).Msg("Error when delete data. Error")
+		pkg.PanicException(constant.InvalidRequest)
+	}
+
+	oldTotal := data.Total
+	var updated = &store.ExpendObject{}
+	if err := c.ShouldBindJSON(&updated); err != nil {
+		log.Err(err).Msg("Error when mapping request for expend_object creation. Error")
+		pkg.PanicException(constant.InvalidRequest)
+	}
+	updated.Total = float64(updated.Volume * updated.Satuan)
+	updated.Total = updated.Total * float64(updated.Price)
+	err = s.eo.Update(expend_objectID, updated)
+	if err != nil {
+		log.Err(err).Msg("Error when delete data. Error")
+		pkg.PanicException(constant.InvalidRequest)
+	}
+	value := updated.Total - oldTotal
+	err = s.ea.UpdatePagu(*updated, value)
+	if err != nil {
+		log.Err(err).Msg("Error when delete data. Error")
+		pkg.PanicException(constant.InvalidRequest)
+	}
+	err = s.ek.UpdateOnObject(*updated, value)
+	if err != nil {
+		log.Err(err).Msg("Error when delete data. Error")
+		pkg.PanicException(constant.InvalidRequest)
+	}
+	c.JSON(http.StatusOK, pkg.BuildResponse(constant.Success, value))
+
 }

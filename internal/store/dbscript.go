@@ -9,7 +9,8 @@ func autoMigrate() {
 		Expend{},
 		ExpendProgram{},
 		ExpendKegiatan{},
-		ExpendAccount{})
+		ExpendAccount{},
+		ExpendObject{})
 	migrateScript()
 }
 

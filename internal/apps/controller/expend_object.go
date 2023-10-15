@@ -12,6 +12,7 @@ func ExpendObjectRoute(router *gin.RouterGroup) {
 	expend_object.DELETE("/:id", ExpendObjectDelete)
 	expend_object.PUT("/:id", ExpendObjectUpdate)
 	expend_object.POST("/rincian", ExpendObjectImport)
+	expend_object.PUT("/ubah/:id", ExpendObjectUpdateRincian)
 }
 
 func ExpendObjectCreate(c *gin.Context) {
@@ -32,4 +33,7 @@ func ExpendObjectIndex(c *gin.Context) {
 
 func ExpendObjectImport(c *gin.Context) {
 	service.GetServices().ObjectBudget.AddToAccount(c)
+}
+func ExpendObjectUpdateRincian(c *gin.Context) {
+	service.GetServices().ObjectBudget.UpdateOnAccount(c)
 }

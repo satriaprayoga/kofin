@@ -44,3 +44,36 @@ Content-Type: application/json
 }
 
 ###
+POST http://localhost:9000/api/expend_objects/rincian
+Content-Type: application/json
+
+{
+     "objek_name":"Stabilo",
+     "volume":5,
+     "volume_name":"pcs",
+     "satuan":1,
+     "satuan_name":"paket",
+     "expend_kegiatan_id":1,
+     "price":10000,
+     "account_id":15,
+     "acc_kode":"5.2.02.01.011",
+     "acc_name":"Belanja Alat Tulis Kantor"
+
+}
+###
+PUT http://localhost:9000/api/expend_objects/ubah/18
+Content-Type: application/json
+
+{
+     "objek_name":"Stabilo",
+     "volume":20,
+     "volume_name":"pcs",
+     "satuan":1,
+     "satuan_name":"paket",
+     "expend_kegiatan_id":1,
+     "price":10000,
+     "account_id":15,
+     "acc_kode":"5.2.02.01.011",
+     "acc_name":"Belanja Alat Tulis Kantor"
+
+}

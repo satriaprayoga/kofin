@@ -14,6 +14,8 @@ type ExpendKegiatanRepo interface {
 	Update(ID int, data interface{}) error
 	Delete(ID int) error
 	GetAvailable(setup dto.ExpendKegiatanSetup) (result *[]store.ExpendKegiatan, err error)
+	UpdateOnAccount(A store.ExpendObject) error
+	UpdateOnObject(A store.ExpendObject, value float64) error
 }
 
 type ExpendKegiatanRepoImpl struct {
@@ -73,4 +75,33 @@ func (r *ExpendKegiatanRepoImpl) GetAvailable(setup dto.ExpendKegiatanSetup) (re
 		return result, err
 	}
 	return result, nil
+}
+
+func (r *ExpendKegiatanRepoImpl) UpdateOnAccount(A store.ExpendObject) error {
+	var result *store.ExpendKegiatan
+	q := r.db.Where("expend_kegiatan_id=?", A.ExpendKegiatanID).First(&result)
+	if q.RowsAffected == 1 {
+		result.KegiatanPagu = result.KegiatanPagu + A.Total
+		r.Update(result.ExpendKegiatanID, result)
+	}
+	err := q.Error
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func (r *ExpendKegiatanRepoImpl) UpdateOnObject(A store.ExpendObject, value float64) error {
+	var result *store.ExpendKegiatan
+	q := r.db.Where("expend_kegiatan_id=?", A.ExpendKegiatanID).First(&result)
+	err := q.Error
+	if err != nil {
+		return err
+	}
+	result.KegiatanPagu += value
+	err = r.Update(result.ExpendKegiatanID, result)
+	if err != nil {
+		return err
+	}
+	return nil
 }

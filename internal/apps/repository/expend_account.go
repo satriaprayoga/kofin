@@ -10,6 +10,8 @@ type ExpendAccountRepo interface {
 	GetByID(ID int) (*store.ExpendAccount, error)
 	Update(ID int, data interface{}) error
 	Delete(ID int) error
+	FindAndCreate(O store.ExpendObject) error
+	UpdatePagu(O store.ExpendObject, value float64) error
 }
 
 type ExpendAccountRepoImpl struct {
@@ -59,4 +61,54 @@ func (r *ExpendAccountRepoImpl) Delete(ID int) error {
 		return err
 	}
 	return nil
+}
+
+func (r *ExpendAccountRepoImpl) FindAndCreate(O store.ExpendObject) error {
+	var result *store.ExpendAccount
+	q := r.db.Where("account_id=?", O.AccountID).First(&result)
+
+	if q.RowsAffected == 0 {
+		result = &store.ExpendAccount{
+			AccountID:        O.AccountID,
+			AccKode:          O.AccKode,
+			AccName:          O.AccName,
+			AccType:          "BELANJA",
+			AccGroup:         "LRA",
+			Report:           "rincian",
+			Root:             false,
+			AccountPagu:      O.Total,
+			ExpendKegiatanID: O.ExpendKegiatanID,
+			UnitID:           1,
+			BudgetYear:       2024,
+		}
+		q = r.db.Create(result)
+		err := q.Error
+		if err != nil {
+			return err
+		}
+	} else {
+		result.AccountPagu += O.Total
+		err := r.Update(result.ExpendAccountID, result)
+		if err != nil {
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (r *ExpendAccountRepoImpl) UpdatePagu(O store.ExpendObject, value float64) error {
+	var result *store.ExpendAccount
+	q := r.db.Where("account_id=?", O.AccountID).First(&result)
+	err := q.Error
+	if err != nil {
+		return err
+	}
+	result.AccountPagu += value
+	err = r.Update(result.ExpendAccountID, result)
+	if err != nil {
+		return err
+	}
+	return nil
+
 }
