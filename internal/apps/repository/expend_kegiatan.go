@@ -98,7 +98,7 @@ func (r *ExpendKegiatanRepoImpl) UpdateOnObject(A store.ExpendObject, value floa
 	if err != nil {
 		return err
 	}
-	result.KegiatanPagu += value
+	result.KegiatanPagu = result.KegiatanPagu + value
 	err = r.Update(result.ExpendKegiatanID, result)
 	if err != nil {
 		return err

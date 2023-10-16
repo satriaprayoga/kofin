@@ -104,7 +104,7 @@ func (r *ExpendAccountRepoImpl) UpdatePagu(O store.ExpendObject, value float64) 
 	if err != nil {
 		return err
 	}
-	result.AccountPagu += value
+	result.AccountPagu = result.AccountPagu + value
 	err = r.Update(result.ExpendAccountID, result)
 	if err != nil {
 		return err

@@ -100,6 +100,7 @@ func (s *ObjectBudgetServiceImpl) UpdateOnAccount(c *gin.Context) {
 		log.Err(err).Msg("Error when delete data. Error")
 		pkg.PanicException(constant.InvalidRequest)
 	}
+
 	value := updated.Total - oldTotal
 	err = s.ea.UpdatePagu(*updated, value)
 	if err != nil {
