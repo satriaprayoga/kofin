@@ -1,6 +1,10 @@
 package store
 
-import "time"
+import (
+	"time"
+
+	"gorm.io/gorm"
+)
 
 type Budget struct {
 	BudgetID     int       `json:"budget_id" gorm:"primary_key;auto_increment:true"`
@@ -107,4 +111,41 @@ type ExpendObject struct {
 	UserEdit  string    `json:"user_edit" gorm:"type:varchar(20)"`
 	TimeInput time.Time `json:"time_input" gorm:"type:timestamp(0) without time zone;default:now()"`
 	TimeEdit  time.Time `json:"time_edit" gorm:"type:timestamp(0) without time zone;default:now()"`
+}
+
+func (e *ExpendObject) BeforeCreate(tx *gorm.DB) (err error) {
+	e.Total = float64(e.Volume * e.Satuan)
+	e.Total = e.Total * float64(e.Price)
+	return
+}
+
+func (e *ExpendObject) AfterCreate(tx *gorm.DB) (err error) {
+	var result *ExpendAccount
+	q := tx.Where("account_id=?", e.AccountID).First(&result)
+
+	if q.RowsAffected == 0 {
+		result = &ExpendAccount{
+			AccountID:        e.AccountID,
+			AccKode:          e.AccKode,
+			AccName:          e.AccName,
+			AccType:          "BELANJA",
+			AccGroup:         "LRA",
+			Report:           "rincian",
+			Root:             false,
+			AccountPagu:      e.Total,
+			ExpendKegiatanID: e.ExpendKegiatanID,
+			UnitID:           1,
+			BudgetYear:       2024,
+		}
+		q = tx.Create(result)
+		err := q.Error
+		if err != nil {
+			return err
+		}
+	} else {
+		result.AccountPagu = result.AccountPagu + e.Total
+		tx.Model(&ExpendAccount{}).Where("account_id=?", e.AccountID).Updates(result)
+
+	}
+	return
 }

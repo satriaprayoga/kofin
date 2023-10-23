@@ -82,13 +82,13 @@ POST http://localhost:9000/api/expend_objects/rincian
 Content-Type: application/json
 
 {
-     "objek_name":"Kertas HVS F4",
+     "objek_name":"Kertas HVS A4",
      "volume":5,
      "volume_name":"rim",
      "satuan":1,
      "satuan_name":"paket",
      "expend_kegiatan_id":1,
-     "price":90000,
+     "price":80000,
      "account_id":21,
      "acc_kode":"5.2.02.01.011",
      "acc_name":"Belanja Alat Tulis Kantor"

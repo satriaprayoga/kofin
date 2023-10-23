@@ -46,19 +46,19 @@ func (s *ObjectBudgetServiceImpl) AddToAccount(c *gin.Context) {
 		log.Err(err).Msg("Error when mapping request for expend object creation. Error")
 		pkg.PanicException(constant.InvalidRequest)
 	}
-	acc.Total = float64(acc.Volume * acc.Satuan)
-	acc.Total = acc.Total * float64(acc.Price)
+	//acc.Total = float64(acc.Volume * acc.Satuan)
+	//acc.Total = acc.Total * float64(acc.Price)
 	err := s.eo.Create(&acc)
 	if err != nil {
 		log.Err(err).Msg("Error when saving new data to database. Error")
 		pkg.PanicException(constant.InvalidRequest)
 	}
 
-	err = s.ea.FindAndCreate(acc)
-	if err != nil {
-		log.Err(err).Msg("Error when saving new data to database. Error")
-		pkg.PanicException(constant.InvalidRequest)
-	}
+	//err = s.ea.FindAndCreate(acc)
+	//if err != nil {
+	//		log.Err(err).Msg("Error when saving new data to database. Error")
+	//	pkg.PanicException(constant.InvalidRequest)
+	//}
 	err = s.ek.UpdateOnAccount(acc)
 	if err != nil {
 		log.Err(err).Msg("Error when saving new data to database. Error")
