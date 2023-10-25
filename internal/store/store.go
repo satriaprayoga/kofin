@@ -16,7 +16,7 @@ var db *gorm.DB
 func SetConnDB(connString string) {
 	var (
 		err      error
-		logLevel logger.LogLevel = logger.Silent
+		logLevel logger.LogLevel = logger.Error
 		gormCfg  *gorm.Config
 	)
 	dbLogger := logger.New(

@@ -38,6 +38,7 @@ func SetupServices(cfg config.Config) {
 		ExpendProgram:  NewExpendProgramService(time.Duration(cfg.Server.ReadTimeOut) * time.Second),
 		ExpendKegiatan: NewExpendKegiatanService(time.Duration(cfg.Server.ReadTimeOut) * time.Second),
 		ExpendAccount:  NewExpendAccountService(time.Duration(cfg.Server.ReadTimeOut) * time.Second),
+		ExpendObject:   NewExpendObjectService(time.Duration(cfg.Server.ReadTimeOut) * time.Second),
 		BudgetSetup:    budget.NewBudgetSetupService(time.Duration(cfg.Server.ReadTimeOut) * time.Second),
 		ProgramBudget:  budget.NewProgramBudgetService(time.Duration(cfg.Server.ReadTimeOut) * time.Second),
 		KegiatanBudget: budget.NewKegiatanBudgetService(time.Duration(cfg.Server.ReadTimeOut) * time.Second),

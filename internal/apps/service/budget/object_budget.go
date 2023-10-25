@@ -18,6 +18,7 @@ import (
 type ObjectBudgetService interface {
 	AddToAccount(c *gin.Context)
 	UpdateOnAccount(c *gin.Context)
+	DeleteOnAccount(c *gin.Context)
 }
 
 type ObjectBudgetServiceImpl struct {
@@ -46,20 +47,8 @@ func (s *ObjectBudgetServiceImpl) AddToAccount(c *gin.Context) {
 		log.Err(err).Msg("Error when mapping request for expend object creation. Error")
 		pkg.PanicException(constant.InvalidRequest)
 	}
-	//acc.Total = float64(acc.Volume * acc.Satuan)
-	//acc.Total = acc.Total * float64(acc.Price)
-	err := s.eo.Create(&acc)
-	if err != nil {
-		log.Err(err).Msg("Error when saving new data to database. Error")
-		pkg.PanicException(constant.InvalidRequest)
-	}
 
-	//err = s.ea.FindAndCreate(acc)
-	//if err != nil {
-	//		log.Err(err).Msg("Error when saving new data to database. Error")
-	//	pkg.PanicException(constant.InvalidRequest)
-	//}
-	err = s.ek.UpdateOnAccount(acc)
+	err := s.eo.Create(&acc)
 	if err != nil {
 		log.Err(err).Msg("Error when saving new data to database. Error")
 		pkg.PanicException(constant.InvalidRequest)
@@ -81,13 +70,13 @@ func (s *ObjectBudgetServiceImpl) UpdateOnAccount(c *gin.Context) {
 		pkg.PanicException(constant.InvalidRequest)
 	}
 
-	data, err := s.eo.GetByID(expend_objectID)
+	/* _, err = s.eo.GetByID(expend_objectID)
 	if err != nil {
 		log.Err(err).Msg("Error when delete data. Error")
 		pkg.PanicException(constant.InvalidRequest)
 	}
-
-	oldTotal := data.Total
+	*/
+	//oldTotal := data.Total
 	var updated = &store.ExpendObject{}
 	if err := c.ShouldBindJSON(&updated); err != nil {
 		log.Err(err).Msg("Error when mapping request for expend_object creation. Error")
@@ -101,17 +90,55 @@ func (s *ObjectBudgetServiceImpl) UpdateOnAccount(c *gin.Context) {
 		pkg.PanicException(constant.InvalidRequest)
 	}
 
-	value := updated.Total - oldTotal
-	err = s.ea.UpdatePagu(*updated, value)
+	// value := updated.Total - oldTotal
+	// err = s.ea.UpdatePagu(*updated, value)
+	// if err != nil {
+	// 	log.Err(err).Msg("Error when delete data. Error")
+	// 	pkg.PanicException(constant.InvalidRequest)
+	// }
+	// err = s.ek.UpdateOnObject(*updated, value)
+	// if err != nil {
+	// 	log.Err(err).Msg("Error when delete data. Error")
+	// 	pkg.PanicException(constant.InvalidRequest)
+	// }
+	c.JSON(http.StatusOK, pkg.BuildResponse(constant.Success, updated))
+
+}
+
+func (s *ObjectBudgetServiceImpl) DeleteOnAccount(c *gin.Context) {
+	ctx, cancel := context.WithTimeout(c.Request.Context(), time.Duration(s.t)*time.Second)
+	defer cancel()
+	c.Request = c.Request.WithContext(ctx)
+
+	id := c.Param("id")
+
+	expend_objectID, err := strconv.Atoi(id)
+	if err != nil {
+		log.Err(errors.New("id is invalid or empty")).Msg("Error when mapping request for expend_object creation. Error")
+		pkg.PanicException(constant.InvalidRequest)
+	}
+	data, err := s.eo.GetByID(expend_objectID)
 	if err != nil {
 		log.Err(err).Msg("Error when delete data. Error")
 		pkg.PanicException(constant.InvalidRequest)
 	}
-	err = s.ek.UpdateOnObject(*updated, value)
+
+	oldTotal := data.Total
+	value := 0 - oldTotal
+	err = s.ea.UpdatePagu(*data, value)
 	if err != nil {
 		log.Err(err).Msg("Error when delete data. Error")
 		pkg.PanicException(constant.InvalidRequest)
 	}
-	c.JSON(http.StatusOK, pkg.BuildResponse(constant.Success, value))
+	err = s.ek.UpdateOnObject(*data, value)
+	if err != nil {
+		log.Err(err).Msg("Error when delete data. Error")
+		pkg.PanicException(constant.InvalidRequest)
+	}
+	err = s.eo.Delete(expend_objectID)
+	if err != nil {
+		log.Err(err).Msg("Error when delete data. Error")
+		pkg.PanicException(constant.InvalidRequest)
+	}
 
 }

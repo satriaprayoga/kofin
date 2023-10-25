@@ -3,6 +3,7 @@ package store
 import (
 	"time"
 
+	"github.com/rs/zerolog/log"
 	"gorm.io/gorm"
 )
 
@@ -147,5 +148,72 @@ func (e *ExpendObject) AfterCreate(tx *gorm.DB) (err error) {
 		tx.Model(&ExpendAccount{}).Where("account_id=?", e.AccountID).Updates(result)
 
 	}
+	e.updateBudgetKegiatan(tx)
 	return
+}
+
+func (e *ExpendObject) AfterUpdate(tx *gorm.DB) (err error) {
+	log.Info().Msg("AfterUpdate called")
+	var allObject []ExpendObject
+	acc_ID := e.AccountID
+	tx.Where("account_id=?", acc_ID).Find(&allObject)
+	var result *ExpendAccount
+	tx.Where("account_id=?", acc_ID).First(&result)
+	var total float64
+	for _, j := range allObject {
+		total = total + j.Total
+	}
+	result.AccountPagu = total
+	tx.Model(&ExpendAccount{}).Where("expend_account_id=?", result.ExpendAccountID).Updates(result)
+	e.updateBudgetKegiatan(tx)
+
+	return
+}
+
+/* func (e *ExpendObject) BeforeDelete(tx *gorm.DB) (err error) {
+	log.Info().Msg("AfterDelete called")
+	var result *ExpendAccount
+	tx.Where("account_id=?", e.AccountID).First(&result)
+	result.AccountPagu = result.AccountPagu - e.Total
+	tx.Model(&ExpendAccount{}).Where("expend_account_id=?", result.ExpendAccountID).Updates(result)
+	//e.updateBudgetKegiatan(tx)
+	var resultKgtn *ExpendKegiatan
+	tx.Where("expend_kegiatan_id=?", e.ExpendKegiatanID).First(&resultKgtn)
+	resultKgtn.KegiatanPagu = resultKgtn.KegiatanPagu - e.Total
+	tx.Model(&ExpendKegiatan{}).Where("expend_kegiatan_id=?", e.ExpendKegiatanID).Updates(resultKgtn)
+
+	return
+} */
+
+func (e *ExpendObject) updateBudgetKegiatan(tx *gorm.DB) (err error) {
+	var result *ExpendKegiatan
+	q := tx.Where("expend_kegiatan_id=?", e.ExpendKegiatanID).First(&result)
+	if q.RowsAffected == 1 {
+		var allObject []ExpendObject
+		tx.Where("expend_kegiatan_id=?", e.ExpendKegiatanID).Find(&allObject)
+		var total float64
+		for _, j := range allObject {
+			total = total + j.Total
+		}
+		result.KegiatanPagu = total
+		tx.Model(&ExpendKegiatan{}).Where("expend_kegiatan_id=?", e.ExpendKegiatanID).Updates(result)
+	}
+	return
+}
+
+func (e *ExpendKegiatan) AfterUpdate(tx *gorm.DB) (err error) {
+	var result *ExpendProgram
+	q := tx.Where("expend_program_id=?", e.ExpendProgramID).First(&result)
+	if q.RowsAffected == 1 {
+		var allObject []ExpendKegiatan
+		tx.Where("expend_program_id=?", e.ExpendKegiatanID).Find(&allObject)
+		var total float64
+		for _, j := range allObject {
+			total = total + j.KegiatanPagu
+		}
+		result.ProgramPagu = total
+		tx.Model(&ExpendProgram{}).Where("expend_program_id=?", e.ExpendProgramID).Updates(result)
+	}
+	return
+
 }

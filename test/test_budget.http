@@ -61,29 +61,12 @@ Content-Type: application/json
 
 }
 ###
-PUT http://localhost:9000/api/expend_objects/ubah/7
-Content-Type: application/json
-
-{
-     "objek_name":"Stabilo",
-     "volume":8,
-     "volume_name":"pcs",
-     "satuan":1,
-     "satuan_name":"paket",
-     "expend_kegiatan_id":1,
-     "price":10000,
-     "account_id":21,
-     "acc_kode":"5.2.02.01.011",
-     "acc_name":"Belanja Alat Tulis Kantor"
-
-}
-###
-POST http://localhost:9000/api/expend_objects/rincian
+PUT http://localhost:9000/api/expend_objects/ubah/16
 Content-Type: application/json
 
 {
      "objek_name":"Kertas HVS A4",
-     "volume":5,
+     "volume":20,
      "volume_name":"rim",
      "satuan":1,
      "satuan_name":"paket",
@@ -95,3 +78,55 @@ Content-Type: application/json
 
 }
 ###
+POST http://localhost:9000/api/expend_objects/rincian
+Content-Type: application/json
+
+{
+     "objek_name":"Kertas HVS F4",
+     "volume":5,
+     "volume_name":"rim",
+     "satuan":1,
+     "satuan_name":"paket",
+     "expend_kegiatan_id":1,
+     "price":90000,
+     "account_id":21,
+     "acc_kode":"5.2.02.01.011",
+     "acc_name":"Belanja Alat Tulis Kantor"
+
+}
+###
+POST http://localhost:9000/api/expend_objects/rincian
+Content-Type: application/json
+
+{
+     "objek_name":"Pulpen Hitam 0.4mm",
+     "volume":10,
+     "volume_name":"pcs",
+     "satuan":1,
+     "satuan_name":"paket",
+     "expend_kegiatan_id":1,
+     "price":8000,
+     "account_id":21,
+     "acc_kode":"5.2.02.01.011",
+     "acc_name":"Belanja Alat Tulis Kantor"
+
+}
+###
+POST http://localhost:9000/api/expend_objects/rincian
+Content-Type: application/json
+
+{
+     "objek_name":"Pulpen Hitam 1.0mm",
+     "volume":10,
+     "volume_name":"pcs",
+     "satuan":1,
+     "satuan_name":"paket",
+     "expend_kegiatan_id":1,
+     "price":12000,
+     "account_id":21,
+     "acc_kode":"5.2.02.01.011",
+     "acc_name":"Belanja Alat Tulis Kantor"
+
+}
+###
+DELETE http://localhost:9000/api/expend_objects/15
