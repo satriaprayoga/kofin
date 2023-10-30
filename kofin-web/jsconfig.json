@@ -1,6 +1,17 @@
 {
     "compilerOptions": {
-        "baseUrl": "src"
-    },
-    "include": ["src"]
-}
+      "baseUrl": ".",
+      "paths": {
+        "src/*": ["./src/*"],
+        "components/*":["./src/components/*"],
+        "assets": ["./src/assets/*"],
+        "constants":["./src/constants/*"],
+        "configs":["./src/configs/*"],
+        "utils":["./src/utils/*"],
+        "locales":["./src/locales/*"],
+        "views":["./src/views/*"],
+        "store":["./src/store/*"],
+        "services":["./src/services/*"]
+      }
+    }
+  }

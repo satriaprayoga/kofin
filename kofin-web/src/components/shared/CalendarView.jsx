@@ -1,6 +1,7 @@
 import React from 'react'
 import classNames from 'classnames'
 import { Badge } from 'components/ui'
+import "@fullcalendar/react/dist/vdom";
 import FullCalendar from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import timeGridPlugin from '@fullcalendar/timegrid'

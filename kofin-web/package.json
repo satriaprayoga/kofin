@@ -52,7 +52,6 @@
     "react-redux": "^7.2.8",
     "react-resize-detector": "^7.0.0",
     "react-router-dom": "^6.2.1",
-    "react-scripts": "5.0.1",
     "react-scroll": "^1.8.3",
     "react-select": "^5.6.1",
     "react-simple-maps": "^3.0.0",
@@ -69,16 +68,9 @@
     "yup": "^0.32.10"
   },
   "scripts": {
-    "start": "run-p watch:css react-scripts:start",
-    "build": "run-s build:css react-scripts:build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "build:css": "cross-env TAILWIND_MODE=build NODE_ENV=production postcss src/assets/styles/app.css -o src/index.css",
-    "watch:css": "cross-env TAILWIND_MODE=watch NODE_ENV=development postcss src/assets/styles/app.css -o src/index.css --watch",
-    "react-scripts:start": "react-scripts start",
-    "react-scripts:build": "react-scripts build",
-    "analyze": "source-map-explorer 'build/static/js/*.js'",
-    "format": "prettier --write ."
+    "start": "vite",
+    "build": "vite build",
+    "serve": "vite preview"
   },
   "browserslist": {
     "production": [
@@ -93,8 +85,10 @@
     ]
   },
   "devDependencies": {
+    "@vitejs/plugin-react": "^4.1.0",
     "autoprefixer": "^10.4.0",
     "cross-env": "^7.0.3",
+    "cssnano": "^6.0.1",
     "delay-cli": "^1.1.0",
     "eslint-config-prettier": "^8.6.0",
     "miragejs": "^0.1.43",
@@ -105,6 +99,7 @@
     "postcss-nested": "^5.0.6",
     "postcss-preset-env": "7.x",
     "prettier": "2.8.3",
-    "tailwindcss": "^3.0.7"
+    "tailwindcss": "^3.0.7",
+    "vite": "^4.5.0"
   }
 }
