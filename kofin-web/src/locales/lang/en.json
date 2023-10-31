@@ -1,6 +1,8 @@
 {
     "nav": {
         "home": "Home",
+        "setting":"Pengaturan",
+        "budget":"Anggaran",
         "singleMenuItem": "Single menu item",
         "collapseMenu": {
             "collapseMenu": "Collapse menu item",

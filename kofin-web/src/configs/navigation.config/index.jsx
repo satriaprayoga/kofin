@@ -15,6 +15,26 @@ const navigationConfig = [
         authority: [],
         subMenu: [],
     },
+    {
+        key: 'setting',
+        path: '/home',
+        title: 'Pengaturan',
+        translateKey: 'nav.setting',
+        icon: 'setting',
+        type: NAV_ITEM_TYPE_ITEM,
+        authority: [],
+        subMenu: [],
+    },
+    {
+        key: 'budget',
+        path: '/home',
+        title: 'Anggaran',
+        translateKey: 'nav.budget',
+        icon: 'budget',
+        type: NAV_ITEM_TYPE_ITEM,
+        authority: [],
+        subMenu: [],
+    },
     /** Example purpose only, please remove */
     {
         key: 'singleMenuItem',
