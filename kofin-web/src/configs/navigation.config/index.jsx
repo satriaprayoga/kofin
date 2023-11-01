@@ -21,9 +21,20 @@ const navigationConfig = [
         title: 'Pengaturan',
         translateKey: 'nav.setting',
         icon: 'setting',
-        type: NAV_ITEM_TYPE_ITEM,
+        type:NAV_ITEM_TYPE_COLLAPSE,
         authority: [],
-        subMenu: [],
+        subMenu: [
+            {
+                key: 'unit',
+                path: '/setting/unit',
+                title: 'Unit Kerja',
+                translateKey: 'nav.unit',
+                icon: 'unit',
+                type: NAV_ITEM_TYPE_ITEM,
+                authority: [],
+                subMenu: [],
+            }
+        ],
     },
     {
         key: 'budget',

@@ -2,6 +2,7 @@
     "nav": {
         "home": "Home",
         "setting":"Pengaturan",
+        "unit":"Unit",
         "budget":"Anggaran",
         "singleMenuItem": "Single menu item",
         "collapseMenu": {

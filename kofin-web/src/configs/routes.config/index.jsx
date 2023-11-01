@@ -10,6 +10,22 @@ export const protectedRoutes = [
         component: React.lazy(() => import('views/Home')),
         authority: [],
     },
+    {
+        key:'unit',
+        path:'/setting/unit',
+        component:React.lazy(()=>import('views/setting/unit/Unit')),
+        authority:[],
+    },
+    {
+        key:'editUnit',
+        path:'/setting/unit/edit',
+        component:React.lazy(()=>import('views/setting/unit/UnitEdit')),
+        authority:[],
+        meta: {
+            header: 'Edit Unit',
+            headerContainer: true,
+        },
+    },
     /** Example purpose only, please remove */
     {
         key: 'singleMenuItem',
