@@ -1,20 +1,19 @@
-export const unitData= 
-    [
-        {
-            unit_id:1,
-            unit_kode:"1",
-            unit_name:"Komite Olahraga Nasional Indonesia Kabupaten Bogor",
-            unit_loc:"Jalan Tegar Beriman, Pakansari, Cibinong, Kab.Bogor",
-            unit_abbr:"KONI KAB.BOGOR",
-            unit_head:"Dedi Ade Bachtiar, SE, MM, MBA",
-            unit_head_id:"000001",
-            unit_induk_id:0,
-            unit_induk_head:"",
-            unit_induk_head_id:0,
-            root:true
-        
-        }
-    ]
+export const unitData= [
+    {
+        unit_id:1,
+        unit_kode:"1",
+        unit_name:"Komite Olahraga Nasional Indonesia Kabupaten Bogor",
+        unit_loc:"Jalan Tegar Beriman, Pakansari, Cibinong, Kab.Bogor",
+        unit_abbr:"KONI KAB.BOGOR",
+        unit_head:"Dedi Ade Bachtiar, SE, MM, MBA",
+        unit_head_id:"000001",
+        unit_induk_id:0,
+        unit_induk_head:"",
+        unit_induk_head_id:0,
+        root:true
+    
+    }
+]
     
 
 export const subUnitData=[

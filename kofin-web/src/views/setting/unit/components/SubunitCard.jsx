@@ -7,21 +7,21 @@ import { injectReducer } from "store";
 import { isEmpty, isUndefined } from 'lodash'
 import { Button, Card, Table } from 'components/ui'
 import { Loading } from 'components/shared'
-import { getUnit } from "../store/dataSlice";
+import { getSubunits} from "../store/dataSlice";
 
 const { Tr, Th, Td, THead, TBody } = Table
 
 injectReducer('unit',reducer)
 
-const UnitCard=()=>{
+const SubunitCard=()=>{
     const dispatch = useDispatch()
     const navigate = useNavigate()
 
-    const unitData = useSelector((state)=>state.unit.data.unitData)
+    const subunitsData = useSelector((state)=>state.unit.data.subunitsData)
     const loading = useSelector((state)=>state.unit.data.loading)
 
     const fetchData = ()=>{
-        dispatch(getUnit())
+        dispatch(getSubunits())
     }
 
     const onEdit = () => {
@@ -36,16 +36,17 @@ const UnitCard=()=>{
 
     useEffect(()=>{
         fetchData()
+        console.log(subunitsData)
     },[])
 
     return (
         <>
-        <Loading loading={loading}>
-            {!isEmpty(unitData) && (
+      <Loading loading={loading}>
+            {!isEmpty(subunitsData) && (
                 <>
                 <Card
                 bodyClass="h-full"
-                header={unitData[0].unit_abbr}
+                header="Daftar Subunit"
                 headerExtra={headerExtraContent}
             >
                <Table>
@@ -57,11 +58,15 @@ const UnitCard=()=>{
                     </Tr>
                 </THead>
                 <TBody>
-                    <Tr>
-                    <Td>{unitData[0].unit_name}</Td>
-                        <Td>{unitData[0].unit_loc}</Td>
-                        <Td>{unitData[0].unit_head}</Td>
+                    {subunitsData[0].map((s,index)=>{
+                        return (
+                            <Tr key={index}>
+                    <Td>{s.unit_name}</Td>
+                        <Td>{s.unit_loc}</Td>
+                        <Td>{s.unit_head}</Td>
                     </Tr>
+                        )
+                    })}
                 </TBody>
             </Table>
                 
@@ -76,4 +81,5 @@ const UnitCard=()=>{
 
 }
 
-export default UnitCard
+export default SubunitCard
+
