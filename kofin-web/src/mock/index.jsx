@@ -3,9 +3,11 @@ import appConfig from 'configs/app.config'
 
 import { signInUserData } from './data/authData'
 import { unitData,subUnitData } from './data/unitData'
+import { programData } from './data/programData'
 
 import { authFakeApi } from './fakeApi'
 import unitFakeApi from './fakeApi/unitFakeApi'
+import programFakeApi from './fakeApi/programFakeApi'
 
 const { apiPrefix } = appConfig
 
@@ -16,7 +18,8 @@ export default function mockServer({ environment = 'test' }) {
             server.db.loadData({
                 signInUserData,
                 unitData,
-                subUnitData
+                subUnitData,
+                programData
             })
         },
         routes() {
@@ -30,6 +33,7 @@ export default function mockServer({ environment = 'test' }) {
 
             authFakeApi(this, apiPrefix)
             unitFakeApi(this,apiPrefix)
+            programFakeApi(this,apiPrefix)
         },
     })
 }
