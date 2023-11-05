@@ -15,6 +15,29 @@ export const protectedRoutes = [
         path:'/setting/unit',
         component:React.lazy(()=>import('views/setting/unit/Unit')),
         authority:[],
+        meta: {
+            header: 'Pengaturan Unit Kerja',
+        },
+    },
+    {
+        key:'addSubunit',
+        path:'/setting/unit/subunit/new',
+        component:React.lazy(()=>import('views/setting/unit/SubunitNew')),
+        authority:[],
+        meta: {
+            header: 'Tambah Sub Unit',
+            headerContainer: true,
+        },
+    },
+    {
+        key:'editSubunit',
+        path:'/setting/unit/subunit/edit/:subunitId',
+        component:React.lazy(()=>import('views/setting/unit/SubunitEdit')),
+        authority:[],
+        meta: {
+            header: 'Ubah Sub Unit',
+            headerContainer: true,
+        },
     },
     {
         key:'editUnit',

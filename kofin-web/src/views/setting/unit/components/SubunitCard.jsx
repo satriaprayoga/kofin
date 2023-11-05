@@ -2,12 +2,13 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import reducer from "../store";
-import { HiOutlinePencil } from "react-icons/hi";
+import { HiOutlinePencil, HiOutlinePlus } from "react-icons/hi";
 import { injectReducer } from "store";
 import { isEmpty, isUndefined } from 'lodash'
 import { Button, Card, Table } from 'components/ui'
 import { Loading } from 'components/shared'
 import { getSubunits} from "../store/dataSlice";
+import SubunitTable from "./SubunitTable";
 
 const { Tr, Th, Td, THead, TBody } = Table
 
@@ -24,12 +25,12 @@ const SubunitCard=()=>{
         dispatch(getSubunits())
     }
 
-    const onEdit = () => {
-        navigate(`/setting/unit/edit`)
+    const onCreate = () => {
+        navigate(`/setting/unit/subunit/new`)
     }
     const headerExtraContent = (
         <span className="flex items-center">
-            <Button className="mr-2" icon={<HiOutlinePencil />} variant="solid" onClick={onEdit}>
+            <Button className="mr-2" icon={<HiOutlinePlus />} variant="solid" onClick={onCreate}>
             </Button>
         </span>
     )
@@ -41,39 +42,14 @@ const SubunitCard=()=>{
 
     return (
         <>
-      <Loading loading={loading}>
-            {!isEmpty(subunitsData) && (
-                <>
-                <Card
+      <Card
                 bodyClass="h-full"
                 header="Daftar Subunit"
                 headerExtra={headerExtraContent}
             >
-               <Table>
-                <THead>
-                    <Tr>
-                    <Th>Nama Unit</Th>
-                        <Th>Lokasi</Th>
-                        <Th>Kepala</Th>
-                    </Tr>
-                </THead>
-                <TBody>
-                    {subunitsData[0].map((s,index)=>{
-                        return (
-                            <Tr key={index}>
-                    <Td>{s.unit_name}</Td>
-                        <Td>{s.unit_loc}</Td>
-                        <Td>{s.unit_head}</Td>
-                    </Tr>
-                        )
-                    })}
-                </TBody>
-            </Table>
+              <SubunitTable/>
                 
             </Card>
-                </>
-            )}
-        </Loading>
         </>
     )
 
