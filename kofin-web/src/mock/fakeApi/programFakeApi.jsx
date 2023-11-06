@@ -21,4 +21,9 @@ export default function programFakeApi(server,apiPrefix){
         schema.db.programData.remove({id})
         return true
     })
+
+    server.get(`${apiPrefix}/programs/unit/`,(schema,{requestBody})=>{
+        const {id} = JSON.parse(requestBody)
+        return schema.db.programData.where({unit_id:id})
+    })
 }

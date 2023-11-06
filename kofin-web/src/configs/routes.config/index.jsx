@@ -49,6 +49,13 @@ export const protectedRoutes = [
             headerContainer: true,
         },
     },
+    {
+        key:'program',
+        path:'/setting/programs',
+        component:React.lazy(()=>import('views/setting/programs/Programs')),
+        authority:[],
+       
+    },
     /** Example purpose only, please remove */
     {
         key: 'singleMenuItem',

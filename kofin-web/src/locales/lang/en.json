@@ -3,6 +3,7 @@
         "home": "Home",
         "setting":"Pengaturan",
         "unit":"Unit",
+        "program":"Program",
         "budget":"Anggaran",
         "singleMenuItem": "Single menu item",
         "collapseMenu": {
