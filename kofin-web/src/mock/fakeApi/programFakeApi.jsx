@@ -40,6 +40,13 @@ export default function programFakeApi(server,apiPrefix){
         return program
     })
 
+    server.post(`${apiPrefix}/programs/create`,(schema,{requestBody})=>{
+        const data = JSON.parse(requestBody)
+        const {id} = data
+        schema.db.programData.insert(data)
+        return true
+    })
+
     server.put(`${apiPrefix}/programs/update`,(schema,{requestBody})=>{
         const data = JSON.parse(requestBody)
         const {id} = data

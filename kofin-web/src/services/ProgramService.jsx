@@ -8,3 +8,11 @@ export async function apiGetProgramsData(data){
     })
 }
 
+export async function apiCreateProgramData(data){
+    return ApiService.fetchData({
+        url:'/programs/create',
+        method:'post',
+        data
+    })
+}
+
