@@ -56,6 +56,16 @@ export const protectedRoutes = [
         authority:[],
        
     },
+    {
+        key:'addProgram',
+        path:'/setting/programs/new',
+        component:React.lazy(()=>import('views/setting/programs/ProgramNew')),
+        authority:[],
+        meta: {
+            header: 'Tambah Program',
+            headerContainer: true,
+        },
+    },
     /** Example purpose only, please remove */
     {
         key: 'singleMenuItem',

@@ -3,7 +3,14 @@ import { Button, FormItem, FormContainer, Select, Input } from 'components/ui'
 import { Field, Form, Formik } from 'formik'
 import { HiArrowSmLeft } from 'react-icons/hi'
 import * as Yup from 'yup'
-import { Container } from "components/shared";
+import { AdaptableCard, Container } from "components/shared";
+import reducer from "./store";
+import ProgramTableSearch from "./components/ProgramTableSearch";
+import { injectReducer } from "store";
+import ProgramTableTools from "./components/ProgramTableTools";
+import ProgramTable from "./components/ProgramTable";
+
+injectReducer('programs', reducer)
 
 
 const validationSchema = Yup.object().shape({
@@ -27,19 +34,14 @@ const colourOptions = [
 
 const Programs=()=>{
     return(
-        <Container>
-            <div className="text-center">
-            <h3 className="mb-2">Daftar Program</h3>
-            <div className="mt-8 max-w-[300px] lg:min-w-[300px] mx-auto">
-            <Select
-                size="sm"
-                className="mb-4"
-                placeholder="Please Select"
-                options={colourOptions}
-            ></Select>
+        <AdaptableCard className="h-full" bodyClass="h-full">
+            <div className="lg:flex items-center justify-between mb-4">
+                <h3 className="mb-4 lg:mb-0">Program</h3>
+               <ProgramTableTools/>
             </div>
-        </div>
-        </Container>
+            <ProgramTable/>
+        </AdaptableCard>
+
        
     )
 }

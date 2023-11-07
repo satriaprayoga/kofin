@@ -38,6 +38,7 @@ const navigationConfig = [
                 key: 'progran',
                 path: '/setting/programs',
                 title: 'Program',
+                icon: 'program',
                 translateKey: 'nav.program',
                 type: NAV_ITEM_TYPE_ITEM,
                 authority: [],

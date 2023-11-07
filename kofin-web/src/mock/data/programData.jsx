@@ -1,4 +1,4 @@
-export const programData=[
+export const programsData=[
     {
         id:1,
         program_kode:"1.2.1",
