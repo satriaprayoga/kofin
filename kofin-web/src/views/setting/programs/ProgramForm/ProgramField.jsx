@@ -45,6 +45,7 @@ const ProgramField=(props)=>{
                     <Field name="unit_id">
                         {({ field, form }) => (
                             <Select
+                                placeholder="Pilih Sub Unit"
                                 field={field}
                                 form={form}
                                 options={options}
