@@ -24,6 +24,14 @@ export async function apiGetProgram(params){
     })
 }
 
+export async function apiGetProgramKegiatans(params){
+    return ApiService.fetchData({
+        url:'/kegiatans/program',
+        method:'get',
+        params
+    })
+}
+
 export async function apiPutProgram(data){
     return ApiService.fetchData({
         url:'/programs/update',

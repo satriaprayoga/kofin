@@ -1,0 +1,50 @@
+export const kegiatansData=[
+    {
+        id:1,
+        program_kode:"1.2.1",
+        program_name:"Program Pembinaan Dan Pelatihan Atlet Daerah",
+        program_id:1,
+        kegiatan_kode:"1.2.1.1",
+        kegiatan_name:"Penyelenggaraan Pelatihan Atlet Daerah",
+    },
+    {
+        id:2,
+        program_kode:"1.2.1",
+        program_name:"Program Pembinaan Dan Pelatihan Atlet Daerah",
+        program_id:1,
+        kegiatan_kode:"1.2.1.2",
+        kegiatan_name:"Pendataan Atlet Daerah",
+    },
+    {
+        id:3,
+        program_kode:"1.2.2",
+        program_name:"Program Penghargaan Atlet Daerah Berprestasi",
+        program_id:2,
+        kegiatan_kode:"1.2.2.1",
+        kegiatan_name:"Pendataan Atlet Berprestasi Daerah",
+    },
+    {
+        id:4,
+        program_kode:"1.2.2",
+        program_name:"Program Penghargaan Atlet Daerah Berprestasi",
+        program_id:2,
+        kegiatan_kode:"1.2.2.2",
+        kegiatan_name:"Penyelenggaraan Anugrah Atlet Berprestasi Daerah",
+    },
+    {
+        id:5,
+        program_kode:"1.3.1",
+        program_name:"Program Pendidikan Atlet Daerah",
+        program_id:3,
+        kegiatan_kode:"1.3.1.1",
+        kegiatan_name:"Penyelenggaraan Beasiswa Atlet Daerah Tingkat Pendidikan Tinggi",
+    },
+    {
+        id:6,
+        program_kode:"1.3.2",
+        program_name:"Program Kewirausahaan Atlet Daerah",
+        program_id:4,
+        kegiatan_kode:"1.3.2.1",
+        kegiatan_name:"Penyelenggaraan Pelatihan Kewirausahaan Bagi Atlet Daerah",
+    }
+]

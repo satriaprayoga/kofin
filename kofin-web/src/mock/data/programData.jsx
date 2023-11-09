@@ -18,7 +18,7 @@ export const programsData=[
     {
         id:3,
         program_kode:"1.3.1",
-        program_name:"Program Pendidikan Atlet Luar Daerah",
+        program_name:"Program Pendidikan Atlet Daerah",
         unit_id:4,
         unit_kode:"1.3",
         unit_name:"Bidang Kerjasama",

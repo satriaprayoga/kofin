@@ -76,6 +76,16 @@ export const protectedRoutes = [
             headerContainer: true,
         },
     },
+    {
+        key:'kegiatan',
+        path:'/setting/programs/kegiatan/:programId',
+        component:React.lazy(()=>import('views/setting/programs/kegiatan/Kegiatans')),
+        authority:[],
+        meta: {
+            header: 'Daftar Kegiatan',
+            headerContainer: true,
+        },
+    },
     /** Example purpose only, please remove */
     {
         key: 'singleMenuItem',

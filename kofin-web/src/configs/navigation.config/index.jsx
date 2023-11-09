@@ -35,7 +35,7 @@ const navigationConfig = [
                 subMenu: [],
             },
             {
-                key: 'progran',
+                key: 'program',
                 path: '/setting/programs',
                 title: 'Program',
                 icon: 'program',

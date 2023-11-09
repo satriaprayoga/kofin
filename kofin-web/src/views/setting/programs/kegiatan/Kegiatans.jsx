@@ -2,24 +2,24 @@ import React from "react";
 import { AdaptableCard, Container } from "components/shared";
 import reducer from "./store";
 import { injectReducer } from "store";
-import ProgramTableTools from "./components/ProgramTableTools";
-import ProgramTable from "./components/ProgramTable";
+import KegiatanTableTools from "./components/KegiatanTableTools";
+import KegiatanTable from "./components/KegiatanTable";
 
-injectReducer('programs', reducer)
+injectReducer('kegiatans', reducer)
 
 
-const Programs=()=>{
+const Kegiatans=()=>{
     return(
         <AdaptableCard className="h-full" bodyClass="h-full">
             <div className="lg:flex items-center justify-between mb-4">
-                <h3 className="mb-4 lg:mb-0">Program</h3>
-               <ProgramTableTools/>
+                <h3 className="mb-4 lg:mb-0">Kegiatan</h3>
+               <KegiatanTableTools/>
             </div>
-            <ProgramTable/>
+            <KegiatanTable/>
         </AdaptableCard>
 
        
     )
 }
 
-export default Programs
+export default Kegiatans

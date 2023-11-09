@@ -4,10 +4,12 @@ import appConfig from 'configs/app.config'
 import { signInUserData } from './data/authData'
 import { unitData,subUnitData } from './data/unitData'
 import { programsData } from './data/programData'
+import { kegiatansData } from './data/kegiatanData'
 
 import { authFakeApi } from './fakeApi'
 import unitFakeApi from './fakeApi/unitFakeApi'
 import programFakeApi from './fakeApi/programFakeApi'
+import kegiatanFakeApi from './fakeApi/kegiatanFakeApi'
 
 const { apiPrefix } = appConfig
 
@@ -19,7 +21,8 @@ export default function mockServer({ environment = 'test' }) {
                 signInUserData,
                 unitData,
                 subUnitData,
-                programsData
+                programsData,
+                kegiatansData
             })
         },
         routes() {
@@ -34,6 +37,7 @@ export default function mockServer({ environment = 'test' }) {
             authFakeApi(this, apiPrefix)
             unitFakeApi(this,apiPrefix)
             programFakeApi(this,apiPrefix)
+            kegiatanFakeApi(this,apiPrefix)
         },
     })
 }

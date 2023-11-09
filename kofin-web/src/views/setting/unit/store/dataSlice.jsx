@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { apiGetUnitData } from "services/UnitService";
-import { apiGetSubunitData } from "services/UnitService";
+import { apiGetSubunitData, apiGetUnitData } from "services/UnitService";
+
 
 export const getUnit = createAsyncThunk(
     'unit/data/getUnit',

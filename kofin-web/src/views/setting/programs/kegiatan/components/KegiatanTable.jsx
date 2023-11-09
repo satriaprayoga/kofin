@@ -1,19 +1,18 @@
 import React, { useEffect, useMemo, useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { getPrograms, setTableData } from '../store/dataSlice'
+import { getProgramKegiatans, setTableData } from '../store/dataSlice'
 import { DataTable } from 'src/components/shared'
 import { cloneDeep } from 'lodash'
-import { Link, useNavigate } from 'react-router-dom'
-import { HiOutlinePencil, HiViewList } from 'react-icons/hi'
+import { useLocation, useNavigate } from 'react-router-dom'
+import { HiOutlinePencil } from 'react-icons/hi'
 import useThemeClass from 'src/utils/hooks/useThemeClass'
-import { Button } from 'src/components/ui'
 
 const ActionColumn = ({row})=>{
     const {textTheme} = useThemeClass()
     const navigate = useNavigate()
 
     const onEdit = () =>{
-        navigate(`/setting/programs/edit/${row.id}`)
+        navigate(`/setting/kegiatans/edit/${row.id}`)
     }
 
     return (
@@ -28,42 +27,32 @@ const ActionColumn = ({row})=>{
     )
 }
 
-const KegiatanColumn = ({row})=>{
-    const {textTheme} = useThemeClass()
-    const navigate = useNavigate()
 
-    const onClick = () =>{
-        navigate(`/setting/programs/kegiatan/${row.id}`)
-    }
-
-    return (
-        <div className="flex justify-end text-lg">
-             <Button variant="plain" icon={<HiViewList />} onClick={onClick}>
-            
-                </Button>
-        </div>
-    )
-}
-
-
-const ProgramTable=()=>{
+const KegiatanTable=()=>{
     const tableRef = useRef(null)
     const dispatch = useDispatch()
+    const location = useLocation()
 
-    const {pageIndex, pageSize, sort, query, total}=useSelector(
-        (state)=>state.programs.data.tableData
+    const {pageIndex, pageSize, sort, query, total,programId}=useSelector(
+        (state)=>state.kegiatans.data.tableData
     )
 
-    const loading = useSelector((state)=>state.programs.data.loading)
-    const data = useSelector((state)=>state.programs.data.programsData)
+    const loading = useSelector((state)=>state.kegiatans.data.loading)
+    const data = useSelector((state)=>state.kegiatans.data.kegiatansData)
 
     const fetchData=()=>{
-        dispatch(getPrograms({pageIndex,pageSize,sort,query}))
+      //  const newTableData = cloneDeep(tableData)
+        const path = location.pathname.substring(
+            location.pathname.lastIndexOf('/')+1
+        )
+       const programId=parseInt(path);
+       // dispatch(setTableData(newTableData))
+        dispatch(getProgramKegiatans({pageIndex,pageSize,sort,query,programId}))
     }
 
     useEffect(()=>{
         fetchData()
-    },[pageIndex,pageSize,sort])
+    },[pageIndex,pageSize,sort,location.pathname])
 
     const tableData = useMemo(
         () => ({ pageIndex, pageSize, sort, query, total }),
@@ -77,7 +66,7 @@ const ProgramTable=()=>{
                 accessorKey: 'program_kode',
                 cell: (props) => {
                     const row = props.row.original
-                    return <span className="capitalize">{row.program_kode}</span>
+                    return <span className="capitalize">{row.kegiatan_kode}</span>
                 },
             },
             {
@@ -85,21 +74,24 @@ const ProgramTable=()=>{
                 accessorKey: 'program_name',
                 cell: (props) => {
                     const row = props.row.original
-                    return <span className="capitalize">{row.program_name}</span>
+                    return <span className="capitalize">{row.kegiatan_name}</span>
                 },
             },
             {
-                header: 'Unit',
-                accessorKey: 'unit_name',
+                header: 'Kode Program',
+                accessorKey: 'program_kode',
                 cell: (props) => {
                     const row = props.row.original
-                    return <span className="capitalize">{row.unit_name}</span>
+                    return <span className="capitalize">{row.program_kode}</span>
                 },
             },
             {
-                header:'Kegiatan',
-                id:'kegiatan',
-                cell:(props)=><KegiatanColumn row={props.row.original}/>
+                header: 'Program',
+                accessorKey: 'program_name',
+                cell: (props) => {
+                    const row = props.row.original
+                    return <span className="capitalize">{row.program_name}</span>
+                },
             },
             {
                 header:'',
@@ -149,4 +141,4 @@ const ProgramTable=()=>{
 
 }
 
-export default ProgramTable
+export default KegiatanTable
