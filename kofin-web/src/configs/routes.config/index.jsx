@@ -66,6 +66,16 @@ export const protectedRoutes = [
             headerContainer: true,
         },
     },
+    {
+        key:'editProgram',
+        path:'/setting/programs/edit/:programId',
+        component:React.lazy(()=>import('views/setting/programs/ProgramEdit')),
+        authority:[],
+        meta: {
+            header: 'Edit Program',
+            headerContainer: true,
+        },
+    },
     /** Example purpose only, please remove */
     {
         key: 'singleMenuItem',

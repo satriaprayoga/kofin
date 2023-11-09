@@ -1,36 +1,79 @@
 import React, { useEffect, useState } from "react";
+import { Notification, toast } from "components/ui";
 import ProgramForm from "../ProgramForm";
 import { useDispatch, useSelector } from "react-redux";
-import { getSubunits } from "../../unit/store/dataSlice";
+import { getSubunits } from "./store/dataSlice";
 import { injectReducer } from "store";
-import reducer from "../../unit/store";
+import reducer from "./store";
+import { useNavigate } from "react-router-dom";
+import { apiCreateProgramData } from "src/services/ProgramService";
+import { Loading } from "components/shared";
+import { isEmpty } from "lodash";
 
 
-injectReducer('unit',reducer)
+injectReducer('programsOption',reducer)
 const ProgramNew=()=>{
+    const navigate = useNavigate()
 
-    const [options,setOptions]=useState([])
     const dispatch = useDispatch()
-    const data = useSelector((state)=>state.unit.data.subunitsData)
+    const data = useSelector((state)=>state.programsOption.data.subunitsData)
+    const loading = useSelector((state)=>state.programsOption.data.loading)
     
-    const fetchData=()=>{
+    const fetchData= async ()=>{
      dispatch(getSubunits())
     }
+
+    const handleDiscard=()=>{
+        navigate('/setting/programs')
+    }
+
+    const addProgram=async(data)=>{
+        const response = await apiCreateProgramData(data)
+        return response.data
+    }
+
+    const handleFormSubmit = async (values,setSubmitting)=>{
+        setSubmitting(true)
+        const success = await addProgram(values)
+        console.log(values)
+        setSubmitting(false)
+        if (success){
+            toast.push(
+                <Notification
+                    title={'Berhasil ditambah!'}
+                    type="success"
+                    duration={2500}>
+                       Program Berhasil Ditambahkan! 
+                </Notification>,
+                {
+                    placement:'top-center'
+                }
+            )
+            navigate('/setting/programs')
+        }
+    }
+
+
  
     useEffect(()=>{
      fetchData()
-     const optData=[]
-     data[0].forEach((d)=>{
-        optData.push({
-            value:d.unit_id,
-            label:d.unit_name
-        })
-     })
-     setOptions(optData)
+     console.log(data)
+     
     },[])
  
    return(
-        <ProgramForm type="new" options={options}/>
+        <Loading loading={loading}>
+            {!isEmpty(data) && (
+                <>
+                 <ProgramForm type="new" 
+                options={data}
+                onDiscard={handleDiscard}
+                onFormSubmit={handleFormSubmit}/>
+                </>
+            )
+               
+            }
+        </Loading>
    )
 }
 

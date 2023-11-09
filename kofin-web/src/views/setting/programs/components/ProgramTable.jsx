@@ -3,6 +3,30 @@ import { useDispatch, useSelector } from 'react-redux'
 import { getPrograms, setTableData } from '../store/dataSlice'
 import { DataTable } from 'src/components/shared'
 import { cloneDeep } from 'lodash'
+import { useNavigate } from 'react-router-dom'
+import { HiOutlinePencil } from 'react-icons/hi'
+import useThemeClass from 'src/utils/hooks/useThemeClass'
+
+const ActionColumn = ({row})=>{
+    const {textTheme} = useThemeClass()
+    const navigate = useNavigate()
+
+    const onEdit = () =>{
+        navigate(`/setting/programs/edit/${row.id}`)
+    }
+
+    return (
+        <div className="flex justify-end text-lg">
+            <span
+                className={`cursor-pointer p-2 hover:${textTheme}`}
+                onClick={onEdit}
+            >
+                <HiOutlinePencil />
+            </span>
+        </div>
+    )
+}
+
 
 const ProgramTable=()=>{
     const tableRef = useRef(null)
@@ -54,6 +78,11 @@ const ProgramTable=()=>{
                     return <span className="capitalize">{row.unit_name}</span>
                 },
             },
+            {
+                header:'',
+                id:'action',
+                cell:(props)=><ActionColumn row={props.row.original}/>
+            }
             
         ],
         []

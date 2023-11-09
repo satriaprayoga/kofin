@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { apiDeleteSubunit, apiGetSubunit, apiPutSubunit } from "src/services/UnitService";
+import { apiDeleteSubunit, apiGetSubunit, apiPutSubunit } from "/services/UnitService";
 
 export const getSubunit = createAsyncThunk(
     'subunitEdit/data/getSubunit',

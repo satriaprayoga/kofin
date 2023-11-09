@@ -11,7 +11,6 @@ import { injectReducer } from "src/store";
 
 
 const ActionColumn = ({row})=>{
-    const dispatch = useDispatch()
     const {textTheme} = useThemeClass()
     const navigate = useNavigate()
 

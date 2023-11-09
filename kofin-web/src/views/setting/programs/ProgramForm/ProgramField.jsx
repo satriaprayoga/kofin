@@ -55,10 +55,20 @@ const ProgramField=(props)=>{
                                         values.unit_id
                                 )}
                                 onChange={(option) =>
-                                    form.setFieldValue(
-                                        field.name,
-                                        option.value
-                                    )
+                                    {
+                                        form.setFieldValue(
+                                            field.name,
+                                            option.value
+                                        )
+                                        form.setFieldValue(
+                                            "unit_name",
+                                            option.label
+                                        )
+                                        form.setFieldValue(
+                                            "unit_kode",
+                                            option.kode
+                                        )
+                                    }
                                 }
                             />
                         )}
