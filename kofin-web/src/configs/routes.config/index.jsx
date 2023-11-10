@@ -86,6 +86,26 @@ export const protectedRoutes = [
             headerContainer: true,
         },
     },
+    {
+        key:'addKegiatan',
+        path:'/setting/programs/kegiatan/new/:programId',
+        component:React.lazy(()=>import('views/setting/programs/kegiatan/KegiatanNew')),
+        authority:[],
+        meta: {
+            header: 'Tambah Kegiatan',
+            headerContainer: true,
+        },
+    },
+    {
+        key:'editKegiatan',
+        path:'/setting/programs/kegiatan/edit/:kegiatanId',
+        component:React.lazy(()=>import('views/setting/programs/kegiatan/KegiatanEdit')),
+        authority:[],
+        meta: {
+            header: 'Tambah Kegiatan',
+            headerContainer: true,
+        },
+    },
     /** Example purpose only, please remove */
     {
         key: 'singleMenuItem',

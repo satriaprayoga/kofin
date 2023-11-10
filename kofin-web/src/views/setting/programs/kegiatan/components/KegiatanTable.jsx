@@ -12,7 +12,7 @@ const ActionColumn = ({row})=>{
     const navigate = useNavigate()
 
     const onEdit = () =>{
-        navigate(`/setting/kegiatans/edit/${row.id}`)
+        navigate(`/setting/programs/kegiatan/edit/${row.id}`)
     }
 
     return (
@@ -63,7 +63,7 @@ const KegiatanTable=()=>{
         () => [
             {
                 header: 'Kode',
-                accessorKey: 'program_kode',
+                accessorKey: 'kegiatan_kode',
                 cell: (props) => {
                     const row = props.row.original
                     return <span className="capitalize">{row.kegiatan_kode}</span>
@@ -71,7 +71,7 @@ const KegiatanTable=()=>{
             },
             {
                 header: 'Nama',
-                accessorKey: 'program_name',
+                accessorKey: 'kegiatan_name',
                 cell: (props) => {
                     const row = props.row.original
                     return <span className="capitalize">{row.kegiatan_name}</span>

@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import apiGetKegiatans from "src/services/KegiatanService";
-import { apiGetProgram } from "src/services/ProgramService";
+import apiGetKegiatans from "services/KegiatanService";
+import { apiGetProgram } from "services/ProgramService";
 
 export const getProgramKegiatans=createAsyncThunk(
     'kegiatans/data/getProgramKegiatans',

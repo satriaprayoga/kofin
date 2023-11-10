@@ -43,7 +43,7 @@ const KegiatanTableSearch = () =>{
         ref={searchInput}
         className="max-w-md md:w-52 md:mb-0 mb-4"
         size="sm"
-        placeholder="Cari Program"
+        placeholder="Cari Kegiatan"
         prefix={<HiOutlineSearch className="text-lg" />}
         onChange={onEdit}
     />
