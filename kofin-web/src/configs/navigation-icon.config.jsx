@@ -8,7 +8,9 @@ import {
     HiOutlineAdjustments,
     HiOutlineChartPie,
     HiOutlineOfficeBuilding,
-    HiOutlinePresentationChartLine
+    HiOutlinePresentationChartLine,
+    HiOutlineCog,
+    HiOutlineSwitchVertical
 } from 'react-icons/hi'
 
 const navigationIcon = {
@@ -17,6 +19,8 @@ const navigationIcon = {
     budget:<HiOutlineChartPie/>,
     unit:<HiOutlineOfficeBuilding/>,
     program:<HiOutlinePresentationChartLine/>,
+    setup:<HiOutlineCog/>,
+    inout:<HiOutlineSwitchVertical/>,
     singleMenu: <HiOutlineViewGridAdd />,
     collapseMenu: <HiOutlineTemplate />,
     groupSingleMenu: <HiOutlineDesktopComputer />,

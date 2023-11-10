@@ -5,11 +5,13 @@ import { signInUserData } from './data/authData'
 import { unitData,subUnitData } from './data/unitData'
 import { programsData } from './data/programData'
 import { kegiatansData } from './data/kegiatanData'
+import { budgetData } from './data/budgetData'
 
 import { authFakeApi } from './fakeApi'
 import unitFakeApi from './fakeApi/unitFakeApi'
 import programFakeApi from './fakeApi/programFakeApi'
 import kegiatanFakeApi from './fakeApi/kegiatanFakeApi'
+import budgetFakeApi from './fakeApi/budgetFakeApi'
 
 const { apiPrefix } = appConfig
 
@@ -22,7 +24,8 @@ export default function mockServer({ environment = 'test' }) {
                 unitData,
                 subUnitData,
                 programsData,
-                kegiatansData
+                kegiatansData,
+                budgetData
             })
         },
         routes() {
@@ -38,6 +41,7 @@ export default function mockServer({ environment = 'test' }) {
             unitFakeApi(this,apiPrefix)
             programFakeApi(this,apiPrefix)
             kegiatanFakeApi(this,apiPrefix)
+            budgetFakeApi(this,apiPrefix)
         },
     })
 }

@@ -4,7 +4,7 @@ import reducer from "./store";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import { deleteSubunit, getSubunit, updateSubunit } from "./store/dataSlice";
-import { Loading } from "components/shared";
+import { AdaptableCard, Container, Loading } from "components/shared";
 import { isEmpty } from "lodash";
 import SubunitForm from "../SubunitForm";
 import { Notification, toast } from "components/ui";
@@ -80,12 +80,16 @@ const SubunitEdit=()=>{
         <Loading loading={loading}>
             {!isEmpty(subunitData) && (
                 <>
-                    <SubunitForm
+                    <Container>
+                        <AdaptableCard>
+                        <SubunitForm
                         type="edit"
                         initialData={subunitData}
                         onFormSubmit={handleFormSubmit}
                         onDiscard={handleDiscard}
                         onDelete={handleDelete}/>
+                        </AdaptableCard>
+                    </Container>
                 </>
             )}
         </Loading>

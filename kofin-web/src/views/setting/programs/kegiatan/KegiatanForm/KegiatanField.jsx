@@ -8,7 +8,7 @@ const KegiatanField=(props)=>{
     const {touched,errors} = props
 
     return(
-        <AdaptableCard className="mb-4" divider>
+        <>
               <h5>Input/Ubah Kegiatan</h5>
               <p className="mb-6">Form Kegiatan</p>
               <FormItem
@@ -37,7 +37,7 @@ const KegiatanField=(props)=>{
                         component={Input}/>
 
                 </FormItem>
-        </AdaptableCard>
+        </>
     )
 }
 

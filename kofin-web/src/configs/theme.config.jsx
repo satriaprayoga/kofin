@@ -6,16 +6,16 @@ import { THEME_ENUM } from 'constants/theme.constant'
  */
 
 export const themeConfig = {
-    themeColor: 'indigo',
+    themeColor: 'sky',
     direction: THEME_ENUM.DIR_LTR,
     mode: THEME_ENUM.MODE_LIGHT,
-    primaryColorLevel: 600,
-    cardBordered: true,
+    primaryColorLevel: 500,
+    cardBordered: false,
     panelExpand: false,
     controlSize: 'md',
-    navMode: THEME_ENUM.NAV_MODE_LIGHT,
+    navMode: THEME_ENUM.NAV_MODE_THEMED,
     layout: {
-        type: THEME_ENUM.LAYOUT_TYPE_MODERN,
+        type: THEME_ENUM.LAYOUT_TYPE_STACKED_SIDE,
         sideNavCollapse: false,
     },
 }

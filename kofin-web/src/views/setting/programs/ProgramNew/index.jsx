@@ -7,7 +7,7 @@ import { injectReducer } from "store";
 import reducer from "./store";
 import { useNavigate } from "react-router-dom";
 import { apiCreateProgramData } from "src/services/ProgramService";
-import { Loading } from "components/shared";
+import { AdaptableCard, Container, Loading } from "components/shared";
 import { isEmpty } from "lodash";
 
 
@@ -65,10 +65,14 @@ const ProgramNew=()=>{
         <Loading loading={loading}>
             {!isEmpty(data) && (
                 <>
-                 <ProgramForm type="new" 
+                <Container>
+                    <AdaptableCard>
+                    <ProgramForm type="new" 
                 options={data}
                 onDiscard={handleDiscard}
                 onFormSubmit={handleFormSubmit}/>
+                    </AdaptableCard>
+                </Container>
                 </>
             )
                

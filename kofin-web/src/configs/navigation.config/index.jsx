@@ -48,13 +48,46 @@ const navigationConfig = [
     },
     {
         key: 'budget',
-        path: '/home',
+        path: '',
         title: 'Anggaran',
-        translateKey: 'nav.budget',
+        translateKey: 'nav.budget.anggaran',
         icon: 'budget',
-        type: NAV_ITEM_TYPE_ITEM,
+        type:NAV_ITEM_TYPE_COLLAPSE,
         authority: [],
-        subMenu: [],
+        subMenu: [
+            {
+                key: 'setup',
+                path: '/budget/setup',
+                title: 'Setup',
+                icon: 'setup',
+                translateKey: 'nav.budget.setup',
+                type: NAV_ITEM_TYPE_ITEM,
+                authority: [],
+                subMenu: [],
+            },
+            {
+                key: 'import',
+                path: '',
+                title: 'Import',
+                translateKey: 'nav.budget.import',
+                icon: 'inout',
+                type:NAV_ITEM_TYPE_COLLAPSE,
+                authority: [],
+                subMenu: [
+                    {
+                        key: 'import_program',
+                        path: '/budget/import/program',
+                        title: 'Program',
+                        icon: 'program',
+                        translateKey: 'nav.budget.program',
+                        type: NAV_ITEM_TYPE_ITEM,
+                        authority: [],
+                        subMenu: [],
+                    }
+                ]
+            }
+        ]
+        
     },
     /** Example purpose only, please remove */
     {

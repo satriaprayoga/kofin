@@ -8,7 +8,7 @@ const ProgramField=(props)=>{
     const {touched,errors,options,values} = props
 
     return(
-        <AdaptableCard className="mb-4" divider>
+      <>
               <h5>Input/Ubah Program</h5>
               <p className="mb-6">Form Program</p>
               <FormItem
@@ -74,7 +74,7 @@ const ProgramField=(props)=>{
                         )}
                     </Field>
                     </FormItem>
-        </AdaptableCard>
+        </>
     )
 }
 

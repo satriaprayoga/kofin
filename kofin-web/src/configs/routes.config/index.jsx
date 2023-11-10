@@ -106,6 +106,18 @@ export const protectedRoutes = [
             headerContainer: true,
         },
     },
+    {
+        key:'setupBudget',
+        path:'/budget/setup',
+        component:React.lazy(()=>import('views/budget/Setup')),
+        authority:[], 
+    },
+    {
+        key:'importProgramBudget',
+        path:'/budget/import/program',
+        component:React.lazy(()=>import('views/budget/Import')),
+        authority:[], 
+    },
     /** Example purpose only, please remove */
     {
         key: 'singleMenuItem',

@@ -7,7 +7,8 @@ const SubunitField=(props)=>{
     const {touched,errors} = props
 
     return (
-        <AdaptableCard className="mb-4" divider>
+      
+            <>
             <h5>Input/Ubah Sub Unit</h5>
             <p className="mb-6">Form Sub Unit</p>
             <FormItem
@@ -75,7 +76,8 @@ const SubunitField=(props)=>{
                     component={Input}/>
 
             </FormItem>
-        </AdaptableCard>
+            </>
+       
     )
 
 }

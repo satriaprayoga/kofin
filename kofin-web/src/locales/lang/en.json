@@ -4,7 +4,12 @@
         "setting":"Pengaturan",
         "unit":"Unit",
         "program":"Program",
-        "budget":"Anggaran",
+        "budget":{
+            "anggaran":"Anggaran",
+            "setup":"Setup",
+            "import":"Import",
+            "program":"Program"
+        },
         "singleMenuItem": "Single menu item",
         "collapseMenu": {
             "collapseMenu": "Collapse menu item",

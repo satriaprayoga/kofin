@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Notification, toast } from "components/ui";
 import { apiCreateSubunitData } from "services/UnitService";
 import SubunitForm from "../SubunitForm";
+import { AdaptableCard, Container } from "src/components/shared";
 
 const SubunitNew=()=>{
     const navigate = useNavigate()
@@ -39,10 +40,14 @@ const SubunitNew=()=>{
 
     return (
         <>
-            <SubunitForm
+            <Container>
+                <AdaptableCard>
+                <SubunitForm
                 type="new"
                 onFormSubmit={handleFormSubmit}
                 onDiscard={handleDiscard}/>
+                </AdaptableCard>
+            </Container>
         </>
     )
 }

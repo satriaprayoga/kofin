@@ -7,7 +7,7 @@ import { injectReducer } from "store";
 import reducer from "./store";
 import { useLocation, useNavigate } from "react-router-dom";
 import { apiPutKegiatan } from "src/services/KegiatanService";
-import { AdaptableCard, Loading } from "components/shared";
+import { AdaptableCard, Container, Loading } from "components/shared";
 import { isEmpty } from "lodash";
 
 
@@ -92,14 +92,17 @@ const KegiatanEdit=()=>{
         <Loading loading={loading}>
             {!isEmpty(kegiatanData) && (
                 <>
+                <Container>
                 <AdaptableCard>
                     <h3>{kegiatanData.program_name}</h3>
-                </AdaptableCard>
+                
                  <KegiatanForm type="edit" 
                 initialData={kegiatanData}
                 onFormSubmit={handleFormSubmit}
                 onDiscard={handleDiscard}
                 onDelete={handleDelete}/>
+                </AdaptableCard>
+                </Container>
                 </>
             )
                
