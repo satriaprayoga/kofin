@@ -6,16 +6,6 @@ import { HiOutlineSearch } from "react-icons/hi";
 import cloneDeep from "lodash/cloneDeep";
 import debounce from "lodash/debounce";
 
-const options=[
-    {
-        value:"test1",
-        label:"test"
-    },
-    {
-        value:"test2",
-        label:"test"
-    },
-]
 
 const ProgramTableSearch = () =>{
     const dispatch = useDispatch()
