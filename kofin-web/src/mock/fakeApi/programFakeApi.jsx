@@ -59,8 +59,16 @@ export default function programFakeApi(server,apiPrefix){
         return true
     })
 
-    server.get(`${apiPrefix}/programs/unit/`,(schema,{requestBody})=>{
-        const {id} = JSON.parse(requestBody)
-        return schema.db.programsData.where({unit_id:id})
+    server.get(`${apiPrefix}/programs/unit/`,(schema,{queryParams})=>{
+        const id=queryParams.id
+        if(parseInt(id)===0){
+            const program=schema.db.programsData
+            return program
+           
+        }else{
+            const program=schema.db.programsData.where({unit_id:parseInt(id)})
+            return program
+        }
+      
     })
 }

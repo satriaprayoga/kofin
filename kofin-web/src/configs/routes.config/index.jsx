@@ -115,7 +115,7 @@ export const protectedRoutes = [
     {
         key:'importProgramBudget',
         path:'/budget/import/program',
-        component:React.lazy(()=>import('views/budget/Import')),
+        component:React.lazy(()=>import('views/budget/Import/Program')),
         authority:[], 
     },
     /** Example purpose only, please remove */
