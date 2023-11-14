@@ -8,6 +8,13 @@ export async function apiGetProgramsData(data){
     })
 }
 
+export async function apiGetAllPrograms(){
+    return ApiService.fetchData({
+        url:'/programs/budget',
+        method:'get',
+    })
+}
+
 export async function apiCreateProgramData(data){
     return ApiService.fetchData({
         url:'/programs/create',

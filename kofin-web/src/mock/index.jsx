@@ -5,7 +5,7 @@ import { signInUserData } from './data/authData'
 import { unitData,subUnitData } from './data/unitData'
 import { programsData } from './data/programData'
 import { kegiatansData } from './data/kegiatanData'
-import { budgetData } from './data/budgetData'
+import { budgetData, programBudgetData, kegiatanBudgetData } from './data/budgetData'
 
 import { authFakeApi } from './fakeApi'
 import unitFakeApi from './fakeApi/unitFakeApi'
@@ -25,7 +25,9 @@ export default function mockServer({ environment = 'test' }) {
                 subUnitData,
                 programsData,
                 kegiatansData,
-                budgetData
+                budgetData,
+                programBudgetData,
+                kegiatanBudgetData
             })
         },
         routes() {

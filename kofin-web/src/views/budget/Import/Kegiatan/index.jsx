@@ -2,7 +2,7 @@ import React, { useRef, useEffect, useMemo, useState} from "react";
 import { injectReducer } from "src/store";
 import reducer from "./store";
 import { useDispatch, useSelector } from "react-redux";
-import { getPrograms, getSubunits, importProgram, setSubunitId } from "./store/dataSlice";
+import { getKegiatans, getPrograms, importKegiatan, setProgramId } from "./store/dataSlice";
 import { AdaptableCard, Loading } from "src/components/shared";
 import { Select,Table, Checkbox, Button, toast, Notification } from "src/components/ui";
 import {
@@ -15,7 +15,7 @@ import {
 import { isEmpty } from "lodash";
 import { useNavigate } from "react-router-dom";
 
-injectReducer("importProgram",reducer)
+injectReducer("importKegiatan",reducer)
 
 const { Tr, Th, Td, THead, TBody } = Table
 
@@ -31,28 +31,28 @@ function IndeterminateCheckbox({ indeterminate, onChange, ...rest }) {
     return <Checkbox ref={ref} onChange={(_, e) => onChange(e)} {...rest} />
 }
 
-const Program=()=>{
+const Kegiatan=()=>{
     const dispatch=useDispatch()
     const navigate = useNavigate()
 
     const [rowSelection, setRowSelection] = useState({})
 
-    const loading = useSelector((state)=>state.importProgram.data.loading)
-    const programs= useSelector((state)=>state.importProgram.data.programsData)
-    const subunits= useSelector((state)=>state.importProgram.data.subunitData)
-    const subunitId = useSelector((state)=>state.importProgram.data.subunitId)
+    const loading = useSelector((state)=>state.importKegiatan.data.loading)
+    const kegiatans= useSelector((state)=>state.importKegiatan.data.kegiatansData)
+    const programs= useSelector((state)=>state.importKegiatan.data.programData)
+    const programId = useSelector((state)=>state.importKegiatan.data.programId)
 
     const fetchData=async(data)=>{
       
-        dispatch(setSubunitId(data))
-        dispatch(getPrograms({id:data}))
+        dispatch(setProgramId(data))
+        dispatch(getKegiatans({id:data}))
     }
 
     useEffect(()=>{
-        dispatch(getSubunits())
+        dispatch(getPrograms())
       
-        console.log(subunitId)
-        dispatch(getPrograms({id:subunitId}))
+        console.log(programId)
+        dispatch(getKegiatans({id:programId}))
     },[])
 
     const columns = useMemo(() => {
@@ -83,33 +83,33 @@ const Program=()=>{
             },
             {
                 header: 'Kode',
-                accessorKey: 'program_kode',
+                accessorKey: 'kegiatan_kode',
                 cell: (props) => {
                     const row = props.row.original
-                    return <span className="capitalize">{row.program_kode}</span>
+                    return <span className="capitalize">{row.kegiatan_kode}</span>
                 },
             },
             {
                 header: 'Nama',
+                accessorKey: 'kegiatan_name',
+                cell: (props) => {
+                    const row = props.row.original
+                    return <span className="capitalize">{row.kegiatan_name}</span>
+                },
+            },
+            {
+                header: 'Program',
                 accessorKey: 'program_name',
                 cell: (props) => {
                     const row = props.row.original
                     return <span className="capitalize">{row.program_name}</span>
-                },
-            },
-            {
-                header: 'Unit',
-                accessorKey: 'unit_name',
-                cell: (props) => {
-                    const row = props.row.original
-                    return <span className="capitalize">{row.unit_name}</span>
                 },
             }
         ]
     }, [])
 
     const table = useReactTable({
-        data:programs,
+        data:kegiatans,
         columns,
         state: {
             rowSelection,
@@ -139,23 +139,23 @@ const Program=()=>{
                 type="success"
                 duration={2500}
             >
-                {keyword} Program Berhasil
+                {keyword} Kegiatan Berhasil
             </Notification>,
             {
                 placement: 'top-center',
             }
         )
-        dispatch(getSubunits())
+        dispatch(getPrograms())
       
-        //console.log(subunitId)
-        dispatch(getPrograms({id:subunitId}))
-        navigate('/budget/import/program')
+        console.log(programId)
+        dispatch(getKegiatans({id:programId}))
+        navigate('/budget/import/kegiatan')
     }
 
     const handleClick=async (e)=>{
         e.preventDefault()
         const rows = table.getSelectedRowModel().rows
-        const success = await importProgram(rows)
+        const success = await importKegiatan(rows)
         if (success){
              popNotification('Import')
         }
@@ -165,7 +165,7 @@ const Program=()=>{
         <>
         <AdaptableCard className="h-full" bodyClass="h-full">
         <div className="lg:flex items-center justify-between mb-4">
-            <h3 className="mb-4 lg:mb-0">Import Program</h3>
+            <h3 className="mb-4 lg:mb-0">Import Kegiatan</h3>
             <div className="flex lg:flex-col lg:flex-row lg:items-center gap-4">
             <div
                         className="md:mb-0 mb-4"
@@ -173,13 +173,13 @@ const Program=()=>{
                     >
                     <Select
                          
-                        options={subunits} 
+                        options={programs} 
                         onChange={(option)=>{fetchData(option.value);table.resetRowSelection(true)}} 
-                        placeholder="Subunit" 
-                        value={subunits.filter(
+                        placeholder="Program" 
+                        value={programs.filter(
                                     (option) =>
                                         option.value ===
-                                        subunitId
+                                        programId
                                 )}/>
                 </div>
                 <Button block variant="solid" disabled={setButton()} onClick={handleClick}>
@@ -188,7 +188,7 @@ const Program=()=>{
             </div>
         </div>
         <Loading loading={loading}>
-            {!isEmpty(programs) && (
+            {(!isEmpty(kegiatans) && !isEmpty(programs)) && (
                 <Table>
                 <THead>
                     {table.getHeaderGroups().map((headerGroup) => (
@@ -236,4 +236,4 @@ const Program=()=>{
     )
 }
 
-export default Program
+export default Kegiatan

@@ -83,6 +83,16 @@ const navigationConfig = [
                         type: NAV_ITEM_TYPE_ITEM,
                         authority: [],
                         subMenu: [],
+                    },
+                    {
+                        key: 'import_kegiatan',
+                        path: '/budget/import/kegiatan',
+                        title: 'Kegiatan',
+                        icon: 'program',
+                        translateKey: 'nav.budget.kegiatan',
+                        type: NAV_ITEM_TYPE_ITEM,
+                        authority: [],
+                        subMenu: [],
                     }
                 ]
             }

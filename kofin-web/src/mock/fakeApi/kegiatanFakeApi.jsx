@@ -63,4 +63,32 @@ export default function kegiatanFakeApi(server,apiPrefix){
         const {id} = JSON.parse(requestBody)
         return schema.db.kegiatansData.where({program_id:id})
     })
+
+    server.get(`${apiPrefix}/kegiatans/program/budget`,(schema,{queryParams})=>{
+        const id=queryParams.id
+        if(parseInt(id)===0){
+            const p=schema.db.programBudgetData.where({included:false})
+            if (p.length === 0){
+                return []
+            }else{
+                const program=schema.db.kegiatanBudgetData.where({included:false})
+                return program
+            }
+           
+           
+        }else{
+            const program=schema.db.kegiatanBudgetData.where({included:false,program_id:parseInt(id)})
+            return program
+        }
+      
+    })
+
+    server.put(`${apiPrefix}/kegiatans/import`,(schema,{requestBody})=>{
+        const data = JSON.parse(requestBody)
+        const id=data.id
+        schema.db.kegiatanBudgetData.update({id},data)
+        
+        return true
+
+    })
 }

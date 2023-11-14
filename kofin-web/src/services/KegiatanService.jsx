@@ -39,3 +39,11 @@ export async function apiDeleteKegiatan(data){
         data
     })
 }
+
+export async function apiGetKegiatanProgram(params){
+    return ApiService.fetchData({
+        url:"/kegiatans/program/budget",
+        method:'get',
+        params
+    })
+}

@@ -32,6 +32,11 @@ export default function programFakeApi(server,apiPrefix){
         }
         return responseData
     })
+
+    server.get(`${apiPrefix}/programs/budget`,(schema)=>{
+        const programs = schema.db.programBudgetData.where({included:true})
+        return programs
+    })
     
 
     server.get(`${apiPrefix}/programs/get`,(schema,{queryParams})=>{
@@ -62,13 +67,23 @@ export default function programFakeApi(server,apiPrefix){
     server.get(`${apiPrefix}/programs/unit/`,(schema,{queryParams})=>{
         const id=queryParams.id
         if(parseInt(id)===0){
-            const program=schema.db.programsData
+            const program=schema.db.programBudgetData.where({included:false})
             return program
            
         }else{
-            const program=schema.db.programsData.where({unit_id:parseInt(id)})
+            const program=schema.db.programBudgetData.where({included:false,unit_id:parseInt(id)})
             return program
         }
       
     })
+
+    server.put(`${apiPrefix}/programs/import`,(schema,{requestBody})=>{
+        const data = JSON.parse(requestBody)
+        const id=data.id
+        schema.db.programBudgetData.update({id},data)
+        
+        return true
+
+    })
+
 }

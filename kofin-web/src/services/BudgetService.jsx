@@ -14,3 +14,19 @@ export async function apiPutBudget(data){
         data
     })
 }
+
+export async function apiImportProgramBudget(data){
+    return ApiService.fetchData({
+        url:'/programs/import',
+        method:'put',
+        data
+    })
+}
+
+export async function apiImportKegiatanBudget(data){
+    return ApiService.fetchData({
+        url:'/kegiatans/import',
+        method:'put',
+        data
+    })
+}

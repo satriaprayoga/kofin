@@ -1,11 +1,13 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { cloneDeep } from "lodash";
 import { apiGetSubunitData } from "services/UnitService";
+import { apiImportProgramBudget } from "src/services/BudgetService";
 import { apiGetProgramUnit } from "src/services/ProgramService";
 
 export const getPrograms=createAsyncThunk(
     'importProgram/getPrograms',
     async(data)=>{
-        console.log(data)
+       // console.log(data)
         const response = await apiGetProgramUnit(data)
        
         return response.data
@@ -26,6 +28,20 @@ export const getSubunits=createAsyncThunk(
         return optData
     }
 )
+
+export const importProgram=async(rows)=>{
+        rows.forEach(async (row,idx)=>{
+            const data = cloneDeep(row.original)
+            data.included=true
+            const success = await apiImportProgramBudget(data)
+            if (!success){
+                return false
+            }
+        })
+        
+       return true
+    }
+
 
 const dataSlice = createSlice({
     name:'importProgram/data',
@@ -57,7 +73,8 @@ const dataSlice = createSlice({
         },
         [getSubunits.pending]:(state)=>{
             state.loading=true
-        }
+        },
+       
     }
 })
 
