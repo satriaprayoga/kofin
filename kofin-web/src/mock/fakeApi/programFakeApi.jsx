@@ -77,7 +77,28 @@ export default function programFakeApi(server,apiPrefix){
       
     })
 
+    server.get(`${apiPrefix}/programs/unit/hapus`,(schema,{queryParams})=>{
+        const id=queryParams.id
+        if(parseInt(id)===0){
+            const program=schema.db.programBudgetData.where({included:true})
+            return program
+           
+        }else{
+            const program=schema.db.programBudgetData.where({included:true,unit_id:parseInt(id)})
+            return program
+        }
+      
+    })
+
     server.put(`${apiPrefix}/programs/import`,(schema,{requestBody})=>{
+        const data = JSON.parse(requestBody)
+        const id=data.id
+        schema.db.programBudgetData.update({id},data)
+        
+        return true
+
+    })
+    server.put(`${apiPrefix}/programs/hapus`,(schema,{requestBody})=>{
         const data = JSON.parse(requestBody)
         const id=data.id
         schema.db.programBudgetData.update({id},data)

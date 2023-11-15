@@ -1,4 +1,10 @@
-import React, { useRef, useEffect, useMemo, useState } from 'react'
+import React, { useRef, useEffect, useMemo, useState} from "react";
+import { injectReducer } from "src/store";
+import reducer from "./store";
+import { useDispatch, useSelector } from "react-redux";
+import { getPrograms, getSubunits, importProgram, setSubunitId } from "./store/dataSlice";
+import { AdaptableCard, Loading } from "src/components/shared";
+import { Select,Table, Checkbox, Button, toast, Notification } from "src/components/ui";
 import {
     flexRender,
     getCoreRowModel,
@@ -6,16 +12,10 @@ import {
     getPaginationRowModel,
     useReactTable,
 } from '@tanstack/react-table'
-import { Table, Checkbox, Button } from 'components/ui'
-import reducer from "./store";
-import { injectReducer } from "store";
-import { useDispatch, useSelector } from 'react-redux';
-import { getPrograms } from './store/dataSlice';
-import { HiPlusCircle } from 'react-icons/hi';
-import { Link } from 'react-router-dom';
-import { AdaptableCard } from 'src/components/shared';
+import { isEmpty } from "lodash";
+import { useNavigate } from "react-router-dom";
 
-injectReducer('programs', reducer)
+injectReducer("importProgram",reducer)
 
 const { Tr, Th, Td, THead, TBody } = Table
 
@@ -31,10 +31,29 @@ function IndeterminateCheckbox({ indeterminate, onChange, ...rest }) {
     return <Checkbox ref={ref} onChange={(_, e) => onChange(e)} {...rest} />
 }
 
+const Program=()=>{
+    const dispatch=useDispatch()
+    const navigate = useNavigate()
 
-const Import=()=>{
     const [rowSelection, setRowSelection] = useState({})
-    const dispatch = useDispatch()
+
+    const loading = useSelector((state)=>state.importProgram.data.loading)
+    const programs= useSelector((state)=>state.importProgram.data.programsData)
+    const subunits= useSelector((state)=>state.importProgram.data.subunitData)
+    const subunitId = useSelector((state)=>state.importProgram.data.subunitId)
+
+    const fetchData=async(data)=>{
+      
+        dispatch(setSubunitId(data))
+        dispatch(getPrograms({id:data}))
+    }
+
+    useEffect(()=>{
+        dispatch(getSubunits())
+      
+        console.log(subunitId)
+        dispatch(getPrograms({id:subunitId}))
+    },[])
 
     const columns = useMemo(() => {
         return [
@@ -89,21 +108,8 @@ const Import=()=>{
         ]
     }, [])
 
-    const data = useSelector((state)=>state.programs.data.programsData)
-    const {pageIndex, pageSize, sort, query, total}=useSelector(
-        (state)=>state.programs.data.tableData
-    )
-    const tableData = useMemo(
-        () => ({ pageIndex, pageSize, sort, query, total }),
-        [pageIndex, pageSize, sort, query, total]
-    )
-
-    const fetchData=async () =>{
-        dispatch(getPrograms({pageIndex,pageSize,sort,query}))
-    }
-
     const table = useReactTable({
-        data,
+        data:programs,
         columns,
         state: {
             rowSelection,
@@ -116,27 +122,74 @@ const Import=()=>{
         getPaginationRowModel: getPaginationRowModel(),
     })
 
-    useEffect(()=>{
-        fetchData()
-    },[pageIndex,pageSize,sort])
+    const setButton=()=>{
+        if (table.getIsSomeRowsSelected() || table.getIsAllRowsSelected()){
+            return false
+        }else{
+            return true
+        }
+    }
+
+   
+
+    const popNotification = (keyword) => {
+        toast.push(
+            <Notification
+                title={`${keyword} Berhasil!`}
+                type="success"
+                duration={2500}
+            >
+                {keyword} Program Berhasil
+            </Notification>,
+            {
+                placement: 'top-center',
+            }
+        )
+        dispatch(getSubunits())
+      
+        //console.log(subunitId)
+        dispatch(getPrograms({id:subunitId}))
+        navigate('/budget/import/program')
+    }
+
+    const handleClick=async (e)=>{
+        e.preventDefault()
+        const rows = table.getSelectedRowModel().rows
+        const success = await importProgram(rows)
+        if (success){
+             popNotification('Import')
+        }
+    }
 
     return (
         <>
         <AdaptableCard className="h-full" bodyClass="h-full">
-            <div className="lg:flex items-center justify-between mb-4">
-                    <h3 className="mb-4 lg:mb-0">Program</h3>
-                    <div className="flex lg:flex-col lg:flex-row lg:items-center gap-4">
-                    <div
+        <div className="lg:flex items-center justify-between mb-4">
+            <h3 className="mb-4 lg:mb-0">Import Program</h3>
+            <div className="flex lg:flex-col lg:flex-row lg:items-center gap-4">
+            <div
                         className="md:mb-0 mb-4"
                        
                     >
-                        <Button block variant="solid" onClick={()=>console.log(table.getSelectedRowModel().flatRows)} size="sm" icon={<HiPlusCircle />}>
-                            Import
-                        </Button>
-                    </div>
-                    </div>
+                    <Select
+                         
+                        options={subunits} 
+                        onChange={(option)=>{fetchData(option.value);table.resetRowSelection(true)}} 
+                        placeholder="Subunit" 
+                        value={subunits.filter(
+                                    (option) =>
+                                        option.value ===
+                                        subunitId
+                                )}/>
+                </div>
+                <Button block variant="solid" disabled={setButton()} onClick={handleClick}>
+                    Import
+                </Button>
             </div>
-            <Table>
+        </div>
+        <Loading loading={loading}>
+            {!isEmpty(programs) && (
+                <Table>
                 <THead>
                     {table.getHeaderGroups().map((headerGroup) => (
                         <Tr key={headerGroup.id}>
@@ -175,10 +228,12 @@ const Import=()=>{
                     })}
                 </TBody>
             </Table>
+            )}
+        </Loading>
+
         </AdaptableCard>
-            
         </>
     )
 }
 
-export default Import
+export default Program

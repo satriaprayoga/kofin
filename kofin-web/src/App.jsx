@@ -20,9 +20,9 @@ const environment = process.env.NODE_ENV
     mockServer({ environment })
 } */
 
-if (appConfig.enableMock) {
+/* if (appConfig.enableMock) {
     mockServer({ environment })
-}
+} */
 
 function App() {
     return (

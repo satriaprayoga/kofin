@@ -83,7 +83,34 @@ export default function kegiatanFakeApi(server,apiPrefix){
       
     })
 
+    server.get(`${apiPrefix}/kegiatans/program/budget/hapus`,(schema,{queryParams})=>{
+        const id=queryParams.id
+        if(parseInt(id)===0){
+            const p=schema.db.programBudgetData.where({included:true})
+            if (p.length === 0){
+                return []
+            }else{
+                const program=schema.db.kegiatanBudgetData.where({included:true})
+                return program
+            }
+           
+           
+        }else{
+            const program=schema.db.kegiatanBudgetData.where({included:true,program_id:parseInt(id)})
+            return program
+        }
+      
+    })
+
     server.put(`${apiPrefix}/kegiatans/import`,(schema,{requestBody})=>{
+        const data = JSON.parse(requestBody)
+        const id=data.id
+        schema.db.kegiatanBudgetData.update({id},data)
+        
+        return true
+
+    })
+    server.put(`${apiPrefix}/kegiatans/hapus`,(schema,{requestBody})=>{
         const data = JSON.parse(requestBody)
         const id=data.id
         schema.db.kegiatanBudgetData.update({id},data)

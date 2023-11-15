@@ -11,6 +11,9 @@ run: build
 	@.\tmp\${BINARY_NAME} &
 	@echo Kofin started!
 
+run-react: 
+	@npm start --prefix kofin-web
+
 clean:
 	@echo Cleaning...
 	@go clean

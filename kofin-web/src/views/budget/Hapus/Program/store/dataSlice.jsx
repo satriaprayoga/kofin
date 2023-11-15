@@ -1,23 +1,27 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { apiGetProgramsData } from "services/ProgramService";
+import { cloneDeep } from "lodash";
 import { apiGetSubunitData } from "services/UnitService";
+import { apiImportProgramBudget } from "src/services/BudgetService";
+import { apiGetProgramUnit } from "src/services/ProgramService";
 
 export const getPrograms=createAsyncThunk(
-    'programs/data/getPrograms',
+    'importProgram/getPrograms',
     async(data)=>{
-        const response = await apiGetProgramsData(data)
+       // console.log(data)
+        const response = await apiGetProgramUnit(data)
+       
         return response.data
     }
 )
 
 export const getSubunits=createAsyncThunk(
-    'program/data/getSubunits',
+    'importProgram/getSubunits',
     async()=>{
         const response = await apiGetSubunitData()
         const optData=[]
         response.data.forEach((d)=>{
             optData.push({
-                value:d.unit_name,
+                value:d.unit_id,
                 label:d.unit_name
             })
         })
@@ -25,33 +29,34 @@ export const getSubunits=createAsyncThunk(
     }
 )
 
-
-
-export const initialTableData={
-    total:0,
-    pageIndex:1,
-    pageSize:10,
-    query:'',
-    sort:{
-        order:'',
-        key:''
+export const importProgram=async(rows)=>{
+        rows.forEach(async (row,idx)=>{
+            const data = cloneDeep(row.original)
+            data.included=true
+            const success = await apiImportProgramBudget(data)
+            if (!success){
+                return false
+            }
+        })
+        
+       return true
     }
-}
+
 
 const dataSlice = createSlice({
-    name:'program/data',
+    name:'importProgram/data',
     initialState:{
         loading:false,
         programsData:[],
-        tableData:initialTableData,
         subunitData:[],
+        subunitId:0
     },
     reducers:{
         updateProgramsData:(state,action)=>{
             state.programsData=action.payload
         },
-        setTableData:(state,action)=>{
-            state.tableData=action.payload
+        setSubunitId:(state,action)=>{
+            state.subunitId=action.payload
         }
     },
     extraReducers:{
@@ -60,8 +65,7 @@ const dataSlice = createSlice({
         },
         [getPrograms.fulfilled]:(state,action)=>{
             state.loading=false
-            state.programsData=action.payload.data
-            state.tableData.total=action.payload.total
+            state.programsData=action.payload
         },
         [getSubunits.fulfilled]:(state,action)=>{
             state.subunitData=action.payload
@@ -69,13 +73,16 @@ const dataSlice = createSlice({
         },
         [getSubunits.pending]:(state)=>{
             state.loading=true
-        }
+        },
+       
     }
 })
 
 export const{
     updateProgramsData,
-    setTableData,
+    setSubunitId
 }=dataSlice.actions
 
 export default dataSlice.reducer
+
+

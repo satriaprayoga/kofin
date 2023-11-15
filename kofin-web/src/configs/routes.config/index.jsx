@@ -124,6 +124,18 @@ export const protectedRoutes = [
         component:React.lazy(()=>import('views/budget/Import/Kegiatan')),
         authority:[], 
     },
+    {
+        key:'hapusProgramBudget',
+        path:'/budget/hapus/program',
+        component:React.lazy(()=>import('views/budget/Hapus/Program')),
+        authority:[], 
+    },
+    {
+        key:'hapusKegiatanBudget',
+        path:'/budget/hapus/kegiatan',
+        component:React.lazy(()=>import('views/budget/Hapus/Kegiatan')),
+        authority:[], 
+    },
     /** Example purpose only, please remove */
     {
         key: 'singleMenuItem',

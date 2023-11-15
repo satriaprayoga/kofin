@@ -95,6 +95,37 @@ const navigationConfig = [
                         subMenu: [],
                     }
                 ]
+            },
+            {
+                key: 'hapus',
+                path: '',
+                title: 'Hapus',
+                translateKey: 'nav.budget.hapus',
+                icon: 'hapus',
+                type:NAV_ITEM_TYPE_COLLAPSE,
+                authority: [],
+                subMenu: [
+                    {
+                        key: 'hapus_program',
+                        path: '/budget/hapus/program',
+                        title: 'Program',
+                        icon: 'program',
+                        translateKey: 'nav.budget.program',
+                        type: NAV_ITEM_TYPE_ITEM,
+                        authority: [],
+                        subMenu: [],
+                    },
+                    {
+                        key: 'hapus_kegiatan',
+                        path: '/budget/hapus/kegiatan',
+                        title: 'Kegiatan',
+                        icon: 'program',
+                        translateKey: 'nav.budget.kegiatan',
+                        type: NAV_ITEM_TYPE_ITEM,
+                        authority: [],
+                        subMenu: [],
+                    }
+                ]
             }
         ]
         

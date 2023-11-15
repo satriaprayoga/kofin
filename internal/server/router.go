@@ -3,6 +3,7 @@ package server
 import (
 	"net/http"
 
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"github.com/satriaprayoga/kofin/internal/apps/controller"
 	handlers "github.com/satriaprayoga/kofin/internal/handlers/home"
@@ -10,6 +11,7 @@ import (
 
 func setRouter() *gin.Engine {
 	router := gin.Default()
+	router.Use(cors.Default())
 	api := router.Group("/api")
 	{
 		handlers.HomeRoute(api)
