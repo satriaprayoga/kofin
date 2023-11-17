@@ -10,8 +10,11 @@ func autoMigrate() {
 		ExpendProgram{},
 		ExpendKegiatan{},
 		ExpendAccount{},
-		ExpendObject{})
+		ExpendObject{},
+		User{},
+		Role{})
 	migrateScript()
+	seedData()
 }
 
 func migrateScript() {
@@ -38,4 +41,11 @@ func migrateScript() {
 		) STORED;
 	CREATE INDEX idx_kegiatan_text_search ON kegiatan USING GIN(text_search);
 `)
+}
+
+func seedData() {
+	var roles = []Role{{Name: "admin", Description: "Administrator role"}, {Name: "anggaran", Description: "Anggaran role"}, {Name: "anonymous", Description: "Unauthenticated role"}}
+	var user = []User{{Username: "ngadimin", Fullname: "Admin Suradmin", Password: "asdqwe123", RoleID: 1}}
+	db.Save(&roles)
+	db.Save(&user)
 }

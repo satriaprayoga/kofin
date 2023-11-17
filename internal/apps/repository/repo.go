@@ -13,6 +13,8 @@ type Repo struct {
 	ExpendKegiatanRepo ExpendKegiatanRepo
 	ExpendAccountRepo  ExpendAccountRepo
 	ExpendObjectRepo   ExpendObjectRepo
+	UserRepo           UserRepo
+	RoleRepo           RoleRepo
 }
 
 var repo *Repo
@@ -29,6 +31,8 @@ func SetupRepo() {
 		ExpendKegiatanRepo: NewExpendKegiatanRepo(store.DB()),
 		ExpendAccountRepo:  NewExpendAccountRepo(store.DB()),
 		ExpendObjectRepo:   NewExpendObjectRepo(store.DB()),
+		UserRepo:           NewUserRepo(store.DB()),
+		RoleRepo:           NewRoleRepo(store.DB()),
 	}
 }
 
