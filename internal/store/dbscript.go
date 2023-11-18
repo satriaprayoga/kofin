@@ -11,8 +11,8 @@ func autoMigrate() {
 		ExpendKegiatan{},
 		ExpendAccount{},
 		ExpendObject{},
-		User{},
-		Role{})
+		KUser{},
+		KRole{})
 	migrateScript()
 	seedData()
 }
@@ -44,8 +44,14 @@ func migrateScript() {
 }
 
 func seedData() {
-	var roles = []Role{{Name: "admin", Description: "Administrator role"}, {Name: "anggaran", Description: "Anggaran role"}, {Name: "anonymous", Description: "Unauthenticated role"}}
-	var user = []User{{Username: "ngadimin", Fullname: "Admin Suradmin", Password: "asdqwe123", RoleID: 1}}
+	var roles = []KRole{{Name: "admin", Description: "Administrator role"}, {Name: "anggaran", Description: "Anggaran role"}, {Name: "anonymous", Description: "Unauthenticated role"}}
+	var user = []KUser{{Username: "ngadimin", Fullname: "Admin Suradmin", Password: "asdqwe123", RoleID: 1}}
+
 	db.Save(&roles)
-	db.Save(&user)
+
+	var exists KUser
+	err := db.Where("role_id=?", 1).First(&exists)
+	if err.RowsAffected < 1 {
+		db.Save(&user)
+	}
 }

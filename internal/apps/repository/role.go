@@ -6,8 +6,8 @@ import (
 )
 
 type RoleRepo interface {
-	Create(data *store.Role) error
-	GetByID(ID int) (*store.Role, error)
+	Create(data *store.KRole) error
+	GetByID(ID int) (*store.KRole, error)
 	Update(ID int, data interface{}) error
 	Delete(ID int) error
 }
@@ -20,7 +20,7 @@ func NewRoleRepo(db *gorm.DB) RoleRepo {
 	return &RoleRepoImpl{db: db}
 }
 
-func (r *RoleRepoImpl) Create(data *store.Role) error {
+func (r *RoleRepoImpl) Create(data *store.KRole) error {
 	query := r.db.Create(data)
 	err := query.Error
 	if err != nil {
@@ -29,8 +29,8 @@ func (r *RoleRepoImpl) Create(data *store.Role) error {
 	return nil
 }
 
-func (r *RoleRepoImpl) GetByID(ID int) (*store.Role, error) {
-	var result = &store.Role{}
+func (r *RoleRepoImpl) GetByID(ID int) (*store.KRole, error) {
+	var result = &store.KRole{}
 	query := r.db.Where("role_id=?", ID).Find(result)
 	err := query.Error
 	if err != nil {
@@ -42,7 +42,7 @@ func (r *RoleRepoImpl) GetByID(ID int) (*store.Role, error) {
 func (r *RoleRepoImpl) Update(ID int, data interface{}) error {
 	var err error
 
-	q := r.db.Model(&store.Role{}).Where("role_id=?", ID).Updates(data)
+	q := r.db.Model(&store.KRole{}).Where("role_id=?", ID).Updates(data)
 	err = q.Error
 	if err != nil {
 		return err
@@ -53,7 +53,7 @@ func (r *RoleRepoImpl) Update(ID int, data interface{}) error {
 
 func (r *RoleRepoImpl) Delete(ID int) error {
 	var err error
-	q := r.db.Where("role_id=?", ID).Delete(&store.Role{})
+	q := r.db.Where("role_id=?", ID).Delete(&store.KRole{})
 	err = q.Error
 	if err != nil {
 		return err

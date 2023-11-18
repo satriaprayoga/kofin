@@ -6,11 +6,11 @@ import (
 )
 
 type UserRepo interface {
-	Create(data *store.User) error
-	GetByID(ID int) (*store.User, error)
+	Create(data *store.KUser) error
+	GetByID(ID int) (*store.KUser, error)
 	Update(ID int, data interface{}) error
 	Delete(ID int) error
-	GetByUsername(username string) (*store.User, error)
+	GetByUsername(username string) (*store.KUser, error)
 }
 
 type UserRepoImpl struct {
@@ -21,7 +21,7 @@ func NewUserRepo(db *gorm.DB) UserRepo {
 	return &UserRepoImpl{db: db}
 }
 
-func (r *UserRepoImpl) Create(data *store.User) error {
+func (r *UserRepoImpl) Create(data *store.KUser) error {
 	query := r.db.Create(data)
 	err := query.Error
 	if err != nil {
@@ -30,8 +30,8 @@ func (r *UserRepoImpl) Create(data *store.User) error {
 	return nil
 }
 
-func (r *UserRepoImpl) GetByID(ID int) (*store.User, error) {
-	var result = &store.User{}
+func (r *UserRepoImpl) GetByID(ID int) (*store.KUser, error) {
+	var result = &store.KUser{}
 	query := r.db.Where("user_id=?", ID).Find(result)
 	err := query.Error
 	if err != nil {
@@ -43,7 +43,7 @@ func (r *UserRepoImpl) GetByID(ID int) (*store.User, error) {
 func (r *UserRepoImpl) Update(ID int, data interface{}) error {
 	var err error
 
-	q := r.db.Model(&store.User{}).Where("user_id=?", ID).Updates(data)
+	q := r.db.Model(&store.KUser{}).Where("user_id=?", ID).Updates(data)
 	err = q.Error
 	if err != nil {
 		return err
@@ -54,7 +54,7 @@ func (r *UserRepoImpl) Update(ID int, data interface{}) error {
 
 func (r *UserRepoImpl) Delete(ID int) error {
 	var err error
-	q := r.db.Where("user_id=?", ID).Delete(&store.User{})
+	q := r.db.Where("user_id=?", ID).Delete(&store.KUser{})
 	err = q.Error
 	if err != nil {
 		return err
@@ -62,9 +62,9 @@ func (r *UserRepoImpl) Delete(ID int) error {
 	return nil
 }
 
-func (r *UserRepoImpl) GetByUsername(username string) (*store.User, error) {
-	var result = &store.User{}
-	query := r.db.Where("user_name=?", username).Find(result)
+func (r *UserRepoImpl) GetByUsername(username string) (*store.KUser, error) {
+	var result = &store.KUser{}
+	query := r.db.Where("username=?", username).Find(result)
 	err := query.Error
 	if err != nil {
 		return nil, err

@@ -2,7 +2,7 @@ package store
 
 import "time"
 
-type Role struct {
+type KRole struct {
 	RoleID      uint   `json:"role_id" gorm:"primary_key;auto_increment:true"`
 	Name        string `gorm:"size:50;not null;unique" json:"name"`
 	Description string `gorm:"size:255;not null" json:"description"`

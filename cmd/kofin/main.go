@@ -4,6 +4,7 @@ import (
 	"log"
 	"os"
 
+	token "github.com/satriaprayoga/kofin/internal/apps/middlewares/jwt"
 	"github.com/satriaprayoga/kofin/internal/apps/repository"
 	"github.com/satriaprayoga/kofin/internal/apps/service"
 	"github.com/satriaprayoga/kofin/internal/config"
@@ -30,6 +31,8 @@ func main() {
 	connString := database.NewConfigDB(conf)
 	store.SetConnDB(connString)
 	defer store.CloseDB()
+
+	token.NewConfigAuth(conf)
 
 	repository.SetupRepo()
 	service.SetupServices(conf)
