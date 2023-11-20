@@ -15,7 +15,7 @@ const ActionColumn = ({row})=>{
     const navigate = useNavigate()
 
     const onEdit = () =>{
-        navigate(`/setting/unit/subunit/edit/${row.id}`)
+        navigate(`/setting/unit/subunit/edit/${row.unit_id}`)
     }
 
     return (
@@ -43,7 +43,7 @@ const SubunitTable = () =>{
 
     useEffect(()=>{
         fetchData()
-        console.log(data)
+       // console.log(data[0].data)
     },[])
 
     const columns = useMemo(
@@ -96,7 +96,7 @@ const SubunitTable = () =>{
         <DataTable
             ref={tableRef}
             columns={columns}
-            data={data[0]}
+            data={data[0].data}
             loading={loading}
         />
         </>

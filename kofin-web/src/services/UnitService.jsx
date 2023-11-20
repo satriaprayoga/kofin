@@ -2,21 +2,21 @@ import ApiService from "./ApiService";
 
 export async function apiGetUnitData(){
     return ApiService.fetchData({
-        url:'/units',
+        url:'/units/1',
         method:'get'
     })
 }
 
 export async function apiGetSubunitData(){
     return ApiService.fetchData({
-        url:'/units/subunits',
+        url:'/units/sub',
         method:'get'
     })
 }
 
 export async function apiCreateSubunitData(data){
     return ApiService.fetchData({
-        url:'/units/subunits/create',
+        url:'/units/',
         method:'post',
         data,
     })
@@ -24,15 +24,15 @@ export async function apiCreateSubunitData(data){
 
 export async function apiGetSubunit(params){
     return ApiService.fetchData({
-        url:'/units/subunit',
+        url:'/units/'+params,
         method:'get',
-        params,
+       
     })
 }
 
-export async function apiPutSubunit(data){
+export async function apiPutSubunit(params,data){
     return ApiService.fetchData({
-        url:'/units/subunit/update',
+        url:'/units/'+params,
         method:'put',
         data,
     })
@@ -40,8 +40,7 @@ export async function apiPutSubunit(data){
 
 export async function apiDeleteSubunit(data){
     return ApiService.fetchData({
-        url:'/units/subunit/delete',
+        url:'/units/'+data,
         method:'delete',
-        data
     })
 }

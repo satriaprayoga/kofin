@@ -14,7 +14,7 @@ type KUser struct {
 	Username  string    `json:"username" binding:"required" gorm:"type:varchar(30)"`
 	Fullname  string    `json:"fullname" binding:"required" gorm:"type:varchar(250)"`
 	Password  string    `json:"password" binding:"required" gorm:"type:varchar(255)"`
-	RoleID    uint      `gorm:"not null;DEFAULT:3" json:"role_id"`
+	RoleID    int       `gorm:"not null;DEFAULT:3" json:"role_id"`
 	Role      KRole     `gorm:"constraint:OnUpdate:CASCADE,OnDelete:CASCADE;" json:"-"`
 	UserInput string    `json:"user_input" gorm:"type:varchar(20)"`
 	UserEdit  string    `json:"user_edit" gorm:"type:varchar(20)"`

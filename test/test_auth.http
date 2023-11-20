@@ -2,8 +2,8 @@ POST http://localhost:9000/api/auth/login
 Content-Type: application/json
 
 {
-    "username":"ngad",
-    "password":"asdqwe12"
+    "username":"ngadimin",
+    "password":"asdqwe123"
 }
 
 ###

@@ -27,11 +27,16 @@ const SubunitEdit=()=>{
 
     const fetchData = (data) =>{
         dispatch(getSubunit(data))
+       // console.log(subunitData.data)
     }
 
     const handleFormSubmit = async (values,setSubmitting)=>{
+        const path = location.pathname.substring(
+            location.pathname.lastIndexOf('/')+1
+        )
+        const requestParam = path
         setSubmitting(true)
-        const succes = await updateSubunit(values)
+        const succes = await updateSubunit(requestParam,values)
         setSubmitting(false)
         if (succes){
             popNotification('Perubahan')
@@ -43,8 +48,12 @@ const SubunitEdit=()=>{
     }
 
     const handleDelete=async (setDialogOpen)=>{
+        const path = location.pathname.substring(
+            location.pathname.lastIndexOf('/')+1
+        )
+        const requestParam = path
         setDialogOpen(false)
-        const success = await deleteSubunit({id:subunitData.id})
+        const success = await deleteSubunit(requestParam)
         if (success){
             popNotification('Penghapusan')
         }
@@ -71,20 +80,20 @@ const SubunitEdit=()=>{
         const path = location.pathname.substring(
             location.pathname.lastIndexOf('/')+1
         )
-        const requestParam = {id:path}
+        const requestParam = path
         fetchData(requestParam)
     },[location.pathname])
 
     return(
         <>
         <Loading loading={loading}>
-            {!isEmpty(subunitData) && (
+            {!isEmpty(subunitData.data) && (
                 <>
                     <Container>
                         <AdaptableCard>
                         <SubunitForm
                         type="edit"
-                        initialData={subunitData}
+                        initialData={subunitData.data}
                         onFormSubmit={handleFormSubmit}
                         onDiscard={handleDiscard}
                         onDelete={handleDelete}/>

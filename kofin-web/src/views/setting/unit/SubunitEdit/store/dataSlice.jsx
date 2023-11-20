@@ -9,8 +9,8 @@ export const getSubunit = createAsyncThunk(
     }
 )
 
-export const updateSubunit= async(data)=>{
-    const response = await apiPutSubunit(data)
+export const updateSubunit= async(params,data)=>{
+    const response = await apiPutSubunit(params,data)
     return response.data
 }
 

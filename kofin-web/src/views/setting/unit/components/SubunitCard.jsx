@@ -37,7 +37,7 @@ const SubunitCard=()=>{
 
     useEffect(()=>{
         fetchData()
-        console.log(subunitsData)
+       // console.log(subunitsData)
     },[])
 
     return (

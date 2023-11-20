@@ -36,16 +36,17 @@ const UnitCard=()=>{
 
     useEffect(()=>{
         fetchData()
+        //console.log(unitData)
     },[])
 
     return (
         <>
         <Loading loading={loading}>
-            {!isEmpty(unitData) && (
+            {!isEmpty(unitData.data) && (
                 <>
                 <Card
                 bodyClass="h-full"
-                header={unitData[0].unit_abbr}
+                header={unitData.data.unit_abbr}
                 headerExtra={headerExtraContent}
             >
                <Table>
@@ -58,9 +59,9 @@ const UnitCard=()=>{
                 </THead>
                 <TBody>
                     <Tr>
-                    <Td>{unitData[0].unit_name}</Td>
-                        <Td>{unitData[0].unit_loc}</Td>
-                        <Td>{unitData[0].unit_head}</Td>
+                    <Td>{unitData.data.unit_name}</Td>
+                        <Td>{unitData.data.unit_loc}</Td>
+                        <Td>{unitData.data.unit_head}</Td>
                     </Tr>
                 </TBody>
             </Table>

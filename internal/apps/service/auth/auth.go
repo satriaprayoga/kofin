@@ -32,6 +32,10 @@ func NewAuthService(timeout time.Duration) AuthService {
 }
 
 func (us *AuthServiceImpl) Login(c *gin.Context) {
+	var (
+		userInfo authDto.UserInfo
+		loginRsp authDto.LoginResponse
+	)
 	ctx, cancel := context.WithTimeout(c.Request.Context(), time.Duration(us.t)*time.Second)
 	defer cancel()
 	c.Request = c.Request.WithContext(ctx)
@@ -60,7 +64,23 @@ func (us *AuthServiceImpl) Login(c *gin.Context) {
 		pkg.PanicException(constant.InvalidRequest)
 	}
 
-	c.JSON(http.StatusOK, pkg.BuildResponse(constant.Success, jwt))
+	role, errRole := us.r.GetByID(user.RoleID)
+	if errRole != nil {
+		log.Err(err).Msg("Token creation failed. Error")
+		pkg.PanicException(constant.InvalidRequest)
+	}
+
+	userInfo = authDto.UserInfo{
+		Username: user.Username,
+		Role:     []string{role.Name},
+	}
+
+	loginRsp = authDto.LoginResponse{
+		UserInfo: userInfo,
+		Token:    jwt,
+	}
+
+	c.JSON(http.StatusOK, pkg.BuildResponse(constant.Success, loginRsp))
 
 }
 
