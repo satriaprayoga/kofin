@@ -17,8 +17,8 @@ export const initialTableData={
     pageSize:10,
     query:'',
     sort:{
-        order:'',
-        key:''
+        order:'asc',
+        key:'program_kode'
     }
 }
 
@@ -44,7 +44,7 @@ const dataSlice = createSlice({
         [getPrograms.fulfilled]:(state,action)=>{
             state.loading=false
             state.programsData=action.payload.data
-            state.tableData.total=action.payload.total
+            state.tableData.total=action.payload.data.total
         }
     }
 })

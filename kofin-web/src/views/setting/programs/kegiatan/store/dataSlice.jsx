@@ -4,8 +4,8 @@ import { apiGetProgram } from "services/ProgramService";
 
 export const getProgramKegiatans=createAsyncThunk(
     'kegiatans/data/getProgramKegiatans',
-    async(data)=>{
-        const response = await apiGetKegiatans(data)
+    async(params,data)=>{
+        const response = await apiGetKegiatans(params,data)
         return response.data
     }
 
@@ -15,7 +15,7 @@ export const getProgram=createAsyncThunk(
     'kegiatans/data/getProgram',
     async(data)=>{
         const response = await apiGetProgram(data)
-        return response.data
+        return response.data.data
     }
 )
 
@@ -24,7 +24,6 @@ export const initialTableData={
     pageIndex:1,
     pageSize:10,
     query:'',
-    programId:0,
     sort:{
         order:'',
         key:''

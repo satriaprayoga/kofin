@@ -8,6 +8,7 @@ import debounce from "lodash/debounce";
 import { useLocation } from "react-router-dom";
 
 const KegiatanTableSearch = () =>{
+    const location = useLocation()
     const dispatch = useDispatch()
     const searchInput = useRef()
     const tableData = useSelector(
@@ -30,8 +31,12 @@ const KegiatanTableSearch = () =>{
     }
 
     const fetchData=(data)=>{
+        const path = location.pathname.substring(
+            location.pathname.lastIndexOf('/')+1
+        )
+        const requestParam = path
         dispatch(setTableData(data))
-        dispatch(getProgramKegiatans(data))
+        dispatch(getProgramKegiatans(requestParam,data))
     }
 
     const onEdit=(e)=>{

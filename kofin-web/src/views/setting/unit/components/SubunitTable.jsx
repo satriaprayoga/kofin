@@ -43,7 +43,7 @@ const SubunitTable = () =>{
 
     useEffect(()=>{
         fetchData()
-       // console.log(data[0].data)
+        console.log(data.data)
     },[])
 
     const columns = useMemo(
@@ -96,7 +96,7 @@ const SubunitTable = () =>{
         <DataTable
             ref={tableRef}
             columns={columns}
-            data={data[0].data}
+            data={data.data}
             loading={loading}
         />
         </>

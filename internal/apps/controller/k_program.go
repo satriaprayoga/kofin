@@ -11,6 +11,9 @@ func ProgramRoute(router *gin.RouterGroup) {
 	program.GET("/:id", ProgramIndex)
 	program.DELETE("/:id", ProgramDelete)
 	program.PUT("/:id", ProgramUpdate)
+	program.GET("/search", ProgramSearch)
+	program.POST("/paginate", ProgramPaginate)
+	program.GET("/kegiatan/:id", ProgramKegiatan)
 }
 
 func ProgramCreate(c *gin.Context) {
@@ -27,4 +30,16 @@ func ProgramUpdate(c *gin.Context) {
 
 func ProgramIndex(c *gin.Context) {
 	service.GetServices().Program.Get(c)
+}
+
+func ProgramSearch(c *gin.Context) {
+	service.GetServices().Program.TextSearch(c)
+}
+
+func ProgramPaginate(c *gin.Context) {
+	service.GetServices().Program.PaginateSearch(c)
+}
+
+func ProgramKegiatan(c *gin.Context) {
+	service.GetServices().Kegiatan.GetByProgramID(c)
 }

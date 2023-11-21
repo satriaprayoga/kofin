@@ -11,6 +11,7 @@ func KegiatanRoute(router *gin.RouterGroup) {
 	kegiatan.GET("/:id", KegiatanIndex)
 	kegiatan.DELETE("/:id", KegiatanDelete)
 	kegiatan.PUT("/:id", KegiatanUpdate)
+	kegiatan.POST("/paginate/:id", KegiatanPaginate)
 	//kegiatan.GET("/program/:id", KegiatanProgram)
 }
 
@@ -32,4 +33,8 @@ func KegiatanIndex(c *gin.Context) {
 
 func KegiatanProgram(c *gin.Context) {
 	service.GetServices().Kegiatan.GetByProgramID(c)
+}
+
+func KegiatanPaginate(c *gin.Context) {
+	service.GetServices().Kegiatan.PaginateSearch(c)
 }

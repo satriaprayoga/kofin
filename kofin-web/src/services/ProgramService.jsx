@@ -2,7 +2,7 @@ import ApiService from "./ApiService";
 
 export async function apiGetProgramsData(data){
     return ApiService.fetchData({
-        url:'/programs',
+        url:'/programs/paginate',
         method:'post',
         data
     })
@@ -17,7 +17,7 @@ export async function apiGetAllPrograms(){
 
 export async function apiCreateProgramData(data){
     return ApiService.fetchData({
-        url:'/programs/create',
+        url:'/programs/',
         method:'post',
         data
     })
@@ -25,9 +25,8 @@ export async function apiCreateProgramData(data){
 
 export async function apiGetProgram(params){
     return ApiService.fetchData({
-        url:'/programs/get',
+        url:'/programs/'+params,
         method:'get',
-        params,
     })
 }
 
@@ -47,18 +46,17 @@ export async function apiGetProgramKegiatans(params){
     })
 }
 
-export async function apiPutProgram(data){
+export async function apiPutProgram(params,data){
     return ApiService.fetchData({
-        url:'/programs/update',
+        url:'/programs/'+params,
         method:'put',
         data,
     })
 }
 
-export async function apiDeleteProgram(data){
+export async function apiDeleteProgram(params){
     return ApiService.fetchData({
-        url:'/programs/delete',
+        url:'/programs/'+params,
         method:'delete',
-        data
     })
 }

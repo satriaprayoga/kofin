@@ -13,7 +13,7 @@ const ActionColumn = ({row})=>{
     const navigate = useNavigate()
 
     const onEdit = () =>{
-        navigate(`/setting/programs/edit/${row.id}`)
+        navigate(`/setting/programs/edit/${row.program_id}`)
     }
 
     return (
@@ -33,7 +33,7 @@ const KegiatanColumn = ({row})=>{
     const navigate = useNavigate()
 
     const onClick = () =>{
-        navigate(`/setting/programs/kegiatan/${row.id}`)
+        navigate(`/setting/programs/kegiatan/${row.program_id}`)
     }
 
     return (
@@ -63,6 +63,7 @@ const ProgramTable=()=>{
 
     useEffect(()=>{
         fetchData()
+       
     },[pageIndex,pageSize,sort])
 
     const tableData = useMemo(
@@ -113,7 +114,7 @@ const ProgramTable=()=>{
 
     const onPaginationChange = (page) => {
         const newTableData = cloneDeep(tableData)
-        newTableData.pageIndex = page
+        newTableData.pageIndex= page
         dispatch(setTableData(newTableData))
     }
 

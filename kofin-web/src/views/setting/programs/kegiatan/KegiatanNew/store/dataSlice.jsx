@@ -5,7 +5,7 @@ export const getProgram=createAsyncThunk(
     'kegiatansNew/data/getProgram',
     async(data)=>{
         const response = await apiGetProgram(data)
-        return response.data
+        return response.data.data
     }
 )
 

@@ -1,8 +1,8 @@
 import ApiService from "./ApiService";
 
-export default function apiGetKegiatans(data){
+export default function apiGetKegiatans(params,data){
     return ApiService.fetchData({
-        url:'/kegiatans',
+        url:'/kegiatans/paginate/'+params,
         method:'post',
         data
     })

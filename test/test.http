@@ -99,11 +99,282 @@ Content-Type: application/json
     "kegiatan_name":"Penyelenggaraan Pemusatan Pelatihan Daerah",
     "program_id":1,
     "program_kode":"1.2.1",
-    "program_name":"Program Pembinaan Dan Pelatihan Atlet Daerah"
+    "program_name":"Program Pelatihan Atlet Daerah"
+}
+###
+POST http://localhost:9000/api/kegiatans
+Content-Type: application/json
+
+{
+    "kegiatan_kode":"1.2.1.2",
+    "kegiatan_name":"Penyelenggaraan Seleksi Atlet Daerah",
+    "program_id":1,
+    "program_kode":"1.2.1",
+    "program_name":"Program Pelatihan Atlet Daerah"
 }
 
 ###
-GET http://localhost:9000/api/kegiatans/program/1
+POST http://localhost:9000/api/kegiatans
+Content-Type: application/json
+
+{
+    "kegiatan_kode":"1.2.2.1",
+    "kegiatan_name":"Inventarisasi Atlet Berprestasi Daerah",
+    "program_id":2,
+    "program_kode":"1.2.2",
+    "program_name":"Program Penghargaan Atlet Daerah Berprestasi"
+}
+
+###
+POST http://localhost:9000/api/kegiatans
+Content-Type: application/json
+
+{
+    "kegiatan_kode":"1.2.2.2",
+    "kegiatan_name":"Penyelenggaraan Penghargaan Atlet Berprestasi Daerah",
+    "program_id":2,
+    "program_kode":"1.2.2",
+    "program_name":"Program Penghargaan Atlet Daerah Berprestasi"
+}
+
+###
+POST http://localhost:9000/api/kegiatans
+Content-Type: application/json
+
+{
+    "kegiatan_kode":"1.2.3.1",
+    "kegiatan_name":"Penyelenggaraan Pencarian Bakat Atlet Luar Daerah",
+    "program_id":3,
+    "program_kode":"1.2.3",
+    "program_name":"Program Pencarian Bakat Atlet Daerah"
+}
+
+###
+POST http://localhost:9000/api/kegiatans
+Content-Type: application/json
+
+{
+    "kegiatan_kode":"1.2.3.2",
+    "kegiatan_name":"Penyelenggaraan Pencarian Bakat Atlet Dalam Daerah",
+    "program_id":3,
+    "program_kode":"1.2.3",
+    "program_name":"Program Pencarian Bakat Atlet Daerah"
+}
+
+###
+POST http://localhost:9000/api/kegiatans
+Content-Type: application/json
+
+{
+    "kegiatan_kode":"1.1.1.1",
+    "kegiatan_name":"Penyusunan Rancangan Rencana Kerja",
+    "program_id":4,
+    "program_kode":"1.1.1",
+    "program_name":"Program Perencaan dan Pelaporan Organisasi"
+}
+
+###
+POST http://localhost:9000/api/kegiatans
+Content-Type: application/json
+
+{
+    "kegiatan_kode":"1.1.1.2",
+    "kegiatan_name":"Penyusunan Anggaran Rencana Kerja",
+    "program_id":4,
+    "program_kode":"1.1.1",
+    "program_name":"Program Perencaan dan Pelaporan Organisasi"
+}
+###
+POST http://localhost:9000/api/kegiatans
+Content-Type: application/json
+
+{
+    "kegiatan_kode":"1.1.1.3",
+    "kegiatan_name":"Penyusunan Laporan Kegiatan Berkala",
+    "program_id":4,
+    "program_kode":"1.1.1",
+    "program_name":"Program Perencaan dan Pelaporan Organisasi"
+}
+###
+POST http://localhost:9000/api/kegiatans
+Content-Type: application/json
+
+{
+    "kegiatan_kode":"1.1.2.1",
+    "kegiatan_name":"Pengadaan Sarana dan Prasarana Pendukung Kantor",
+    "program_id":5,
+    "program_kode":"1.1.2",
+    "program_name":"Program Penyediaan Perlengkapan Kantor"
+}
+###
+POST http://localhost:9000/api/kegiatans
+Content-Type: application/json
+
+{
+    "kegiatan_kode":"1.1.3.1",
+    "kegiatan_name":"Pengadaan Sarana dan Prasarana Kantor",
+    "program_id":6,
+    "program_kode":"1.1.3",
+    "program_name":"Program Penyediaan Peralatan Kantor"
+}
+
+###
+POST http://localhost:9000/api/kegiatans
+Content-Type: application/json
+
+{
+    "kegiatan_kode":"1.1.3.2",
+    "kegiatan_name":"Pengadaan Kendaraan Operasional atau Lapangan",
+    "program_id":6,
+    "program_kode":"1.1.3",
+    "program_name":"Program Penyediaan Peralatan Kantor"
+}
+###
+POST http://localhost:9000/api/kegiatans
+Content-Type: application/json
+
+{
+    "kegiatan_kode":"1.1.4.1",
+    "kegiatan_name":"Pelaksanaan Penatusahaan dan Verifikasi Keuangan",
+    "program_id":7,
+    "program_kode":"1.1.4",
+    "program_name":"Program Pengelolaan Keuangan"
+}
+
+###
+POST http://localhost:9000/api/kegiatans
+Content-Type: application/json
+
+{
+    "kegiatan_kode":"1.1.4.2",
+    "kegiatan_name":"Penyusunan Laporan Keuangan Akhir Tahun",
+    "program_id":7,
+    "program_kode":"1.1.4",
+    "program_name":"Program Pengelolaan Keuangan"
+}
+###
+POST http://localhost:9000/api/kegiatans
+Content-Type: application/json
+
+{
+    "kegiatan_kode":"1.1.5.1",
+    "kegiatan_name":"Penyediaan Barang Cetakan dan Penggandaan",
+    "program_id":8,
+    "program_kode":"1.1.5",
+    "program_name":"Program Administrasi Kantor"
+}
+###
+POST http://localhost:9000/api/kegiatans
+Content-Type: application/json
+
+{
+    "kegiatan_kode":"1.1.5.2",
+    "kegiatan_name":"Fasilitasi Kunjungan Tamu",
+    "program_id":8,
+    "program_kode":"1.1.5",
+    "program_name":"Program Administrasi Kantor"
+}
+###
+POST http://localhost:9000/api/kegiatans
+Content-Type: application/json
+
+{
+    "kegiatan_kode":"1.3.1.1",
+    "kegiatan_name":"Pelatihan Bisnis Bagi Atlet Senior Daerah",
+    "program_id":9,
+    "program_kode":"1.3.1",
+    "program_name":"Program Kewirausahaan Atlet Daerah"
+}
+###
+POST http://localhost:9000/api/kegiatans
+Content-Type: application/json
+
+{
+    "kegiatan_kode":"1.3.1.2",
+    "kegiatan_name":"Pameran Prestasi Atlet Daerah",
+    "program_id":9,
+    "program_kode":"1.3.1",
+    "program_name":"Program Kewirausahaan Atlet Daerah"
+}
+###
+POST http://localhost:9000/api/kegiatans
+Content-Type: application/json
+
+{
+    "kegiatan_kode":"1.3.2.1",
+    "kegiatan_name":"Administrasi Pengeluaran Pembiayaan Kepada Organisasi Cabang Olahraga",
+    "program_id":10,
+    "program_kode":"1.3.2",
+    "program_name":"Program Pembiayaan Lintas Organisasi"
+}
+###
+POST http://localhost:9000/api/kegiatans
+Content-Type: application/json
+
+{
+    "kegiatan_kode":"1.3.2.2",
+    "kegiatan_name":"Administrasi Penerimaan Pembiayaan Dari Organisasi Vertikal",
+    "program_id":10,
+    "program_kode":"1.3.2",
+    "program_name":"Program Pembiayaan Lintas Organisasi"
+}
+###
+POST http://localhost:9000/api/kegiatans
+Content-Type: application/json
+
+{
+    "kegiatan_kode":"1.3.3.1",
+    "kegiatan_name":"Penerimaan Atlet Luar Daerah",
+    "program_id":11,
+    "program_kode":"1.3.3",
+    "program_name":"Program Pertukaran Atlet Antar Daerah"
+}
+###
+POST http://localhost:9000/api/kegiatans
+Content-Type: application/json
+
+{
+    "kegiatan_kode":"1.3.3.2",
+    "kegiatan_name":"Pelepasan Atlet Dalam Daerah",
+    "program_id":11,
+    "program_kode":"1.3.3",
+    "program_name":"Program Pertukaran Atlet Antar Daerah"
+}
+
+
+###
+GET http://localhost:9000/api/programs/kegiatan/2
+###
+
+GET http://localhost:9000/api/programs/search?searchTerm=administrasi kantor
+###
+POST http://localhost:9000/api/programs/paginate
+Content-Type: application/json
+
+{
+    "pageIndex":1,
+    "pageSize":2,
+    "query":"atlet",
+    "sort":{
+        "key":"program_id",
+        "order":"asc"
+    }
+}
+
+###
+POST http://localhost:9000/api/kegiatans/paginate/1
+Content-Type: application/json
+
+{
+    "pageIndex":1,
+    "pageSize":2,
+    "query":"seleksi",
+    "sort":{
+        "key":"program_id",
+        "order":"asc"
+    }
+}
+
 ###
 
 POST http://localhost:9000/api/programs

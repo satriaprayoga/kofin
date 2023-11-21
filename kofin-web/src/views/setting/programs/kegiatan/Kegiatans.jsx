@@ -27,8 +27,9 @@ const Kegiatans=()=>{
         const path = location.pathname.substring(
             location.pathname.lastIndexOf('/')+1
         )
-        const requestParam = {id:path}
+        const requestParam = path
         fetchData(requestParam)
+        console.log(data)
     },[location.pathname])
 
 

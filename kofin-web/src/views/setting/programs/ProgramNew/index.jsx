@@ -57,7 +57,6 @@ const ProgramNew=()=>{
  
     useEffect(()=>{
      fetchData()
-     console.log(data)
      
     },[])
  

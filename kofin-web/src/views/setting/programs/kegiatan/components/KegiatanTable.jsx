@@ -33,7 +33,7 @@ const KegiatanTable=()=>{
     const dispatch = useDispatch()
     const location = useLocation()
 
-    const {pageIndex, pageSize, sort, query, total,programId}=useSelector(
+    const {pageIndex, pageSize, sort, query, total}=useSelector(
         (state)=>state.kegiatans.data.tableData
     )
 
@@ -41,13 +41,12 @@ const KegiatanTable=()=>{
     const data = useSelector((state)=>state.kegiatans.data.kegiatansData)
 
     const fetchData=()=>{
-      //  const newTableData = cloneDeep(tableData)
+       // const newTableData = cloneDeep(tableData)
         const path = location.pathname.substring(
             location.pathname.lastIndexOf('/')+1
         )
-       const programId=parseInt(path);
-       // dispatch(setTableData(newTableData))
-        dispatch(getProgramKegiatans({pageIndex,pageSize,sort,query,programId}))
+      //  dispatch(setTableData(newTableData))
+        dispatch(getProgramKegiatans(path,{pageIndex,pageSize,sort,query}))
     }
 
     useEffect(()=>{

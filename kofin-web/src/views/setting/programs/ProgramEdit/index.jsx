@@ -30,7 +30,7 @@ const ProgramEdit=()=>{
         const path = location.pathname.substring(
             location.pathname.lastIndexOf('/')+1
         )
-        const requestParam = {id:path}
+        const requestParam = path
         fetchData(requestParam)
     },[location.pathname])
 
@@ -41,7 +41,11 @@ const ProgramEdit=()=>{
     }
 
     const updateProgram=async(data)=>{
-        const response = await apiPutProgram(data)
+        const path = location.pathname.substring(
+            location.pathname.lastIndexOf('/')+1
+        )
+        const requestParam = path
+        const response = await apiPutProgram(requestParam,data)
         return response.data
     }
 
@@ -55,8 +59,12 @@ const ProgramEdit=()=>{
     }
 
     const handleDelete=async (setDialogOpen)=>{
+        const path = location.pathname.substring(
+            location.pathname.lastIndexOf('/')+1
+        )
+        const requestParam = path
         setDialogOpen(false)
-        const success = await deleteProgram({id:programData.id})
+        const success = await deleteProgram(requestParam)
         if (success){
             popNotification('Penghapusan')
         }
@@ -81,14 +89,7 @@ const ProgramEdit=()=>{
 
 
  
-    useEffect(()=>{
-        const path = location.pathname.substring(
-            location.pathname.lastIndexOf('/')+1
-        )
-        const requestParam = {id:path}
-        fetchData(requestParam)
-     
-    },[location.pathname])
+    
  
    return(
         <Loading loading={loading}>

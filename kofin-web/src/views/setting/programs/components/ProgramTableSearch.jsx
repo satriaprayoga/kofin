@@ -26,12 +26,14 @@ const ProgramTableSearch = () =>{
         if (typeof val === 'string' && val.length === 0) {
             fetchData(newTableData)
         }
+        
 
     }
 
     const fetchData=(data)=>{
         dispatch(setTableData(data))
         dispatch(getPrograms(data))
+       
     }
 
     const onEdit=(e)=>{

@@ -7,7 +7,7 @@ export const getProgram=createAsyncThunk(
     'programEdit/data/getProgram',
     async(data)=>{
         const response = await apiGetProgram(data)
-        return response.data
+        return response.data.data
     }
 )
 
@@ -17,7 +17,7 @@ export const getSubunits=createAsyncThunk(
         const response = await apiGetSubunitData()
         const optData=[]
         console.log(response.data)
-        response.data.forEach((d)=>{
+        response.data.data.forEach((d)=>{
             optData.push({
                 value:d.unit_id,
                 label:d.unit_name,
@@ -29,8 +29,8 @@ export const getSubunits=createAsyncThunk(
     }
 )
 
-export const updateProgram=async (data)=>{
-    const response = await apiPutProgram(data)
+export const updateProgram=async (params,data)=>{
+    const response = await apiPutProgram(params,data)
     return response.data
 }
 

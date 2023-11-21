@@ -6,8 +6,7 @@ export const getSubunits=createAsyncThunk(
     async()=>{
         const response = await apiGetSubunitData()
         const optData=[]
-        console.log(response.data)
-        response.data.forEach((d)=>{
+        response.data.data.forEach((d)=>{
             optData.push({
                 value:d.unit_id,
                 label:d.unit_name,

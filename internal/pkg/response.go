@@ -27,6 +27,21 @@ func buildResponse[T any](status string, message string, data T) dto.ApiResponse
 	}
 }
 
+func BuildResponseList(responseStatus constant.ResponseStatus, data interface{}, page int, total int64, lastPage int) dto.ApiResponseList {
+	return buildResponseList(responseStatus.GetResponseStatus(), responseStatus.GetResponseMessage(), data, page, total, lastPage)
+}
+
+func buildResponseList(status string, message string, data interface{}, page int, total int64, lastPage int) dto.ApiResponseList {
+	return dto.ApiResponseList{
+		Key:      status,
+		Message:  message,
+		Data:     data,
+		Page:     page,
+		Total:    total,
+		LastPage: lastPage,
+	}
+}
+
 func PanicException(responseKey constant.ResponseStatus) {
 	panicException(responseKey.GetResponseStatus(), responseKey.GetResponseMessage())
 }
