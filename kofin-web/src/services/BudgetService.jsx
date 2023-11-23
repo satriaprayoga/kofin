@@ -2,7 +2,7 @@ import ApiService from "./ApiService";
 
 export async function apiGetBudget(){
     return ApiService.fetchData({
-        url:'/budget',
+        url:'/budgets/1',
         method:'get'
     })
 }

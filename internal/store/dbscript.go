@@ -40,6 +40,13 @@ func migrateScript() {
 			setweight(to_tsvector('indonesian', coalesce(program_name, '')), 'C') :: tsvector
 		) STORED;
 	CREATE INDEX idx_kegiatan_text_search ON kegiatan USING GIN(text_search);
+	ALTER TABLE expend_program ADD text_search tsvector 
+		GENERATED ALWAYS AS	(
+			setweight(to_tsvector('indonesian', coalesce(program_name, '')), 'A') || ' ' ||
+			setweight(to_tsvector('indonesian', coalesce(slug, '')), 'B') || ' ' || 
+			setweight(to_tsvector('indonesian', coalesce(unit_name, '')), 'C') :: tsvector
+		) STORED;
+	CREATE INDEX idx_expend_program_text_search ON expend_program USING GIN(text_search);
 `)
 }
 

@@ -28,7 +28,7 @@ const KegiatanEdit=()=>{
         const path = location.pathname.substring(
             location.pathname.lastIndexOf('/')+1
         )
-        const requestParam = {id:path}
+        const requestParam = path
         fetchData(requestParam)
     },[location.pathname])
 
@@ -39,7 +39,11 @@ const KegiatanEdit=()=>{
     }
 
     const updateKegiatan=async(data)=>{
-        const response = await apiPutKegiatan(data)
+        const path = location.pathname.substring(
+            location.pathname.lastIndexOf('/')+1
+        )
+        const requestParam = path
+        const response = await apiPutKegiatan(requestParam,data)
         return response.data
     }
 
@@ -54,7 +58,7 @@ const KegiatanEdit=()=>{
 
     const handleDelete=async (setDialogOpen)=>{
         setDialogOpen(false)
-        const success = await deleteKegiatan({id:kegiatanData.id})
+        const success = await deleteKegiatan(kegiatanData.kegiatan_id)
         if (success){
             popNotification('Penghapusan')
         }
@@ -78,16 +82,7 @@ const KegiatanEdit=()=>{
     }
 
 
- 
-    useEffect(()=>{
-        const path = location.pathname.substring(
-            location.pathname.lastIndexOf('/')+1
-        )
-        const requestParam = {id:path}
-        fetchData(requestParam)
-     
-    },[location.pathname])
- 
+
    return(
         <Loading loading={loading}>
             {!isEmpty(kegiatanData) && (

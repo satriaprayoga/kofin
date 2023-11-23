@@ -5,7 +5,7 @@ export const getBudget=createAsyncThunk(
     'budget/data/getBudget',
     async()=>{
         const response = await apiGetBudget()
-        return response.data
+        return response.data.data
     }
 )
 

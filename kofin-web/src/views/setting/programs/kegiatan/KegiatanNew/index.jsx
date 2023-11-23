@@ -36,10 +36,11 @@ const KegiatanNew=()=>{
     const handleFormSubmit = async (values,setSubmitting)=>{
         setSubmitting(true)
         values.program_kode=data.program_kode
-        values.program_id=data.id
+        values.program_id=data.program_id
         values.program_name=data.program_name
-        const success = await addKegiatan(values)
         console.log(values)
+        const success = await addKegiatan(values)
+       
         setSubmitting(false)
         if (success){
             toast.push(
@@ -63,7 +64,7 @@ const KegiatanNew=()=>{
         const path = location.pathname.substring(
             location.pathname.lastIndexOf('/')+1
         )
-        const requestParam = {id:path}
+        const requestParam = path
         fetchData(requestParam)
        
     },[location.pathname])

@@ -29,7 +29,7 @@ const Kegiatans=()=>{
         )
         const requestParam = path
         fetchData(requestParam)
-        console.log(data)
+       // console.log(data)
     },[location.pathname])
 
 

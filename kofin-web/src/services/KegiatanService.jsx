@@ -10,23 +10,22 @@ export default function apiGetKegiatans(params,data){
 
 export async function apiGetKegiatan(params){
     return ApiService.fetchData({
-        url:"/kegiatans/get",
+        url:"/kegiatans/"+params,
         method:'get',
-        params
     })
 }
 
 export async function apiCreateKegiatanData(data){
     return ApiService.fetchData({
-        url:'/kegiatans/create',
+        url:'/kegiatans/',
         method:'post',
         data
     })
 }
 
-export async function apiPutKegiatan(data){
+export async function apiPutKegiatan(params,data){
     return ApiService.fetchData({
-        url:'/kegiatans/update',
+        url:'/kegiatans/'+params,
         method:'put',
         data,
     })
@@ -34,9 +33,8 @@ export async function apiPutKegiatan(data){
 
 export async function apiDeleteKegiatan(data){
     return ApiService.fetchData({
-        url:'/kegiatans/delete',
+        url:'/kegiatans/'+data,
         method:'delete',
-        data
     })
 }
 

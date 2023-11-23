@@ -6,12 +6,12 @@ export const getKegiatan=createAsyncThunk(
     'kegiatanEdit/data/getKegiatan',
     async(data)=>{
         const response = await apiGetKegiatan(data)
-        return response.data
+        return response.data.data
     }
 )
 
-export const updateKegiatan=async (data)=>{
-    const response = await apiPutKegiatan(data)
+export const updateKegiatan=async (params,data)=>{
+    const response = await apiPutKegiatan(params,data)
     return response.data
 }
 

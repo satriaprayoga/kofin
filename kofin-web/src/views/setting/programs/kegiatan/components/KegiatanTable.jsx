@@ -12,7 +12,7 @@ const ActionColumn = ({row})=>{
     const navigate = useNavigate()
 
     const onEdit = () =>{
-        navigate(`/setting/programs/kegiatan/edit/${row.id}`)
+        navigate(`/setting/programs/kegiatan/edit/${row.kegiatan_id}`)
     }
 
     return (

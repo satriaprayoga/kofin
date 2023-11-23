@@ -11,7 +11,7 @@ const KegiatanTableTools=(props)=>{
             <KegiatanTableSearch/>
             <Link
                 className="md:mb-0 mb-4"
-                to={`/setting/programs/kegiatan/new/${program.id}`}
+                to={`/setting/programs/kegiatan/new/${program.program_id}`}
             >
                 <Button block variant="solid" size="sm" icon={<HiPlusCircle />}>
                     Tambah Kegiatan
