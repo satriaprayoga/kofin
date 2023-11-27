@@ -114,6 +114,31 @@ type ExpendObject struct {
 	TimeEdit  time.Time `json:"time_edit" gorm:"type:timestamp(0) without time zone;default:now()"`
 }
 
+func (e *ExpendProgram) AfterCreate(tx *gorm.DB) (err error) {
+	var results []Kegiatan
+	err = tx.Where("program_id=?", e.ProgramID).Find(&results).Error
+	if err != nil {
+		return err
+	}
+	for _, kk := range results {
+		exk := &ExpendKegiatan{
+			KegiatanID:      kk.KegiatanID,
+			KegiatanName:    kk.KegiatanName,
+			KegiatanKode:    kk.KegiatanKode,
+			ExpendProgramID: e.ExpendProgramID,
+			KegiatanPagu:    0.0,
+			Included:        false,
+			BudgetYear:      e.BudgetYear,
+		}
+		tx.Create(exk)
+		if err != nil {
+			log.Err(err).Msg("Error when create expend_kegiatan. Data not found Error")
+		}
+	}
+	return
+
+}
+
 func (e *ExpendObject) BeforeCreate(tx *gorm.DB) (err error) {
 	e.Total = float64(e.Volume * e.Satuan)
 	e.Total = e.Total * float64(e.Price)

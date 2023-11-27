@@ -13,7 +13,8 @@ type ExpendProgramRepo interface {
 	GetByID(ID int) (store.ExpendProgram, error)
 	Update(ID int, data interface{}) error
 	Delete(ID int) error
-	GetAvailable(year int) (result *[]store.ExpendProgram, err error)
+	GetAvailable(unitId, year int) (result *[]store.ExpendProgram, err error)
+	BatchImport(IDs []int) error
 }
 
 type ExpendProgramRepoImpl struct {
@@ -65,13 +66,29 @@ func (r *ExpendProgramRepoImpl) Delete(ID int) error {
 	return nil
 }
 
-func (r *ExpendProgramRepoImpl) GetAvailable(year int) (result *[]store.ExpendProgram, err error) {
+func (r *ExpendProgramRepoImpl) GetAvailable(unitId, year int) (result *[]store.ExpendProgram, err error) {
 
-	queryString := fmt.Sprintf(`SELECT * FROM expend_program WHERE budget_year=%d AND included=FALSE`, year)
+	var queryString string
+	if unitId > 0 {
+		queryString = fmt.Sprintf(`SELECT * FROM expend_program WHERE budget_year=%d AND included=FALSE AND unit_id=%d`, year, unitId)
+	} else {
+		queryString = fmt.Sprintf(`SELECT * FROM expend_program WHERE budget_year=%d AND included=FALSE`, year)
+	}
+
 	query := r.db.Raw(queryString).Scan(&result)
 	err = query.Error
 	if err != nil {
 		return result, err
 	}
 	return result, nil
+}
+
+func (r *ExpendProgramRepoImpl) BatchImport(IDs []int) error {
+	query := r.db.Table("expend_program").Where("expend_program_id IN ?", IDs).Updates(map[string]bool{"included": true})
+	err := query.Error
+	if err != nil {
+		return err
+	}
+	return nil
+
 }

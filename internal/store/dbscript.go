@@ -1,5 +1,7 @@
 package store
 
+import "time"
+
 func autoMigrate() {
 	db.AutoMigrate(Account{},
 		Unit{},
@@ -60,5 +62,16 @@ func seedData() {
 	err := db.Where("role_id=?", 1).First(&exists)
 	if err.RowsAffected < 1 {
 		db.Save(&user)
+	}
+
+	var budget Budget
+	year := time.Now().Year()
+	err = db.Where("budget_year=?", year).First(&budget)
+	if err.RowsAffected < 1 {
+		db.Save(&Budget{
+			BudgetYear:   year,
+			BudgetStatus: 0,
+			BudgetDate:   time.Now(),
+		})
 	}
 }

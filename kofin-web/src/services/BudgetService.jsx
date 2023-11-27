@@ -7,6 +7,14 @@ export async function apiGetBudget(){
     })
 }
 
+export async function apiCreateBudget(data){
+    return ApiService.fetchData({
+        url:'/budgets/',
+        method:'post',
+        data,
+    })
+}
+
 export async function apiPutBudget(data){
     return ApiService.fetchData({
         url:'/budget/setup',
