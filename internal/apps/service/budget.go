@@ -20,6 +20,7 @@ type BudgetService interface {
 	Delete(c *gin.Context)
 	Update(c *gin.Context)
 	Get(c *gin.Context)
+	FindAll(c *gin.Context)
 }
 
 type BudgetServiceImpl struct {
@@ -43,13 +44,13 @@ func (s *BudgetServiceImpl) Create(c *gin.Context) {
 		pkg.PanicException(constant.InvalidRequest)
 	}
 
-	err := s.r.Create(&acc)
+	result, err := s.r.Create(&acc)
 	if err != nil {
 		log.Err(err).Msg("Error when saving new data to database. Error")
 		pkg.PanicException(constant.InvalidRequest)
 	}
 
-	c.JSON(http.StatusOK, pkg.BuildResponse(constant.Success, "OK"))
+	c.JSON(http.StatusOK, pkg.BuildResponse(constant.Success, result))
 }
 
 func (s *BudgetServiceImpl) Delete(c *gin.Context) {
@@ -119,5 +120,18 @@ func (s *BudgetServiceImpl) Get(c *gin.Context) {
 		pkg.PanicException(constant.InvalidRequest)
 	}
 
+	c.JSON(http.StatusOK, pkg.BuildResponse(constant.Success, data))
+}
+
+func (s *BudgetServiceImpl) FindAll(c *gin.Context) {
+	ctx, cancel := context.WithTimeout(c.Request.Context(), time.Duration(s.t)*time.Second)
+	defer cancel()
+	c.Request = c.Request.WithContext(ctx)
+
+	data, err := s.r.FindAll()
+	if err != nil {
+		log.Err(err).Msg("Error when delete data. Error")
+		pkg.PanicException(constant.InvalidRequest)
+	}
 	c.JSON(http.StatusOK, pkg.BuildResponse(constant.Success, data))
 }

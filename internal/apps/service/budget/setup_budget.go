@@ -61,23 +61,32 @@ func (a *BudgetSetupServiceImpl) Setup(c *gin.Context) {
 		pkg.PanicException(constant.InvalidRequest)
 	}
 
-	budget = &store.Budget{
-		BudgetYear:   setup.Year,
-		BudgetDate:   setup.Date,
-		BudgetStatus: 0,
+	budget = &store.Budget{}
+
+	budget.BudgetYear = setup.Year
+	budget.BudgetDate = time.Now()
+	budget.BudgetIsActive = false
+	budget.BudgetStatus = 0
+	budget.BudgetLevel = setup.Level
+	if budget.BudgetLevel == 0 {
+		budget.BudgetDesc = "Murni"
+		budget.BudgetLastID = 0
+	} else {
+		budget.BudgetDesc = setup.Desc
+		budget.BudgetLastID = setup.LastID
 	}
 
-	err := a.r.Create(budget)
+	result, err := a.r.Create(budget)
 	if err != nil {
 		log.Err(err).Msg("Error when saving budget setup. Error")
 		pkg.PanicException(constant.InvalidRequest)
 	}
-	go a.initializeBudget(setup)
+	go a.initializeBudget(*result)
 	c.JSON(http.StatusOK, pkg.BuildResponse(constant.Success, "OK"))
 
 }
 
-func (s *BudgetSetupServiceImpl) initializeBudget(b dto.BudgetSetup) {
+func (s *BudgetSetupServiceImpl) initializeBudget(b store.Budget) {
 	var (
 		expend   store.Expend
 		root     *store.Unit
@@ -94,12 +103,13 @@ func (s *BudgetSetupServiceImpl) initializeBudget(b dto.BudgetSetup) {
 
 	expend = store.Expend{
 		ExpendStatus: 0,
-		ExpendYear:   b.Year,
+		ExpendYear:   b.BudgetYear,
 		UnitID:       root.UnitID,
 		UnitKode:     root.Kode,
 		UnitName:     root.Name,
 		Root:         true,
 		ExpendPagu:   0.0,
+		BudgetID:     b.BudgetID,
 	}
 
 	err = s.e.Create(&expend)
@@ -124,8 +134,9 @@ func (s *BudgetSetupServiceImpl) initializeBudget(b dto.BudgetSetup) {
 			AccGroup:    cc.AccGroup,
 			AccType:     cc.AccType,
 			UnitID:      root.UnitID,
-			BudgetYear:  b.Year,
+			BudgetYear:  b.BudgetYear,
 			AccountPagu: 0.0,
+			BudgetID:    b.BudgetID,
 		})
 		if err != nil {
 			log.Err(err).Msg("Error when creating root expend LRA on setup budget proccess. Error")
@@ -145,11 +156,12 @@ func (s *BudgetSetupServiceImpl) initializeBudget(b dto.BudgetSetup) {
 			ProgramKode: pp.ProgramKode,
 			ProgramName: pp.ProgramName,
 			ProgramPagu: 0.0,
-			BudgetYear:  b.Year,
+			BudgetYear:  b.BudgetYear,
 			UnitID:      pp.UnitID,
 			UnitKode:    pp.UnitKode,
 			UnitName:    pp.UnitName,
 			Included:    false,
+			BudgetID:    b.BudgetID,
 		})
 		if err != nil {
 			log.Err(err).Msg("Error when creating expend programs on setup budget proccess. Error")

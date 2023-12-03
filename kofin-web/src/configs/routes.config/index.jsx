@@ -109,7 +109,13 @@ export const protectedRoutes = [
     {
         key:'setupBudget',
         path:'/budget/setup',
-        component:React.lazy(()=>import('views/budget/Setup')),
+        component:React.lazy(()=>import('views/budget/budget')),
+        authority:[], 
+    },
+    {
+        key:'setupBudgetNew',
+        path:'/budget/setup/new',
+        component:React.lazy(()=>import('views/budget/budget/BudgetNew')),
         authority:[], 
     },
     {

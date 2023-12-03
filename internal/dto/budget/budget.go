@@ -3,8 +3,11 @@ package dto
 import "time"
 
 type BudgetSetup struct {
-	Year int       `json:"year"`
-	Date time.Time `json:"date"`
+	Year   int       `json:"year"`
+	Date   time.Time `json:"date"`
+	Level  int       `json:"level"`
+	Desc   string    `json:"desc"`
+	LastID int       `json:"lastId"`
 }
 
 type ExpendBudgetSetup struct {

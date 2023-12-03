@@ -8,10 +8,14 @@ import (
 )
 
 type Budget struct {
-	BudgetID     int       `json:"budget_id" gorm:"primary_key;auto_increment:true"`
-	BudgetYear   int       `json:"budget_year" gorm:"type:int"`
-	BudgetStatus int       `json:"budget_status" gorm:"type:int"`
-	BudgetDate   time.Time `json:"budget_date" gorm:"type:timestamp(0)"`
+	BudgetID       int       `json:"budget_id" gorm:"primary_key;auto_increment:true"`
+	BudgetYear     int       `json:"budget_year" gorm:"type:int"`
+	BudgetStatus   int       `json:"budget_status" gorm:"type:int"`
+	BudgetDate     time.Time `json:"budget_date" gorm:"type:timestamp(0)"`
+	BudgetLevel    int       `json:"budget_level" gorm:"type:int"`
+	BudgetIsActive bool      `json:"budget_is_active" gorm:"type:bool"`
+	BudgetDesc     string    `json:"budget_desc" gorm:"type:varchar(50)"`
+	BudgetLastID   int       `json:"budget_last_id" gorm:"type:int"`
 
 	UserInput string    `json:"user_input" gorm:"type:varchar(20)"`
 	UserEdit  string    `json:"user_edit" gorm:"type:varchar(20)"`
@@ -44,6 +48,7 @@ type ExpendProgram struct {
 	ProgramName     string  `json:"program_name" binding:"required" gorm:"type:text"`
 	Slug            string  `json:"slug" gorm:"type:text"`
 	ProgramPagu     float64 `json:"program_pagu" gorm:"type:decimal(12,2)"`
+	BudgetID        int     `json:"budget_id" gorm:"type:int"`
 	BudgetYear      int     `json:"budget_year" gorm:"type:int"`
 	Included        bool    `json:"included" gorm:"type:bool"`
 
@@ -66,6 +71,7 @@ type ExpendKegiatan struct {
 	Slug             string    `json:"slug" gorm:"type:text"`
 	KegiatanPagu     float64   `json:"kegiatan_pagu" gorm:"type:decimal(12,2)"`
 	ExpendProgramID  int       `json:"expend_program_id" gorm:"type:int"`
+	BudgetID         int       `json:"budget_id" gorm:"type:int"`
 	BudgetYear       int       `json:"budget_year" gorm:"type:int"`
 	Included         bool      `json:"included" gorm:"type:bool"`
 	UserInput        string    `json:"user_input" gorm:"type:varchar(20)"`
@@ -87,6 +93,7 @@ type ExpendAccount struct {
 	UnitID           int     `json:"unit_id" gorm:"type:int"`
 	ExpendKegiatanID int     `json:"expend_kegiatan_id" gorm:"type:int"`
 	BudgetYear       int     `json:"budget_year" gorm:"type:int"`
+	BudgetID         int     `json:"budget_id" gorm:"type:int"`
 
 	UserInput string    `json:"user_input" gorm:"type:varchar(20)"`
 	UserEdit  string    `json:"user_edit" gorm:"type:varchar(20)"`
@@ -107,6 +114,7 @@ type ExpendObject struct {
 	AccountID        int     `json:"account_id"`
 	AccKode          string  `json:"acc_kode" binding:"required" gorm:"type:varchar(20)"`
 	AccName          string  `json:"acc_name" binding:"required" gorm:"type:text"`
+	BudgetID         int     `json:"budget_id" gorm:"type:int"`
 
 	UserInput string    `json:"user_input" gorm:"type:varchar(20)"`
 	UserEdit  string    `json:"user_edit" gorm:"type:varchar(20)"`
@@ -128,6 +136,7 @@ func (e *ExpendProgram) AfterCreate(tx *gorm.DB) (err error) {
 			ExpendProgramID: e.ExpendProgramID,
 			KegiatanPagu:    0.0,
 			Included:        false,
+			BudgetID:        e.BudgetID,
 			BudgetYear:      e.BudgetYear,
 		}
 		tx.Create(exk)

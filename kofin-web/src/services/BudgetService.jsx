@@ -1,5 +1,12 @@
 import ApiService from "./ApiService";
 
+export async function apiGetBudgetList(){
+    return ApiService.fetchData({
+        url:'/budgets/',
+        method:'get'
+    })
+}
+
 export async function apiGetBudget(){
     return ApiService.fetchData({
         url:'/budgets/1',
@@ -9,7 +16,7 @@ export async function apiGetBudget(){
 
 export async function apiCreateBudget(data){
     return ApiService.fetchData({
-        url:'/budgets/',
+        url:'/budgets/setup/',
         method:'post',
         data,
     })

@@ -6,10 +6,11 @@ import (
 )
 
 type BudgetRepo interface {
-	Create(data *store.Budget) error
+	Create(data *store.Budget) (*store.Budget, error)
 	GetByID(ID int) (*store.Budget, error)
 	Update(ID int, data interface{}) error
 	Delete(ID int) error
+	FindAll() (result *[]store.Budget, err error)
 }
 
 type BudgetRepoImpl struct {
@@ -20,13 +21,13 @@ func NewBudgetRepo(db *gorm.DB) BudgetRepo {
 	return &BudgetRepoImpl{db: db}
 }
 
-func (r *BudgetRepoImpl) Create(data *store.Budget) error {
+func (r *BudgetRepoImpl) Create(data *store.Budget) (*store.Budget, error) {
 	query := r.db.Create(data)
 	err := query.Error
 	if err != nil {
-		return err
+		return nil, err
 	}
-	return nil
+	return data, nil
 }
 
 func (r *BudgetRepoImpl) GetByID(ID int) (*store.Budget, error) {
@@ -59,4 +60,13 @@ func (r *BudgetRepoImpl) Delete(ID int) error {
 		return err
 	}
 	return nil
+}
+
+func (r *BudgetRepoImpl) FindAll() (result *[]store.Budget, err error) {
+	q := r.db.Find(&result)
+	err = q.Error
+	if err != nil {
+		return nil, err
+	}
+	return result, nil
 }
