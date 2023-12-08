@@ -11,7 +11,7 @@ func ExpendProgramRoute(router *gin.RouterGroup) {
 	expend_program.GET("/:id", ExpendProgramIndex)
 	expend_program.DELETE("/:id", ExpendProgramDelete)
 	expend_program.PUT("/:id", ExpendProgramUpdate)
-	expend_program.GET("/available/:year", ExpendProgramAvailable)
+	expend_program.GET("/available/:budgetId", ExpendProgramAvailable)
 	expend_program.PUT("/import/:id", ExpendProgramImport)
 }
 

@@ -21,6 +21,7 @@ type BudgetService interface {
 	Update(c *gin.Context)
 	Get(c *gin.Context)
 	FindAll(c *gin.Context)
+	GetIsActive(c *gin.Context)
 }
 
 type BudgetServiceImpl struct {
@@ -129,6 +130,19 @@ func (s *BudgetServiceImpl) FindAll(c *gin.Context) {
 	c.Request = c.Request.WithContext(ctx)
 
 	data, err := s.r.FindAll()
+	if err != nil {
+		log.Err(err).Msg("Error when delete data. Error")
+		pkg.PanicException(constant.InvalidRequest)
+	}
+	c.JSON(http.StatusOK, pkg.BuildResponse(constant.Success, data))
+}
+
+func (s *BudgetServiceImpl) GetIsActive(c *gin.Context) {
+	ctx, cancel := context.WithTimeout(c.Request.Context(), time.Duration(s.t)*time.Second)
+	defer cancel()
+	c.Request = c.Request.WithContext(ctx)
+
+	data, err := s.r.GetIsActive()
 	if err != nil {
 		log.Err(err).Msg("Error when delete data. Error")
 		pkg.PanicException(constant.InvalidRequest)

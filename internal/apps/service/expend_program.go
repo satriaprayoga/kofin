@@ -129,7 +129,7 @@ func (s *ExpendProgramServiceImpl) GetAvailable(c *gin.Context) {
 	defer cancel()
 	c.Request = c.Request.WithContext(ctx)
 
-	id := c.Param("year")
+	id := c.Param("budgetId")
 
 	year, err := strconv.Atoi(id)
 	if err != nil {
@@ -137,15 +137,7 @@ func (s *ExpendProgramServiceImpl) GetAvailable(c *gin.Context) {
 		pkg.PanicException(constant.InvalidRequest)
 	}
 
-	uid := c.Param("unitId")
-
-	unitID, err := strconv.Atoi(uid)
-	if err != nil {
-		log.Err(errors.New("id is invalid or empty")).Msg("Error when mapping request for expend_program creation. Error")
-		pkg.PanicException(constant.InvalidRequest)
-	}
-
-	data, err := s.r.GetAvailable(unitID, year)
+	data, err := s.r.GetAvailable(year)
 	if err != nil {
 		log.Err(err).Msg("Not Found")
 		pkg.PanicException(constant.DataNotFound)

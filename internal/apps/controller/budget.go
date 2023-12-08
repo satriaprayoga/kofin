@@ -15,6 +15,7 @@ func BudgetRoute(router *gin.RouterGroup) {
 
 	setup := budget.Group("/setup")
 	setup.POST("/", BudgetSetupCreate)
+	setup.GET("/active", BudgetIsActive)
 }
 
 func BudgetCreate(c *gin.Context) {
@@ -39,4 +40,8 @@ func BudgetSetupCreate(c *gin.Context) {
 
 func BudgetList(c *gin.Context) {
 	service.GetServices().Budget.FindAll(c)
+}
+
+func BudgetIsActive(c *gin.Context) {
+	service.GetServices().Budget.GetIsActive(c)
 }
