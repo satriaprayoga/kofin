@@ -37,6 +37,13 @@ export async function apiPutBudget(data){
     })
 }
 
+export async function apiGetAvailablePrograms(params){
+    return ApiService.fetchData({
+        url:'/expend_programs/available/'+params,
+        method:'get',
+    })
+}
+
 export async function apiImportProgramBudget(data){
     return ApiService.fetchData({
         url:'/programs/import',
