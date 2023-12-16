@@ -13,7 +13,7 @@ import {
 } from '@tanstack/react-table'
 import { isEmpty } from "lodash";
 
-import { getBudgets, getPrograms, setBudgetId } from "./store/dataSlice";
+import { getBudgets, getPrograms, importProgram, setBudgetId } from "./store/dataSlice";
 import { useNavigate } from "react-router-dom";
 
 
@@ -44,6 +44,7 @@ const Program=()=>{
     const budgets = useSelector((state)=>state.importBudgetProgram.data.budgetsData)
     const budgetId = useSelector((state)=>state.importBudgetProgram.data.budgetId)
     const loading = useSelector((state)=>state.importBudgetProgram.data.loading)
+    
     const fetchData=async(data)=>{
       dispatch(setBudgetId(data))
       dispatch(getPrograms(data))
@@ -134,6 +135,33 @@ const Program=()=>{
         }
     }
 
+    const handleClick=async(e)=>{
+        e.preventDefault()
+        const rows = table.getSelectedRowModel().rows
+        const success = await importProgram(rows)
+        if (success){
+             popNotification('Import')
+        }
+    }
+
+    const popNotification = (keyword) => {
+        toast.push(
+            <Notification
+                title={`${keyword} Berhasil!`}
+                type="success"
+                duration={2500}
+            >
+                {keyword} Program Berhasil
+            </Notification>,
+            {
+                placement: 'top-center',
+            }
+        )
+        dispatch(getBudgets)
+        dispatch(getPrograms(budgetId))
+        navigate('/budget/import/program')
+    }
+
 
 
     return (
@@ -155,7 +183,7 @@ const Program=()=>{
             <div className="md:mb-0 mb-4">
             
             </div>
-                <Button block variant="solid" disabled={setButton()}>
+                <Button block variant="solid" disabled={setButton()} onClick={handleClick}>
                     Import
                 </Button>
             </div>

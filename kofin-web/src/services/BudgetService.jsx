@@ -44,9 +44,9 @@ export async function apiGetAvailablePrograms(params){
     })
 }
 
-export async function apiImportProgramBudget(data){
+export async function apiImportProgramBudget(params,data){
     return ApiService.fetchData({
-        url:'/programs/import',
+        url:'/expend_programs/import/'+params,
         method:'put',
         data
     })

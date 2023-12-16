@@ -33,10 +33,11 @@ export const importProgram=async(rows)=>{
         rows.forEach(async (row,idx)=>{
             const data = cloneDeep(row.original)
             data.included=true
-            const success = await apiImportProgramBudget(data)
-            if (!success){
+            //const success = await apiImportProgramBudget(data.expend_program_id,data)
+            //if (!success){
                 return false
-            }
+            //}
+            console.log(data)
         })
         
        return true

@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { cloneDeep } from "lodash";
-import { apiGetAvailablePrograms, apiGetBudgetList } from "src/services/BudgetService";
+import { apiGetAvailablePrograms, apiGetBudgetList, apiImportProgramBudget } from "src/services/BudgetService";
 
 export const getPrograms=createAsyncThunk(
     'importBudgetProgram/getPrograms',
@@ -32,6 +32,21 @@ export const getBudgets=createAsyncThunk(
         return optData
     }
 )
+
+export const importProgram=async(rows)=>{
+    rows.forEach(async (row,idx)=>{
+        const data = cloneDeep(row.original)
+        //console.log(data)
+        data.included=true
+        const success = await apiImportProgramBudget(data.expend_program_id,data)
+        if (!success){
+            return false
+        }
+        
+    })
+    
+   return true
+}
 
 
 
