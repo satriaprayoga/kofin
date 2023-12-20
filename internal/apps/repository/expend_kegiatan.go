@@ -68,7 +68,9 @@ func (r *ExpendKegiatanRepoImpl) Delete(ID int) error {
 }
 
 func (r *ExpendKegiatanRepoImpl) GetAvailable(setup dto.ExpendKegiatanSetup) (result *[]store.ExpendKegiatan, err error) {
-	queryString := fmt.Sprintf(`SELECT * FROM expend_kegiatan WHERE budget_year=%d AND expend_program_id=%d AND included=FALSE`, setup.Year, setup.ExpendProgramID)
+	queryString := fmt.Sprintf(`SELECT * FROM expend_kegiatan WHERE budget_id=%d AND expend_program_id=%d AND included=FALSE`,
+		setup.BudgetID, setup.ExpendProgramID)
+
 	query := r.db.Raw(queryString).Scan(&result)
 	err = query.Error
 	if err != nil {

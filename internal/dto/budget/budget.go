@@ -20,5 +20,5 @@ type ExpendBudgetSetup struct {
 }
 type ExpendKegiatanSetup struct {
 	ExpendProgramID int `json:"expend_program_id"`
-	Year            int `json:"year"`
+	BudgetID        int `json:"budget_id"`
 }
