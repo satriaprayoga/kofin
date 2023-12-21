@@ -44,6 +44,14 @@ export async function apiGetAvailablePrograms(params){
     })
 }
 
+export async function apiGetAvailableKegiatans(data){
+    return ApiService.fetchData({
+        url:'/expend_kegiatans/available',
+        method:'get',
+        data
+    })
+}
+
 export async function apiImportProgramBudget(params,data){
     return ApiService.fetchData({
         url:'/expend_programs/import/'+params,
