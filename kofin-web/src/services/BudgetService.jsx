@@ -44,11 +44,17 @@ export async function apiGetAvailablePrograms(params){
     })
 }
 
-export async function apiGetAvailableKegiatans(data){
+export async function apiGetImportedPrograms(params){
     return ApiService.fetchData({
-        url:'/expend_kegiatans/available',
+        url:'/expend_programs/imported/'+params,
         method:'get',
-        data
+    })
+}
+
+export async function apiGetAvailableKegiatans(params){
+    return ApiService.fetchData({
+        url:'/expend_kegiatans/available/'+params,
+        method:'get',
     })
 }
 

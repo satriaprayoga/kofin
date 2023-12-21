@@ -3,7 +3,6 @@ package repository
 import (
 	"fmt"
 
-	dto "github.com/satriaprayoga/kofin/internal/dto/budget"
 	"github.com/satriaprayoga/kofin/internal/store"
 	"gorm.io/gorm"
 )
@@ -13,7 +12,7 @@ type ExpendKegiatanRepo interface {
 	GetByID(ID int) (*store.ExpendKegiatan, error)
 	Update(ID int, data interface{}) error
 	Delete(ID int) error
-	GetAvailable(setup dto.ExpendKegiatanSetup) (result *[]store.ExpendKegiatan, err error)
+	GetAvailable(budgetId int) (result *[]store.ExpendKegiatan, err error)
 	UpdateOnAccount(A store.ExpendObject) error
 	UpdateOnObject(A store.ExpendObject, value float64) error
 }
@@ -67,9 +66,9 @@ func (r *ExpendKegiatanRepoImpl) Delete(ID int) error {
 	return nil
 }
 
-func (r *ExpendKegiatanRepoImpl) GetAvailable(setup dto.ExpendKegiatanSetup) (result *[]store.ExpendKegiatan, err error) {
-	queryString := fmt.Sprintf(`SELECT * FROM expend_kegiatan WHERE budget_id=%d AND expend_program_id=%d AND included=FALSE`,
-		setup.BudgetID, setup.ExpendProgramID)
+func (r *ExpendKegiatanRepoImpl) GetAvailable(budgetId int) (result *[]store.ExpendKegiatan, err error) {
+	queryString := fmt.Sprintf(`SELECT * FROM expend_kegiatan WHERE budget_id=%d AND included=FALSE`,
+		budgetId)
 
 	query := r.db.Raw(queryString).Scan(&result)
 	err = query.Error

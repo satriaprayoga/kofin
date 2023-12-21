@@ -21,6 +21,7 @@ type ExpendProgramService interface {
 	Update(c *gin.Context)
 	Get(c *gin.Context)
 	GetAvailable(c *gin.Context)
+	GetImported(c *gin.Context)
 	//IncludeToBudget(c *gin.Context)
 }
 
@@ -138,6 +139,29 @@ func (s *ExpendProgramServiceImpl) GetAvailable(c *gin.Context) {
 	}
 
 	data, err := s.r.GetAvailable(year)
+	if err != nil {
+		log.Err(err).Msg("Not Found")
+		pkg.PanicException(constant.DataNotFound)
+	}
+
+	c.JSON(http.StatusOK, pkg.BuildResponse(constant.Success, data))
+
+}
+
+func (s *ExpendProgramServiceImpl) GetImported(c *gin.Context) {
+	ctx, cancel := context.WithTimeout(c.Request.Context(), time.Duration(s.t)*time.Second)
+	defer cancel()
+	c.Request = c.Request.WithContext(ctx)
+
+	id := c.Param("budgetId")
+
+	year, err := strconv.Atoi(id)
+	if err != nil {
+		log.Err(errors.New("id is invalid or empty")).Msg("Error when mapping request for expend_program creation. Error")
+		pkg.PanicException(constant.InvalidRequest)
+	}
+
+	data, err := s.r.GetImported(year)
 	if err != nil {
 		log.Err(err).Msg("Not Found")
 		pkg.PanicException(constant.DataNotFound)

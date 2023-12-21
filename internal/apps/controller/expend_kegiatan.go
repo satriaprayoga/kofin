@@ -11,7 +11,7 @@ func ExpendKegiatanRoute(router *gin.RouterGroup) {
 	expend_kegiatan.GET("/:id", ExpendKegiatanIndex)
 	expend_kegiatan.DELETE("/:id", ExpendKegiatanDelete)
 	expend_kegiatan.PUT("/:id", ExpendKegiatanUpdate)
-	expend_kegiatan.GET("/available", ExpendKegiatanAvailable)
+	expend_kegiatan.GET("/available/:budgetId", ExpendKegiatanAvailable)
 	expend_kegiatan.PUT("/import/:id", ExpendKegiatanImport)
 }
 

@@ -14,6 +14,7 @@ type ExpendProgramRepo interface {
 	Update(ID int, data interface{}) error
 	Delete(ID int) error
 	GetAvailable(budgetId int) (result *[]store.ExpendProgram, err error)
+	GetImported(budgetId int) (result *[]store.ExpendProgram, err error)
 	BatchImport(IDs []int) error
 }
 
@@ -69,6 +70,18 @@ func (r *ExpendProgramRepoImpl) Delete(ID int) error {
 func (r *ExpendProgramRepoImpl) GetAvailable(budgetId int) (result *[]store.ExpendProgram, err error) {
 
 	queryString := fmt.Sprintf(`SELECT * FROM expend_program WHERE budget_id=%d AND included=FALSE`, budgetId)
+
+	query := r.db.Raw(queryString).Scan(&result)
+	err = query.Error
+	if err != nil {
+		return result, err
+	}
+	return result, nil
+}
+
+func (r *ExpendProgramRepoImpl) GetImported(budgetId int) (result *[]store.ExpendProgram, err error) {
+
+	queryString := fmt.Sprintf(`SELECT * FROM expend_program WHERE budget_id=%d AND included=TRUE`, budgetId)
 
 	query := r.db.Raw(queryString).Scan(&result)
 	err = query.Error

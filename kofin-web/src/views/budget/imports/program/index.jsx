@@ -54,6 +54,7 @@ const Program=()=>{
     } 
 
     useEffect(()=>{
+        setBudgetId(1)
         dispatch(getBudgets())
        // console.log(budgetId)
         dispatch(getPrograms(budgetId))
@@ -128,10 +129,14 @@ const Program=()=>{
     })
 
     const setButton=()=>{
-        if (table.getIsSomeRowsSelected() || table.getIsAllRowsSelected()){
-            return false
-        }else{
+        if(isEmpty(programs)){
             return true
+        }else{
+            if (table.getIsSomeRowsSelected() || table.getIsAllRowsSelected()){
+                return false
+            }else{
+                return true
+            }
         }
     }
 
@@ -157,7 +162,7 @@ const Program=()=>{
                 placement: 'top-center',
             }
         )
-        dispatch(getBudgets)
+        dispatch(getBudgets())
         dispatch(getPrograms(budgetId))
         navigate('/budget/import/program')
     }
@@ -189,6 +194,16 @@ const Program=()=>{
             </div>
         </div>
         <Loading loading={loading}>
+            
+            {
+                isEmpty(programs) && 
+                <div className="text-center">
+                     <h5 className="mb-2">
+                        Tidak ada Data Program
+                    </h5>
+                    
+                </div>
+            }
             {!isEmpty(programs) && (
                 <Table>
                 <THead>

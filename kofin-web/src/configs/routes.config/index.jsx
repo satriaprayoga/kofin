@@ -127,7 +127,7 @@ export const protectedRoutes = [
     {
         key:'importKegiatanBudget',
         path:'/budget/import/kegiatan',
-        component:React.lazy(()=>import('views/budget/Import/Kegiatan')),
+        component:React.lazy(()=>import('views/budget/imports/kegiatan')),
         authority:[], 
     },
     {

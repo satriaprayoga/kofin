@@ -11,7 +11,6 @@ import (
 	"github.com/rs/zerolog/log"
 	"github.com/satriaprayoga/kofin/internal/apps/repository"
 	"github.com/satriaprayoga/kofin/internal/constant"
-	dto "github.com/satriaprayoga/kofin/internal/dto/budget"
 	"github.com/satriaprayoga/kofin/internal/pkg"
 	"github.com/satriaprayoga/kofin/internal/store"
 )
@@ -26,12 +25,14 @@ type ExpendKegiatanService interface {
 
 type ExpendKegiatanServiceImpl struct {
 	r repository.ExpendKegiatanRepo
+	d repository.ExpendProgramRepo
 	t time.Duration
 }
 
 func NewExpendKegiatanService(timeout time.Duration) ExpendKegiatanService {
 	accRepo := repository.GetRepo().ExpendKegiatanRepo
-	return &ExpendKegiatanServiceImpl{r: accRepo, t: timeout}
+	ddRepo := repository.GetRepo().ExpendProgramRepo
+	return &ExpendKegiatanServiceImpl{r: accRepo, d: ddRepo, t: timeout}
 }
 
 func (s *ExpendKegiatanServiceImpl) Create(c *gin.Context) {
@@ -125,21 +126,48 @@ func (s *ExpendKegiatanServiceImpl) Get(c *gin.Context) {
 }
 
 func (s *ExpendKegiatanServiceImpl) GetAvailable(c *gin.Context) {
+
 	ctx, cancel := context.WithTimeout(c.Request.Context(), time.Duration(s.t)*time.Second)
 	defer cancel()
 	c.Request = c.Request.WithContext(ctx)
 
-	var updated = dto.ExpendKegiatanSetup{}
-	if err := c.ShouldBindJSON(&updated); err != nil {
-		log.Err(err).Msg("Error when mapping request for expend_kegiatan creation. Error")
+	id := c.Param("budgetId")
+
+	year, err := strconv.Atoi(id)
+	if err != nil {
+		log.Err(errors.New("id is invalid or empty")).Msg("Error when mapping request for expend_program creation. Error")
 		pkg.PanicException(constant.InvalidRequest)
 	}
 
-	data, err := s.r.GetAvailable(updated)
+	data, err := s.r.GetAvailable(year)
 	if err != nil {
 		log.Err(err).Msg("Not Found")
 		pkg.PanicException(constant.DataNotFound)
 	}
+	var responseK []KegiatanResponse
+	for _, d := range *data {
+		pr, err := s.d.GetByID(d.ExpendProgramID)
+		if err != nil {
+			log.Err(err).Msg("Not Found")
+			pkg.PanicException(constant.DataNotFound)
+		}
+		responseK = append(responseK, KegiatanResponse{
+			ExpendKegiatanID: d.ExpendKegiatanID,
+			KegiatanKode:     d.KegiatanKode,
+			KegiatanName:     d.KegiatanName,
+			ProgramKode:      pr.ProgramKode,
+			ProgramName:      pr.ProgramName,
+		})
+	}
 
-	c.JSON(http.StatusOK, pkg.BuildResponse(constant.Success, data))
+	c.JSON(http.StatusOK, pkg.BuildResponse(constant.Success, responseK))
+}
+
+type KegiatanResponse struct {
+	ExpendKegiatanID int    `json:"expend_kegiatan_id"`
+	KegiatanKode     string `json:"kegiatan_kode"`
+	KegiatanName     string `json:"kegiatan_name"`
+	ExpendProgramID  int    `json:"expend_program_id"`
+	ProgramKode      string `json:"program_kode"`
+	ProgramName      string `json:"program_name"`
 }
