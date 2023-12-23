@@ -1,62 +1,70 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { cloneDeep } from "lodash";
-import { apiGetSubunitData } from "services/UnitService";
-import { apiImportProgramBudget } from "src/services/BudgetService";
-import { apiGetProgramUnit } from "src/services/ProgramService";
+import { apiGetAvailablePrograms, apiGetBudgetList, apiImportProgramBudget } from "src/services/BudgetService";
 
 export const getPrograms=createAsyncThunk(
-    'importProgram/getPrograms',
+    'importBudgetProgram/getPrograms',
     async(data)=>{
        // console.log(data)
-        const response = await apiGetProgramUnit(data)
+        const response = await apiGetAvailablePrograms(data)
        
-        return response.data
+        return response.data.data
     }
 )
 
-export const getSubunits=createAsyncThunk(
-    'importProgram/getSubunits',
+export const getBudgets=createAsyncThunk(
+    'importBudgetProgram/getBudgets',
     async()=>{
-        const response = await apiGetSubunitData()
+        const response = await apiGetBudgetList()
         const optData=[]
-        response.data.forEach((d)=>{
+        //console.log(response.data.data)
+        response.data.data.forEach((d)=>{
+           // console.log(d)
+            const b = cloneDeep(d)
             optData.push({
-                value:d.unit_id,
-                label:d.unit_name
+                value:b.budget_id,
+                label:b.budget_year+" "+b.budget_desc
             })
+            
         })
+      // console.log(optData)
+        
         return optData
     }
 )
 
 export const importProgram=async(rows)=>{
-        rows.forEach(async (row,idx)=>{
-            const data = cloneDeep(row.original)
-            data.included=true
-            const success = await apiImportProgramBudget(data)
-            if (!success){
-                return false
-            }
-        })
+    rows.forEach(async (row,idx)=>{
+        const data = cloneDeep(row.original)
+        //console.log(data)
+        data.included=true
+        const success = await apiImportProgramBudget(data.expend_program_id,data)
+        if (!success){
+            return false
+        }
         
-       return true
-    }
+    })
+    
+   return true
+}
+
+
 
 
 const dataSlice = createSlice({
-    name:'importProgram/data',
+    name:'importBudgetProgram/data',
     initialState:{
         loading:false,
         programsData:[],
-        subunitData:[],
-        subunitId:0
+        budgetsData:[],
+        budgetId:1
     },
     reducers:{
         updateProgramsData:(state,action)=>{
             state.programsData=action.payload
         },
-        setSubunitId:(state,action)=>{
-            state.subunitId=action.payload
+        setBudgetId:(state,action)=>{
+            state.budgetId=action.payload
         }
     },
     extraReducers:{
@@ -67,11 +75,11 @@ const dataSlice = createSlice({
             state.loading=false
             state.programsData=action.payload
         },
-        [getSubunits.fulfilled]:(state,action)=>{
-            state.subunitData=action.payload
+        [getBudgets.fulfilled]:(state,action)=>{
+            state.budgetsData=action.payload
             state.loading=false
         },
-        [getSubunits.pending]:(state)=>{
+        [getBudgets.pending]:(state)=>{
             state.loading=true
         },
        
@@ -80,7 +88,7 @@ const dataSlice = createSlice({
 
 export const{
     updateProgramsData,
-    setSubunitId
+    setBudgetId
 }=dataSlice.actions
 
 export default dataSlice.reducer

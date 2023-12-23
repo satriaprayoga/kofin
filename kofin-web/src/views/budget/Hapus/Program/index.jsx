@@ -2,7 +2,6 @@ import React, { useRef, useEffect, useMemo, useState} from "react";
 import { injectReducer } from "src/store";
 import reducer from "./store";
 import { useDispatch, useSelector } from "react-redux";
-import { getPrograms, getSubunits, importProgram, setSubunitId } from "./store/dataSlice";
 import { AdaptableCard, Loading } from "src/components/shared";
 import { Select,Table, Checkbox, Button, toast, Notification } from "src/components/ui";
 import {
@@ -13,9 +12,12 @@ import {
     useReactTable,
 } from '@tanstack/react-table'
 import { isEmpty } from "lodash";
+
+import { getBudgets, getPrograms, importProgram, setBudgetId } from "./store/dataSlice";
 import { useNavigate } from "react-router-dom";
 
-injectReducer("importProgram",reducer)
+
+injectReducer("importBudgetProgram",reducer)
 
 const { Tr, Th, Td, THead, TBody } = Table
 
@@ -31,28 +33,32 @@ function IndeterminateCheckbox({ indeterminate, onChange, ...rest }) {
     return <Checkbox ref={ref} onChange={(_, e) => onChange(e)} {...rest} />
 }
 
+
 const Program=()=>{
     const dispatch=useDispatch()
     const navigate = useNavigate()
 
     const [rowSelection, setRowSelection] = useState({})
 
-    const loading = useSelector((state)=>state.importProgram.data.loading)
-    const programs= useSelector((state)=>state.importProgram.data.programsData)
-    const subunits= useSelector((state)=>state.importProgram.data.subunitData)
-    const subunitId = useSelector((state)=>state.importProgram.data.subunitId)
-
+    const programs = useSelector((state)=>state.importBudgetProgram.data.programsData)
+    const budgets = useSelector((state)=>state.importBudgetProgram.data.budgetsData)
+    const budgetId = useSelector((state)=>state.importBudgetProgram.data.budgetId)
+    const loading = useSelector((state)=>state.importBudgetProgram.data.loading)
+    
     const fetchData=async(data)=>{
-      
-        dispatch(setSubunitId(data))
-        dispatch(getPrograms({id:data}))
-    }
+      dispatch(setBudgetId(data))
+      dispatch(getPrograms(data))
+     
+     // console.log(programs)
+     
+    } 
 
     useEffect(()=>{
-        dispatch(getSubunits())
-      
-        console.log(subunitId)
-        dispatch(getPrograms({id:subunitId}))
+        setBudgetId(1)
+        dispatch(getBudgets())
+       // console.log(budgetId)
+        dispatch(getPrograms(budgetId))
+        //console.log(budgets)
     },[])
 
     const columns = useMemo(() => {
@@ -123,14 +129,25 @@ const Program=()=>{
     })
 
     const setButton=()=>{
-        if (table.getIsSomeRowsSelected() || table.getIsAllRowsSelected()){
-            return false
-        }else{
+        if(isEmpty(programs)){
             return true
+        }else{
+            if (table.getIsSomeRowsSelected() || table.getIsAllRowsSelected()){
+                return false
+            }else{
+                return true
+            }
         }
     }
 
-   
+    const handleClick=async(e)=>{
+        e.preventDefault()
+        const rows = table.getSelectedRowModel().rows
+        const success = await importProgram(rows)
+        if (success){
+             popNotification('Import')
+        }
+    }
 
     const popNotification = (keyword) => {
         toast.push(
@@ -145,49 +162,48 @@ const Program=()=>{
                 placement: 'top-center',
             }
         )
-        dispatch(getSubunits())
-      
-        //console.log(subunitId)
-        dispatch(getPrograms({id:subunitId}))
+        dispatch(getBudgets())
+        dispatch(getPrograms(budgetId))
         navigate('/budget/import/program')
     }
 
-    const handleClick=async (e)=>{
-        e.preventDefault()
-        const rows = table.getSelectedRowModel().rows
-        const success = await importProgram(rows)
-        if (success){
-             popNotification('Import')
-        }
-    }
+
 
     return (
         <>
         <AdaptableCard className="h-full" bodyClass="h-full">
         <div className="lg:flex items-center justify-between mb-4">
             <h3 className="mb-4 lg:mb-0">Import Program</h3>
-            <div className="flex lg:flex-col lg:flex-row lg:items-center gap-4">
-            <div
-                        className="md:mb-0 mb-4"
-                       
-                    >
-                    <Select
+            <Select
                          
-                        options={subunits} 
-                        onChange={(option)=>{fetchData(option.value);table.resetRowSelection(true)}} 
-                        placeholder="Subunit" 
-                        value={subunits.filter(
-                                    (option) =>
-                                        option.value ===
-                                        subunitId
-                                )}/>
-                </div>
+                         options={budgets} 
+                         onChange={(option)=>{fetchData(option.value);table.resetRowSelection(true)}} 
+                         placeholder="Subunit" 
+                         value={budgets.filter(
+                                     (option) =>
+                                         option.value ===
+                                         budgetId
+                                 )}/>  
+            <div className="flex lg:flex-col lg:flex-row lg:items-center gap-4">
+            <div className="md:mb-0 mb-4">
+            
+            </div>
                 <Button block variant="solid" disabled={setButton()} onClick={handleClick}>
                     Import
                 </Button>
             </div>
         </div>
         <Loading loading={loading}>
+            
+            {
+                isEmpty(programs) && 
+                <div className="text-center">
+                     <h5 className="mb-2">
+                        Tidak ada Data Program
+                    </h5>
+                    
+                </div>
+            }
             {!isEmpty(programs) && (
                 <Table>
                 <THead>
@@ -227,9 +243,11 @@ const Program=()=>{
                         )
                     })}
                 </TBody>
+                
             </Table>
             )}
         </Loading>
+       
 
         </AdaptableCard>
         </>

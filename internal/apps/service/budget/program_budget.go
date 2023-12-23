@@ -18,6 +18,7 @@ import (
 
 type ProgramBudgetService interface {
 	Import(c *gin.Context)
+	Hapus(c *gin.Context)
 }
 
 type ProgramBudgetServiceImpl struct {
@@ -81,6 +82,53 @@ func (pb *ProgramBudgetServiceImpl) Import(c *gin.Context) {
 	c.JSON(http.StatusOK, pkg.BuildResponse(constant.Success, "OK"))
 }
 
+func (pb *ProgramBudgetServiceImpl) Hapus(c *gin.Context) {
+	ctx, cancel := context.WithTimeout(c.Request.Context(), time.Duration(pb.t)*time.Second)
+	defer cancel()
+	c.Request = c.Request.WithContext(ctx)
+
+	id := c.Param("id")
+	ID, err := strconv.Atoi(id)
+	if err != nil {
+		log.Err(errors.New("id is invalid or empty")).Msg("Error when mapping request for expend_program creation. Error")
+		pkg.PanicException(constant.InvalidRequest)
+		pkg.PanicHandler(c)
+	}
+
+	//var data store.ExpendProgram{}
+	data, err := pb.ep.GetByID(ID)
+	if err != nil {
+		log.Err(errors.New("data not found")).Msg("Error when check expend program. Data not found Error")
+		pkg.PanicException(constant.DataNotFound)
+		pkg.PanicHandler(c)
+	}
+	if data.ExpendProgramID < 1 {
+		log.Err(errors.New("data not found")).Msg("Error when check expend program. Data not found Error")
+		pkg.PanicException(constant.DataNotFound)
+		pkg.PanicHandler(c)
+	}
+	var updated = store.ExpendProgram{}
+	if err := c.ShouldBindJSON(&updated); err != nil {
+		log.Err(err).Msg("Error when mapping request for expend_kegiatan creation. Error")
+		pkg.PanicException(constant.InvalidRequest)
+		pkg.PanicHandler(c)
+	}
+
+	updated.Included = false
+	updated.BudgetYear = data.BudgetYear
+
+	err = pb.ep.Update(ID, updated)
+	if err != nil {
+		log.Err(err).Msg("Error when delete data. Error")
+		pkg.PanicException(constant.InvalidRequest)
+		//pkg.PanicHandler(c)
+	}
+
+	go pb.initializeHapus(updated)
+
+	c.JSON(http.StatusOK, pkg.BuildResponse(constant.Success, "OK"))
+}
+
 func (pb *ProgramBudgetServiceImpl) initializeImport(exPrID int, updated store.ExpendProgram) {
 	var (
 		err       error
@@ -107,6 +155,32 @@ func (pb *ProgramBudgetServiceImpl) initializeImport(exPrID int, updated store.E
 		if err != nil {
 			log.Err(err).Msg("Error when check expend program. Data not found Error")
 			pkg.PanicException(constant.UnknownError)
+		}
+	}
+}
+
+func (pb *ProgramBudgetServiceImpl) initializeHapus(updated store.ExpendProgram) {
+	var (
+		err       error
+		kegiatans *[]store.ExpendKegiatan
+	)
+
+	kegiatans, err = pb.ek.GetUnAvailable(updated.ExpendProgramID, updated.BudgetID)
+	if err != nil {
+		log.Err(errors.New("data not found")).Msg("Error when check expend program. Data not found Error")
+		pkg.PanicException(constant.DataNotFound)
+
+	}
+	for _, kk := range *kegiatans {
+		var updated = store.ExpendKegiatan{}
+		updated.Included = true
+		updated.BudgetYear = kk.BudgetYear
+
+		err = pb.ek.Update(kk.ExpendKegiatanID, updated)
+		if err != nil {
+			log.Err(err).Msg("Error when delete data. Error")
+			pkg.PanicException(constant.InvalidRequest)
+			//pkg.PanicHandler(c)
 		}
 	}
 }

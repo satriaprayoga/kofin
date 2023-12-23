@@ -1,62 +1,90 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { cloneDeep } from "lodash";
-import { apiImportKegiatanBudget} from "services/BudgetService";
-import { apiGetAllPrograms } from "services/ProgramService";
-import { apiGetKegiatanProgram } from "src/services/KegiatanService";
+import { apiGetAvailableKegiatans,  apiGetBudgetList, apiGetImportedPrograms, apiImportKegiatanBudget } from "src/services/BudgetService";
 
-export const getKegiatans=createAsyncThunk(
-    'importKegiatan/getKegiatans',
+export const getPrograms=createAsyncThunk(
+    'importBudgetKegiatan/getPrograms',
     async(data)=>{
        // console.log(data)
-        const response = await apiGetKegiatanProgram(data)
+        const response = await apiGetImportedPrograms(data)
+        const optData=[]
        
-        return response.data
+        response.data.data.forEach((d)=>{
+            // console.log(d)
+             const b = cloneDeep(d)
+             optData.push({
+                 value:b.expend_program_id,
+                 label:b.program_name
+             })
+             
+         })
+         return optData
     }
 )
 
-export const getPrograms=createAsyncThunk(
-    'importKegiatan/getPrograms',
+export const getKegiatans=createAsyncThunk(
+    'importBudgetKegiatan/getKegiatans',
+    async(data)=>{
+       // console.log(data)
+        const response = await apiGetAvailableKegiatans(data)
+       
+        return response.data.data
+    }
+)
+
+export const getBudgets=createAsyncThunk(
+    'importBudgetKegiatan/getBudgets',
     async()=>{
-        const response = await apiGetAllPrograms()
+        const response = await apiGetBudgetList()
         const optData=[]
-        response.data.forEach((d)=>{
+        //console.log(response.data.data)
+        response.data.data.forEach((d)=>{
+           // console.log(d)
+            const b = cloneDeep(d)
             optData.push({
-                value:d.id,
-                label:d.program_name
+                value:b.budget_id,
+                label:b.budget_year+" "+b.budget_desc
             })
+            
         })
+      // console.log(optData)
+        
         return optData
     }
 )
 
 export const importKegiatan=async(rows)=>{
-        rows.forEach(async (row,idx)=>{
-            const data = cloneDeep(row.original)
-            data.included=true
-            const success = await apiImportKegiatanBudget(data)
-            if (!success){
-                return false
-            }
-        })
+    rows.forEach(async (row,idx)=>{
+        const data = cloneDeep(row.original)
+        //console.log(data)
+        data.included=true
+        const success = await apiImportKegiatanBudget(data.expend_kegiatan_id,data)
+        if (!success){
+            return false
+        }
         
-       return true
-    }
+    })
+    
+   return true
+}
+
+
 
 
 const dataSlice = createSlice({
-    name:'importKegiatan/data',
+    name:'importBudgetKegiatan/data',
     initialState:{
         loading:false,
         kegiatansData:[],
-        programData:[],
-        programId:0
+        budgetsData:[],
+        budgetId:1
     },
     reducers:{
         updateKegiatansData:(state,action)=>{
             state.kegiatansData=action.payload
         },
-        setProgramId:(state,action)=>{
-            state.programId=action.payload
+        setBudgetId:(state,action)=>{
+            state.budgetId=action.payload
         }
     },
     extraReducers:{
@@ -67,11 +95,11 @@ const dataSlice = createSlice({
             state.loading=false
             state.kegiatansData=action.payload
         },
-        [getPrograms.fulfilled]:(state,action)=>{
-            state.programData=action.payload
+        [getBudgets.fulfilled]:(state,action)=>{
+            state.budgetsData=action.payload
             state.loading=false
         },
-        [getPrograms.pending]:(state)=>{
+        [getBudgets.pending]:(state)=>{
             state.loading=true
         },
        
@@ -80,7 +108,7 @@ const dataSlice = createSlice({
 
 export const{
     updateKegiatansData,
-    setProgramId
+    setBudgetId
 }=dataSlice.actions
 
 export default dataSlice.reducer

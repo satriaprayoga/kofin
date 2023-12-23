@@ -13,6 +13,7 @@ type ExpendKegiatanRepo interface {
 	Update(ID int, data interface{}) error
 	Delete(ID int) error
 	GetAvailable(budgetId int) (result *[]store.ExpendKegiatan, err error)
+	GetUnAvailable(budgetId int, expendID int) (result *[]store.ExpendKegiatan, err error)
 	UpdateOnAccount(A store.ExpendObject) error
 	UpdateOnObject(A store.ExpendObject, value float64) error
 }
@@ -69,6 +70,18 @@ func (r *ExpendKegiatanRepoImpl) Delete(ID int) error {
 func (r *ExpendKegiatanRepoImpl) GetAvailable(budgetId int) (result *[]store.ExpendKegiatan, err error) {
 	queryString := fmt.Sprintf(`SELECT * FROM expend_kegiatan WHERE budget_id=%d AND included=FALSE`,
 		budgetId)
+
+	query := r.db.Raw(queryString).Scan(&result)
+	err = query.Error
+	if err != nil {
+		return result, err
+	}
+	return result, nil
+}
+
+func (r *ExpendKegiatanRepoImpl) GetUnAvailable(budgetId int, expendID int) (result *[]store.ExpendKegiatan, err error) {
+	queryString := fmt.Sprintf(`SELECT * FROM expend_kegiatan WHERE budget_id=%d AND expend_program_id=%d included=FALSE`,
+		budgetId, expendID)
 
 	query := r.db.Raw(queryString).Scan(&result)
 	err = query.Error

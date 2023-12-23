@@ -133,13 +133,13 @@ export const protectedRoutes = [
     {
         key:'hapusProgramBudget',
         path:'/budget/hapus/program',
-        component:React.lazy(()=>import('views/budget/Hapus/Program')),
+        component:React.lazy(()=>import('views/budget/hapus/Program')),
         authority:[], 
     },
     {
         key:'hapusKegiatanBudget',
         path:'/budget/hapus/kegiatan',
-        component:React.lazy(()=>import('views/budget/Hapus/Kegiatan')),
+        component:React.lazy(()=>import('views/budget/hapus/Kegiatan')),
         authority:[], 
     },
     /** Example purpose only, please remove */

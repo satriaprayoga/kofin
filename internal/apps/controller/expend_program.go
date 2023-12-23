@@ -14,6 +14,7 @@ func ExpendProgramRoute(router *gin.RouterGroup) {
 	expend_program.GET("/available/:budgetId", ExpendProgramAvailable)
 	expend_program.GET("/imported/:budgetId", ExpendProgramImported)
 	expend_program.PUT("/import/:id", ExpendProgramImport)
+	expend_program.PUT("/hapus/:id", ExpendProgramHapus)
 }
 
 func ExpendProgramCreate(c *gin.Context) {
@@ -42,4 +43,8 @@ func ExpendProgramImported(c *gin.Context) {
 
 func ExpendProgramImport(c *gin.Context) {
 	service.GetServices().ProgramBudget.Import(c)
+}
+
+func ExpendProgramHapus(c *gin.Context) {
+	service.GetServices().ProgramBudget.Hapus(c)
 }

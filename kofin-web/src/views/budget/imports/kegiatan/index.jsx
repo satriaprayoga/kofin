@@ -13,7 +13,7 @@ import {
 } from '@tanstack/react-table'
 import { isEmpty } from "lodash";
 
-import { getBudgets, getKegiatans, getPrograms, importProgram, setBudgetId } from "./store/dataSlice";
+import { getBudgets, getKegiatans, importKegiatan, setBudgetId } from "./store/dataSlice";
 import { useNavigate } from "react-router-dom";
 
 
@@ -54,6 +54,7 @@ const Kegiatan=()=>{
     } 
 
     useEffect(()=>{
+        setBudgetId(1)
         dispatch(getBudgets())
        // console.log(budgetId)
         dispatch(getKegiatans(budgetId))
@@ -146,7 +147,11 @@ const Kegiatan=()=>{
 
     const handleClick=async(e)=>{
         e.preventDefault()
-       
+        const rows = table.getSelectedRowModel().rows
+        const success = await importKegiatan(rows)
+        if (success){
+             popNotification('Import')
+        }
     }
 
     const popNotification = (keyword) => {

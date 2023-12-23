@@ -2,7 +2,6 @@ import React, { useRef, useEffect, useMemo, useState} from "react";
 import { injectReducer } from "src/store";
 import reducer from "./store";
 import { useDispatch, useSelector } from "react-redux";
-import { getKegiatans, getPrograms, importKegiatan, setProgramId } from "./store/dataSlice";
 import { AdaptableCard, Loading } from "src/components/shared";
 import { Select,Table, Checkbox, Button, toast, Notification } from "src/components/ui";
 import {
@@ -13,9 +12,12 @@ import {
     useReactTable,
 } from '@tanstack/react-table'
 import { isEmpty } from "lodash";
+
+import { getBudgets, getKegiatans, importKegiatan, setBudgetId } from "./store/dataSlice";
 import { useNavigate } from "react-router-dom";
 
-injectReducer("importKegiatan",reducer)
+
+injectReducer("importBudgetKegiatan",reducer)
 
 const { Tr, Th, Td, THead, TBody } = Table
 
@@ -31,28 +33,32 @@ function IndeterminateCheckbox({ indeterminate, onChange, ...rest }) {
     return <Checkbox ref={ref} onChange={(_, e) => onChange(e)} {...rest} />
 }
 
+
 const Kegiatan=()=>{
     const dispatch=useDispatch()
     const navigate = useNavigate()
 
     const [rowSelection, setRowSelection] = useState({})
 
-    const loading = useSelector((state)=>state.importKegiatan.data.loading)
-    const kegiatans= useSelector((state)=>state.importKegiatan.data.kegiatansData)
-    const programs= useSelector((state)=>state.importKegiatan.data.programData)
-    const programId = useSelector((state)=>state.importKegiatan.data.programId)
-
+    const kegiatans = useSelector((state)=>state.importBudgetKegiatan.data.kegiatansData)
+    const budgets = useSelector((state)=>state.importBudgetKegiatan.data.budgetsData)
+    const budgetId = useSelector((state)=>state.importBudgetKegiatan.data.budgetId)
+    const loading = useSelector((state)=>state.importBudgetKegiatan.data.loading)
+    
     const fetchData=async(data)=>{
-      
-        dispatch(setProgramId(data))
-        dispatch(getKegiatans({id:data}))
-    }
+      dispatch(setBudgetId(data))
+      dispatch(getKegiatans(data))
+     
+     // console.log(programs)
+     
+    } 
 
     useEffect(()=>{
-        dispatch(getPrograms())
-      
-        console.log(programId)
-        dispatch(getKegiatans({id:programId}))
+        setBudgetId(1)
+        dispatch(getBudgets())
+       // console.log(budgetId)
+        dispatch(getKegiatans(budgetId))
+        //console.log(budgets)
     },[])
 
     const columns = useMemo(() => {
@@ -82,7 +88,7 @@ const Kegiatan=()=>{
                 ),
             },
             {
-                header: 'Kode',
+                header: 'Kode Kegiatan',
                 accessorKey: 'kegiatan_kode',
                 cell: (props) => {
                     const row = props.row.original
@@ -90,11 +96,19 @@ const Kegiatan=()=>{
                 },
             },
             {
-                header: 'Nama',
+                header: 'Kegiatan',
                 accessorKey: 'kegiatan_name',
                 cell: (props) => {
                     const row = props.row.original
                     return <span className="capitalize">{row.kegiatan_name}</span>
+                },
+            },
+            {
+                header: 'Kode Program',
+                accessorKey: 'program_kode',
+                cell: (props) => {
+                    const row = props.row.original
+                    return <span className="capitalize">{row.program_kode}</span>
                 },
             },
             {
@@ -104,7 +118,8 @@ const Kegiatan=()=>{
                     const row = props.row.original
                     return <span className="capitalize">{row.program_name}</span>
                 },
-            }
+            },
+            
         ]
     }, [])
 
@@ -130,7 +145,14 @@ const Kegiatan=()=>{
         }
     }
 
-   
+    const handleClick=async(e)=>{
+        e.preventDefault()
+        const rows = table.getSelectedRowModel().rows
+        const success = await importKegiatan(rows)
+        if (success){
+             popNotification('Import')
+        }
+    }
 
     const popNotification = (keyword) => {
         toast.push(
@@ -145,50 +167,39 @@ const Kegiatan=()=>{
                 placement: 'top-center',
             }
         )
-        dispatch(getPrograms())
-      
-        console.log(programId)
-        dispatch(getKegiatans({id:programId}))
+        dispatch(getBudgets)
+        dispatch(getKegiatans(budgetId))
         navigate('/budget/import/kegiatan')
     }
 
-    const handleClick=async (e)=>{
-        e.preventDefault()
-        const rows = table.getSelectedRowModel().rows
-        const success = await importKegiatan(rows)
-        if (success){
-             popNotification('Import')
-        }
-    }
+
 
     return (
         <>
         <AdaptableCard className="h-full" bodyClass="h-full">
-        <div className="lg:flex items-center justify-between mb-4">
-            <h3 className="mb-4 lg:mb-0">Import Kegiatan</h3>
-            <div className="flex lg:flex-col lg:flex-row lg:items-center gap-4">
-            <div
-                        className="md:mb-0 mb-4"
-                       
-                    >
-                    <Select
+        <div className="lg:flex items-center justify-between ml-4">
+            <h3 className="ml-4 lg:mb-0">Import Kegiatan</h3>
+            <Select
                          
-                        options={programs} 
-                        onChange={(option)=>{fetchData(option.value);table.resetRowSelection(true)}} 
-                        placeholder="Program" 
-                        value={programs.filter(
-                                    (option) =>
-                                        option.value ===
-                                        programId
-                                )}/>
+                         options={budgets} 
+                         onChange={(option)=>{fetchData(option.value);table.resetRowSelection(true)}} 
+                         placeholder="Subunit" 
+                         value={budgets.filter(
+                                     (option) =>
+                                         option.value ===
+                                         budgetId
+                                 )}/>  
+            <div className="flex lg:flex-col lg:flex-row lg:items-center gap-4">
+                <div className="md:mb-0 mb-4">
+                            <Button block variant="solid" disabled={setButton()} onClick={handleClick}>
+                                Import
+                            </Button>
                 </div>
-                <Button block variant="solid" disabled={setButton()} onClick={handleClick}>
-                    Import
-                </Button>
+                        
             </div>
         </div>
         <Loading loading={loading}>
-            {(!isEmpty(kegiatans) && !isEmpty(programs)) && (
+            {!isEmpty(kegiatans) && (
                 <Table>
                 <THead>
                     {table.getHeaderGroups().map((headerGroup) => (
@@ -227,9 +238,11 @@ const Kegiatan=()=>{
                         )
                     })}
                 </TBody>
+                
             </Table>
             )}
         </Loading>
+       
 
         </AdaptableCard>
         </>

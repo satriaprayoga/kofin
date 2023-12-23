@@ -66,9 +66,9 @@ export async function apiImportProgramBudget(params,data){
     })
 }
 
-export async function apiImportKegiatanBudget(data){
+export async function apiImportKegiatanBudget(params,data){
     return ApiService.fetchData({
-        url:'/kegiatans/import',
+        url:'/expend_kegiatans/import/'+params,
         method:'put',
         data
     })
