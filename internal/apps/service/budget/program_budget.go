@@ -138,6 +138,7 @@ func (pb *ProgramBudgetServiceImpl) initializeImport(exPrID int, updated store.E
 	)
 
 	kegiatans, err = pb.k.GetByProgramID(updated.ProgramID)
+	log.Info().Msg(fmt.Sprintf("updated: %v", kegiatans))
 	if err != nil {
 		log.Err(errors.New("data not found")).Msg("Error when check expend program. Data not found Error")
 		pkg.PanicException(constant.DataNotFound)
@@ -145,17 +146,20 @@ func (pb *ProgramBudgetServiceImpl) initializeImport(exPrID int, updated store.E
 	}
 	for _, kk := range *kegiatans {
 		ex, _ := pb.ek.GetByKegiatanID(kk.KegiatanID)
-		if ex == nil {
-			ex := &store.ExpendKegiatan{
+		log.Info().Msg(fmt.Sprintf("updated: %v", ex))
+		if ex.ExpendKegiatanID == 0 {
+			newKgtn := &store.ExpendKegiatan{
 				KegiatanID:      kk.KegiatanID,
 				KegiatanName:    kk.KegiatanName,
 				KegiatanKode:    kk.KegiatanKode,
 				ExpendProgramID: exPrID,
 				KegiatanPagu:    0.0,
 				Included:        true,
+				BudgetID:        updated.BudgetID,
 				BudgetYear:      updated.BudgetYear,
 			}
-			err = pb.ek.Create(ex)
+			log.Info().Msg(fmt.Sprintf("updated: %v", newKgtn))
+			err = pb.ek.Create(newKgtn)
 			if err != nil {
 				log.Err(err).Msg("Error when check expend program. Data not found Error")
 				pkg.PanicException(constant.UnknownError)
@@ -178,24 +182,20 @@ func (pb *ProgramBudgetServiceImpl) initializeImport(exPrID int, updated store.E
 func (pb *ProgramBudgetServiceImpl) initializeHapus(updated store.ExpendProgram) {
 	var (
 		err       error
-		kegiatans *[]store.ExpendKegiatan
+		kegiatans *[]store.Kegiatan
 	)
 
-	log.Info().Msg(fmt.Sprintf("updated: %v", updated))
-
-	kegiatans, err = pb.ek.GetUnAvailable(updated.ExpendProgramID, updated.BudgetID)
+	kegiatans, err = pb.k.GetByProgramID(updated.ProgramID)
+	log.Info().Msg(fmt.Sprintf("updated: %v", kegiatans))
 	if err != nil {
 		log.Err(errors.New("data not found")).Msg("Error when check expend program. Data not found Error")
 		pkg.PanicException(constant.DataNotFound)
 
 	}
-	log.Info().Msg(fmt.Sprintf("updated: %v", *kegiatans))
 	for _, kk := range *kegiatans {
-		var kgtn = store.ExpendKegiatan{}
-		kgtn.Included = true
-		kgtn.BudgetYear = kk.BudgetYear
-
-		err = pb.ek.Update(kk.ExpendKegiatanID, map[string]interface{}{
+		ex, _ := pb.ek.GetByKegiatanID(kk.KegiatanID)
+		log.Info().Msg(fmt.Sprintf("updated: %v", ex))
+		err = pb.ek.Update(ex.ExpendKegiatanID, map[string]interface{}{
 			"included": false,
 		})
 		if err != nil {
@@ -203,5 +203,6 @@ func (pb *ProgramBudgetServiceImpl) initializeHapus(updated store.ExpendProgram)
 			pkg.PanicException(constant.InvalidRequest)
 			//pkg.PanicHandler(c)
 		}
+
 	}
 }

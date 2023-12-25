@@ -43,7 +43,7 @@ func (r *ExpendKegiatanRepoImpl) GetByID(ID int) (*store.ExpendKegiatan, error) 
 	if err != nil {
 		return nil, err
 	}
-	return result, err
+	return result, nil
 }
 
 func (r *ExpendKegiatanRepoImpl) GetByKegiatanID(ID int) (*store.ExpendKegiatan, error) {
@@ -53,7 +53,7 @@ func (r *ExpendKegiatanRepoImpl) GetByKegiatanID(ID int) (*store.ExpendKegiatan,
 	if err != nil {
 		return nil, err
 	}
-	return result, err
+	return result, nil
 }
 
 func (r *ExpendKegiatanRepoImpl) Update(ID int, data interface{}) error {
