@@ -122,7 +122,7 @@ func (r *KProgramRepoImpl) PaginateSearch(params pagination.ParamList) (result *
 		query = r.db.Table("k_program k").Select(queryString).Where(whereString, searchTerm).Offset(pageNum).Limit(pageSize).Order(orderBy).Find(&result)
 
 	} else {
-		queryString := fmt.Sprintf(`k.program_id,k.program_name, k.program_kode, k.unit_name, k.unit_kode,ts_rank(text_search, to_tsquery('indonesian','')) as rank`)
+		queryString := `k.program_id,k.program_name, k.program_kode, k.unit_name, k.unit_kode,ts_rank(text_search, to_tsquery('indonesian','')) as rank`
 		query = r.db.Table("k_program k").Select(queryString).Offset(pageNum).Limit(pageSize).Order(orderBy).Find(&result)
 	}
 	err = query.Error
@@ -148,7 +148,7 @@ func (r *KProgramRepoImpl) Count(params pagination.ParamList) (int64, error) {
 		query = r.db.Table("k_program k").Select(queryString).Where(whereString, searchTerm).Count(&result)
 
 	} else {
-		queryString := fmt.Sprintf(`k.program_id,k.program_name, k.program_kode, k.unit_name, k.unit_kode,ts_rank(text_search, to_tsquery('indonesian','')) as rank`)
+		queryString := `k.program_id,k.program_name, k.program_kode, k.unit_name, k.unit_kode,ts_rank(text_search, to_tsquery('indonesian','')) as rank`
 		query = r.db.Table("k_program k").Select(queryString).Count(&result)
 	}
 	err = query.Error

@@ -28,6 +28,22 @@ Content-Type: application/json
 }
 
 ###
+PUT http://localhost:9000/api/expend_programs/hapus/1
+Content-Type: application/json
+
+{
+      "expend_program_id":1,
+      "budget_id":1,
+      "program_id": 1,
+      "program_kode": "1.2.1",
+      "program_name": "Program Pembinaan Dan Pelatihan Atlet Daerah",
+      "unit_id": 3,
+      "included":false,
+      "unit_kode": "1.2",
+      "unit_name": "Bidang Pembinaan Prestasi"
+}
+
+###
 GET http://localhost:9000/api/expend_kegiatans/available
 Content-Type: application/json
 

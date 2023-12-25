@@ -66,6 +66,14 @@ export async function apiImportProgramBudget(params,data){
     })
 }
 
+export async function apiUnImportProgramBudget(params,data){
+    return ApiService.fetchData({
+        url:'/expend_programs/hapus/'+params,
+        method:'put',
+        data
+    })
+}
+
 export async function apiImportKegiatanBudget(params,data){
     return ApiService.fetchData({
         url:'/expend_kegiatans/import/'+params,

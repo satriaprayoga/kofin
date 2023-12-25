@@ -240,7 +240,7 @@ func (e *ExpendKegiatan) AfterUpdate(tx *gorm.DB) (err error) {
 	q := tx.Where("expend_program_id=?", e.ExpendProgramID).First(&result)
 	if q.RowsAffected == 1 {
 		var allObject []ExpendKegiatan
-		tx.Where("expend_program_id=?", e.ExpendKegiatanID).Find(&allObject)
+		tx.Where("expend_program_id=?", e.ExpendProgramID).Find(&allObject)
 		var total float64
 		for _, j := range allObject {
 			total = total + j.KegiatanPagu

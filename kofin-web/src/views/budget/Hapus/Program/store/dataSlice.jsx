@@ -1,19 +1,19 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { cloneDeep } from "lodash";
-import { apiGetAvailablePrograms, apiGetBudgetList, apiImportProgramBudget } from "src/services/BudgetService";
+import { apiGetBudgetList, apiGetImportedPrograms, apiImportProgramBudget, apiUnImportProgramBudget } from "src/services/BudgetService";
 
 export const getPrograms=createAsyncThunk(
-    'importBudgetProgram/getPrograms',
+    'hapusBudgetProgram/getPrograms',
     async(data)=>{
        // console.log(data)
-        const response = await apiGetAvailablePrograms(data)
+        const response = await apiGetImportedPrograms(data)
        
         return response.data.data
     }
 )
 
 export const getBudgets=createAsyncThunk(
-    'importBudgetProgram/getBudgets',
+    'hapusBudgetProgram/getBudgets',
     async()=>{
         const response = await apiGetBudgetList()
         const optData=[]
@@ -33,12 +33,13 @@ export const getBudgets=createAsyncThunk(
     }
 )
 
-export const importProgram=async(rows)=>{
+export const unimportProgram=async(rows)=>{
     rows.forEach(async (row,idx)=>{
         const data = cloneDeep(row.original)
-        //console.log(data)
-        data.included=true
-        const success = await apiImportProgramBudget(data.expend_program_id,data)
+       
+        //data.included=false
+        console.log(data)
+        const success = await apiUnImportProgramBudget(data.expend_program_id,data)
         if (!success){
             return false
         }
@@ -52,7 +53,7 @@ export const importProgram=async(rows)=>{
 
 
 const dataSlice = createSlice({
-    name:'importBudgetProgram/data',
+    name:'hapusBudgetProgram/data',
     initialState:{
         loading:false,
         programsData:[],

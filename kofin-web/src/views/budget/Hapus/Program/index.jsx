@@ -13,11 +13,11 @@ import {
 } from '@tanstack/react-table'
 import { isEmpty } from "lodash";
 
-import { getBudgets, getPrograms, importProgram, setBudgetId } from "./store/dataSlice";
+import { getBudgets, getPrograms, setBudgetId, unimportProgram } from "./store/dataSlice";
 import { useNavigate } from "react-router-dom";
 
 
-injectReducer("importBudgetProgram",reducer)
+injectReducer("hapusBudgetProgram",reducer)
 
 const { Tr, Th, Td, THead, TBody } = Table
 
@@ -40,10 +40,10 @@ const Program=()=>{
 
     const [rowSelection, setRowSelection] = useState({})
 
-    const programs = useSelector((state)=>state.importBudgetProgram.data.programsData)
-    const budgets = useSelector((state)=>state.importBudgetProgram.data.budgetsData)
-    const budgetId = useSelector((state)=>state.importBudgetProgram.data.budgetId)
-    const loading = useSelector((state)=>state.importBudgetProgram.data.loading)
+    const programs = useSelector((state)=>state.hapusBudgetProgram.data.programsData)
+    const budgets = useSelector((state)=>state.hapusBudgetProgram.data.budgetsData)
+    const budgetId = useSelector((state)=>state.hapusBudgetProgram.data.budgetId)
+    const loading = useSelector((state)=>state.hapusBudgetProgram.data.loading)
     
     const fetchData=async(data)=>{
       dispatch(setBudgetId(data))
@@ -143,9 +143,9 @@ const Program=()=>{
     const handleClick=async(e)=>{
         e.preventDefault()
         const rows = table.getSelectedRowModel().rows
-        const success = await importProgram(rows)
+        const success = await unimportProgram(rows)
         if (success){
-             popNotification('Import')
+             popNotification('Hapus')
         }
     }
 
@@ -162,9 +162,10 @@ const Program=()=>{
                 placement: 'top-center',
             }
         )
+       
+        navigate('/budget/hapus/program')
         dispatch(getBudgets())
         dispatch(getPrograms(budgetId))
-        navigate('/budget/import/program')
     }
 
 
@@ -173,7 +174,7 @@ const Program=()=>{
         <>
         <AdaptableCard className="h-full" bodyClass="h-full">
         <div className="lg:flex items-center justify-between mb-4">
-            <h3 className="mb-4 lg:mb-0">Import Program</h3>
+            <h3 className="mb-4 lg:mb-0">Hapus Program</h3>
             <Select
                          
                          options={budgets} 
@@ -189,7 +190,7 @@ const Program=()=>{
             
             </div>
                 <Button block variant="solid" disabled={setButton()} onClick={handleClick}>
-                    Import
+                    Hapus
                 </Button>
             </div>
         </div>

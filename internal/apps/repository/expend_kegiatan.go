@@ -10,6 +10,7 @@ import (
 type ExpendKegiatanRepo interface {
 	Create(data *store.ExpendKegiatan) error
 	GetByID(ID int) (*store.ExpendKegiatan, error)
+	GetByKegiatanID(ID int) (*store.ExpendKegiatan, error)
 	Update(ID int, data interface{}) error
 	Delete(ID int) error
 	GetAvailable(budgetId int) (result *[]store.ExpendKegiatan, err error)
@@ -38,6 +39,16 @@ func (r *ExpendKegiatanRepoImpl) Create(data *store.ExpendKegiatan) error {
 func (r *ExpendKegiatanRepoImpl) GetByID(ID int) (*store.ExpendKegiatan, error) {
 	var result = &store.ExpendKegiatan{}
 	query := r.db.Where("expend_kegiatan_id=?", ID).Find(result)
+	err := query.Error
+	if err != nil {
+		return nil, err
+	}
+	return result, err
+}
+
+func (r *ExpendKegiatanRepoImpl) GetByKegiatanID(ID int) (*store.ExpendKegiatan, error) {
+	var result = &store.ExpendKegiatan{}
+	query := r.db.Where("kegiatan_id=?", ID).Find(result)
 	err := query.Error
 	if err != nil {
 		return nil, err
@@ -80,7 +91,7 @@ func (r *ExpendKegiatanRepoImpl) GetAvailable(budgetId int) (result *[]store.Exp
 }
 
 func (r *ExpendKegiatanRepoImpl) GetUnAvailable(budgetId int, expendID int) (result *[]store.ExpendKegiatan, err error) {
-	queryString := fmt.Sprintf(`SELECT * FROM expend_kegiatan WHERE budget_id=%d AND expend_program_id=%d included=FALSE`,
+	queryString := fmt.Sprintf(`SELECT * FROM expend_kegiatan WHERE budget_id=%d AND expend_program_id=%d AND included=TRUE`,
 		budgetId, expendID)
 
 	query := r.db.Raw(queryString).Scan(&result)
