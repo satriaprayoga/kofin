@@ -126,7 +126,17 @@ const navigationConfig = [
                     //     subMenu: [],
                     // }
                 ]
-            }
+            },
+            {
+                key: 'rka',
+                path: '/budget/setup',
+                title: 'RKA',
+                icon: 'rka',
+                translateKey: 'nav.budget.rka',
+                type: NAV_ITEM_TYPE_ITEM,
+                authority: [],
+                subMenu: [],
+            },
         ]
         
     },

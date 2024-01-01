@@ -11,6 +11,7 @@ import (
 	"github.com/rs/zerolog/log"
 	"github.com/satriaprayoga/kofin/internal/apps/repository"
 	"github.com/satriaprayoga/kofin/internal/constant"
+	budget "github.com/satriaprayoga/kofin/internal/dto/budget"
 	"github.com/satriaprayoga/kofin/internal/pkg"
 	"github.com/satriaprayoga/kofin/internal/store"
 )
@@ -21,6 +22,7 @@ type ExpendKegiatanService interface {
 	Update(c *gin.Context)
 	Get(c *gin.Context)
 	GetAvailable(c *gin.Context)
+	GetAvailableRKA(c *gin.Context)
 }
 
 type ExpendKegiatanServiceImpl struct {
@@ -161,6 +163,24 @@ func (s *ExpendKegiatanServiceImpl) GetAvailable(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, pkg.BuildResponse(constant.Success, responseK))
+}
+
+func (s *ExpendKegiatanServiceImpl) GetAvailableRKA(c *gin.Context) {
+	ctx, cancel := context.WithTimeout(c.Request.Context(), time.Duration(s.t)*time.Second)
+	defer cancel()
+	c.Request = c.Request.WithContext(ctx)
+
+	var acc budget.ExpendKegiatanRequest
+	if err := c.ShouldBindJSON(&acc); err != nil {
+		log.Err(err).Msg("Error when mapping request for expend_kegiatan request. Error")
+		pkg.PanicException(constant.InvalidRequest)
+	}
+	data, err := s.r.GetAvailableRKA(acc.BudgetID, acc.ExpendProgramID)
+	if err != nil {
+		log.Err(err).Msg("Not Found")
+		pkg.PanicException(constant.DataNotFound)
+	}
+	c.JSON(http.StatusOK, pkg.BuildResponse(constant.Success, data))
 }
 
 type KegiatanResponse struct {

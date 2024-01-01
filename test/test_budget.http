@@ -150,3 +150,14 @@ Content-Type: application/json
 }
 ###
 DELETE http://localhost:9000/api/expend_objects/15
+###
+
+GET http://localhost:9000/api/expend_kegiatans/rka
+Content-Type: application/json
+
+{
+     "budget_id":1,
+     "expend_program_id":1
+}
+
+###

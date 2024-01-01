@@ -8,7 +8,8 @@
             "anggaran":"Anggaran",
             "setup":"Setup",
             "import":"Import",
-            "program":"Program"
+            "program":"Program",
+            "rka":"RKA"
         },
         "singleMenuItem": "Single menu item",
         "collapseMenu": {
